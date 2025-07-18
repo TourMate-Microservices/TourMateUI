@@ -1,4 +1,5 @@
 import { LoginPayload, LoginResponse } from "@/types/authenticate";
+import { CustomerRegister } from "@/types/customer";
 import { TourGuideRegister } from "@/types/tour-guide";
 import http from "@/utils/http";
 import axios from "axios";
@@ -44,6 +45,31 @@ export async function login(payload: LoginPayload): Promise<LoginResponse> {
 export async function registerTourGuide(payload: TourGuideRegister): Promise<{ msg: string }> {
   try {
     const response = await http.post<{ msg: string }>("/accounts/register-tourguide", payload, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return response.data;
+  } catch (error) {
+    let message = "Đăng ký thất bại";
+    if (axios.isAxiosError(error)) {
+      if (
+        error.response?.data &&
+        typeof error.response.data === "object" &&
+        "msg" in error.response.data
+      ) {
+        message = (error.response.data as { msg: string }).msg;
+      } else if (error.message) {
+        message = error.message;
+      }
+    } else if (error instanceof Error) {
+      message = error.message;
+    }
+    throw new Error(message);
+  }
+}
+
+export async function registerCustomer(payload: CustomerRegister): Promise<{ msg: string }> {
+  try {
+    const response = await http.post<{ msg: string }>("/accounts/register-customer", payload, {
       headers: { "Content-Type": "application/json" },
     });
     return response.data;

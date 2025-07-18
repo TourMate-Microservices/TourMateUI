@@ -9,10 +9,10 @@ import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
-import { createCustomer } from "@/app/api/account.api";
 import { useRouter } from "next/navigation";
 // import { Customer } from "@/types/customer";
 import { toast } from "react-toastify";
+import { registerCustomer } from "@/api/account.api";
 
 export function SignupForm({
   className,
@@ -31,7 +31,7 @@ export function SignupForm({
   const [error, setError] = useState("");
 
   const mutation = useMutation({
-    mutationFn: createCustomer,
+    mutationFn: registerCustomer,
     onSuccess: () => {
       toast.success("Đăng ký thành công!");
       setTimeout(() => {
