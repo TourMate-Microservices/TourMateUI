@@ -10,9 +10,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-// import { Customer } from "@/types/customer";
 import { toast } from "react-toastify";
 import { registerCustomer } from "@/api/account.api";
+import Logo from "@/public/logo.png";
 
 export function SignupForm({
   className,
@@ -51,7 +51,7 @@ export function SignupForm({
       setError("Mật khẩu không khớp.");
       return;
     }
-
+    
     const { email, password, fullName, phone, gender, dateOfBirth } =
       formData;
     mutation.mutate({
@@ -83,7 +83,7 @@ export function SignupForm({
       <div className="flex flex-col items-center gap-4 text-center mt-[-50]">
         <Link href="/">
           <Image
-            src="/Logo.png"
+            src={Logo}
             alt="TOURMATE Logo"
             width={180}
             height={180}

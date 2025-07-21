@@ -2,6 +2,7 @@ import { Plane } from "lucide-react";
 
 import { SignupForm } from "./signup-form";
 import Link from "next/link";
+import MountainScene from "@/public/mountain-scene.jpg";
 
 export default function SignupPage() {
   return (
@@ -23,7 +24,7 @@ export default function SignupPage() {
       </div>
       <div className="relative hidden bg-muted lg:block">
         <img
-          src="/mountain-scene.jpg"
+          src={MountainScene.src}
           alt="Image"
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />
