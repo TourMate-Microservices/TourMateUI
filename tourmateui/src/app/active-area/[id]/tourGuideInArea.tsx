@@ -76,7 +76,7 @@ export default function TourGuidesInArea({ areaId }: { areaId: number }) {
               }} />
 
               <Link
-                href={`/services/tour-guide/${guide.tourGuideId}`}
+                href={`/tour-guide/${guide.tourGuideId}`}
                 className="block w-max mt-6 py-2 px-4 bg-[#e5eaf3] text-gray-800 font-medium rounded-md hover:bg-[#dce4f0] transition mx-auto"
               >
                 Đặt chuyến đi ngay
