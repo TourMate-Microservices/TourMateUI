@@ -34,3 +34,8 @@ export type TourGuideRegister = {
     company: string;
     areaId: number;
 }
+
+export type TourGuideIdAndName = {
+  tourGuideId: number;
+  fullName: string;
+}

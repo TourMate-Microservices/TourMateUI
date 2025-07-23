@@ -13,3 +13,7 @@ export type ActiveArea = {
     areaType: string;
     createdAt: string;
 };
+
+export type MostPopularArea = AreaIdAndName & {
+    tourBidCount: number
+}
