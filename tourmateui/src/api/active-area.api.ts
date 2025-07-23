@@ -1,7 +1,63 @@
-import { AreaIdAndName } from "@/types/active-area";
+import { ActiveArea, AreaIdAndName, MostPopularArea } from "@/types/active-area";
+import { PagedResult } from "@/types/response";
 import http from "@/utils/http";
 
 export const fetchAreaIdAndName = async (): Promise<AreaIdAndName[]> => {
   const response = await http.get<AreaIdAndName[]>('/active-areas/id-and-name');
   return response.data;
+};
+
+export const getActiveAreas = async (page: number | string, limit: number | string, signal?: AbortSignal) => {
+  const res = await http.get<PagedResult<ActiveArea>>('active-area', {
+    params: {
+      pageSize: limit,
+      pageIndex: page
+    },
+    signal
+  });
+
+  return res.data;
+};
+
+export const getFilteredActiveAreas = async (page: number | string, limit: number | string, search: string, region: string, signal?: AbortSignal, excludeContent?: boolean) => {
+  const res = await http.get<PagedResult<ActiveArea>>('active-area/filtered-area', {
+    params: {
+      pageSize: limit,
+      pageIndex: page,
+      search: search,
+      region: region,
+      excludeContent: excludeContent
+    },
+    signal
+  });
+
+  return res.data;
+};
+
+export const getActiveArea = async (id: number) => {
+  const response = await http.get<ActiveArea>(`active-area/${id}`)
+  return response.data
+} 
+
+export const getMostPopularAreas = async () => await http.get<MostPopularArea[]>('active-area/most-popular')
+
+export const getRandomActiveArea = async (size: number, signal?: AbortSignal) => {
+  const res = await http.get<ActiveArea>('active-area/random', {
+    params: {
+      size: size,
+    },
+    signal
+  });
+  return res.data;
+};
+
+export const getOtherActiveArea = async (currentActiveAreaId: number, size: number, signal?: AbortSignal) => {
+  const res = await http.get<ActiveArea[]>('active-area/other', {
+    params: {
+      currentActiveAreaId: currentActiveAreaId,
+      size: size
+    },
+    signal
+  });
+  return res.data;
 };

@@ -1,5 +1,6 @@
 // next.config.js (hoặc next.config.ts nếu bạn dùng TypeScript)
 import type { NextConfig } from 'next';
+import withFlowbiteReact from 'flowbite-react/plugin/nextjs';
 
 const nextConfig: NextConfig = {
   images: {
@@ -10,8 +11,9 @@ const nextConfig: NextConfig = {
       'bestlocationhotels.com',
       'thanhnien.mediacdn.vn',
       'media-cdn-v2.laodong.vn',
+      'ik.imagekit.io'
     ],
   },
 };
 
-export default nextConfig;
+export default withFlowbiteReact(nextConfig);
