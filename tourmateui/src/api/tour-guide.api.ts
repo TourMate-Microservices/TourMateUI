@@ -14,7 +14,7 @@ export const getOtherTourGuides = async (tourGuideId: number | string, pageSize:
 };
 
 export const getTourGuidesByArea = async (areaId: number | string, pageSize: number, signal?: AbortSignal) => {
-  const res = await http.get<TourGuide[]>('/user-service/api/v1/tour-guides/get-by-area', {
+  const res = await http.get<TourGuide[]>('/v1/tour-guides/get-by-area', {
     params: {
       pageSize: pageSize,
       areaId,

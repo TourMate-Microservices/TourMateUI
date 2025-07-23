@@ -7,13 +7,13 @@ import { TourGuide } from '@/types/tour-guide';
 import { Button } from '@/components/ui/button';
 import dayjs from 'dayjs';
 import SafeImage from '@/components/safe-image';
-import "@/styles/globals.css";
+import "@/app/styles/globals.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useRouter } from 'next/navigation';
 //import TourGuideFeedbackSection from './feedback';
-import { getTourGuide } from '@/api/tour-guide.api';
 import bannerImg from '@/public/tour-guide-list-banner.png'
+import { getTourGuide } from '@/api/tour-guide-mock.api';
 
 export default function TourGuideDetail({
     params,
@@ -29,7 +29,7 @@ export default function TourGuideDetail({
         staleTime: 24 * 3600 * 1000,
     });
 
-    const tourGuide = tourGuideData.data?.data;
+    const tourGuide = tourGuideData.data;
     const [displayDesc, setDisplayDesc] = useState(true);
 
     useEffect(() => {

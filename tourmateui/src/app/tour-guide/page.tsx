@@ -10,9 +10,9 @@ import dayjs from "dayjs"
 import { FaCheck } from "react-icons/fa"
 import { Search, MapPin, ChevronLeft, ChevronRight, Filter, User, Calendar } from "lucide-react"
 import { useQueryString } from "@/utils/utils"
-import { getList } from "@/api/tour-guide.api"
 import { fetchAreaIdAndName } from "@/api/active-area.api"
 import bannerImg from '@/public/tour-guide-list-banner.png'
+import { getTourGuides } from "@/api/tour-guide-mock.api"
 
 const LIMIT = 12
 
@@ -45,7 +45,7 @@ function TourGuideMain() {
             setTimeout(() => {
                 controller.abort()
             }, 5000)
-            return getList(searchTerm.name, searchTerm.areaId, page, LIMIT, controller.signal)
+            return getTourGuides(1, 1,)
         },
         retry: 0,
         refetchOnWindowFocus: false,
@@ -205,8 +205,8 @@ function TourGuideMain() {
                                                 key={pageNum}
                                                 onClick={() => router.push(`/tour-guide?page=${pageNum}`)}
                                                 className={`w-12 h-12 rounded-xl font-semibold transition-all duration-200 ${pageNum === page
-                                                        ? "bg-green-600 text-white shadow-lg"
-                                                        : "bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300"
+                                                    ? "bg-green-600 text-white shadow-lg"
+                                                    : "bg-white border-2 border-gray-200 text-gray-700 hover:bg-gray-50 hover:border-gray-300"
                                                     }`}
                                             >
                                                 {pageNum}
