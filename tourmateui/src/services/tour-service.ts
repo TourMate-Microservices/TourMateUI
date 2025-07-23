@@ -122,32 +122,6 @@ export class TourScheduleService {
     }
   }
 
-  /**
-   * Hủy booking
-   * Gọi API để cancel/delete booking
-   */
-  static async cancelBooking(bookingId: number): Promise<void> {
-    const response = await apiClient.cancelBooking(bookingId)
-
-    if (!response.success) {
-      throw new Error(response.error || "Failed to cancel booking")
-    }
-    this.clearCache()
-  }
-
-  /**
-   * Kiểm tra tình trạng API server
-   * Health check để test connection
-   */
-  static async checkApiHealth(): Promise<boolean> {
-    try {
-      const response = await apiClient.healthCheck()
-      return response.success
-    } catch (error) {
-      return false
-    }
-  }
-
   static clearCache() {
     this.scheduleCache.clear()
   }

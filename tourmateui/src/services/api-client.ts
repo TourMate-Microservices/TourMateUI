@@ -136,24 +136,6 @@ class ApiClient {
       body: JSON.stringify({ paymentStatus }),
     })
   }
-
-  /**
-   * Xóa/hủy booking
-   * DELETE /bookings/{bookingId}
-   */
-  async cancelBooking(bookingId: number): Promise<ApiResponse<void>> {
-    return this.request<void>(`/bookings/${bookingId}`, {
-      method: "DELETE",
-    })
-  }
-
-  /**
-   * Kiểm tra tình trạng API server
-   * GET /health
-   */
-  async healthCheck(): Promise<ApiResponse<{ status: string; timestamp: string }>> {
-    return this.request<{ status: string; timestamp: string }>("/health")
-  }
 }
 
 export const apiClient = new ApiClient()
