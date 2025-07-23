@@ -165,3 +165,7 @@ export const getTourGuides = async (page: number | string,
     total_pages: 1
   }
 };
+
+export const getTourGuide = async (id: number): Promise<TourGuide> => {
+  return [...array].find(v => v.tourGuideId == id) as TourGuide
+};
