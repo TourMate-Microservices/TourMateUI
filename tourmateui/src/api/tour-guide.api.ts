@@ -1,6 +1,8 @@
 import { TourGuide, TourGuideIdAndName } from "@/types/tour-guide";
+import { TourGuideDetailWithServices } from "@/types/tour-guide-detail";
 import http from "../utils/http";
 import { PagedResult } from "@/types/response";
+import { mockTourGuideDetail } from "./tour-guide-with-service.mock.api";
 
 export const getTourGuides = async (page: number | string, limit: number | string, signal?: AbortSignal, phone?: string) => {
   const res = await http.get<PagedResult<TourGuide>>('tour-guide', {
@@ -76,3 +78,13 @@ export const changePassword = async (id: number, newPassword: string) => {
     throw err
   }
 }
+
+export const getTourGuideWithServices = async (id: number): Promise<TourGuideDetailWithServices | null> => {
+  console.log("Mock getTourGuideWithServices called with id:", id);
+  
+  if (mockTourGuideDetail.tourGuideId === id) {
+    return Promise.resolve(mockTourGuideDetail);
+  }
+
+  return Promise.resolve(null);
+};
