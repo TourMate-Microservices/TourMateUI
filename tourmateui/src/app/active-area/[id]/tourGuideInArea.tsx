@@ -5,7 +5,6 @@ import { getTourGuidesByArea } from '@/api/tour-guide.api';
 import { useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation'; // hook lấy query param trong Next.js 13 app router
 import React from 'react';
 
 export default function TourGuidesInArea({ areaId }: { areaId: number }) {
@@ -52,7 +51,7 @@ export default function TourGuidesInArea({ areaId }: { areaId: number }) {
         <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
           {data.map((guide) => (
             <motion.div
-              key={guide.id}
+              key={guide.tourGuideId}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -67,12 +66,12 @@ export default function TourGuidesInArea({ areaId }: { areaId: number }) {
                 />
                 <div>
                   <h2 className="text-lg font-semibold">{guide.fullName}</h2>
-                  <p className="text-sm text-gray-600">{guide.tourGuideDescs?.[0]?.company}</p>
+                  <p className="text-sm text-gray-600">{'guide.tourGuideDescs?.[0]?.company'}</p>
                 </div>
               </div>
 
               <p className="italic text-gray-700 mb-4" dangerouslySetInnerHTML={{
-                __html: guide?.tourGuideDescs?.[0].description || "Không có mô tả",
+                __html: "Không có mô tả",
               }} />
 
               <Link

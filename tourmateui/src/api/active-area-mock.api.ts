@@ -127,6 +127,10 @@ export const getOtherActiveAreaMock = async (currentActiveAreaId: number, size: 
     const data: ActiveArea[] = [...mockData]
         .filter(x => x.areaId != currentActiveAreaId);
     const n = data.length - 1
-    const rand = Math.random() * (n - 2)
-    return data.slice(rand, rand + 2)
+    const rand1 = Math.floor(Math.random() * (n - 1))
+    var rand2 = Math.floor(Math.random() * (n - 1))
+    while (rand2 == rand1) {
+        rand2 = Math.floor(Math.random() * (n - 1))
+    }
+    return [data[rand1], data[rand2]]
 };
