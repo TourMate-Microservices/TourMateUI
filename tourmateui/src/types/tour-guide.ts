@@ -1,3 +1,5 @@
+import { TourOfTourGuide } from "./tour-service";
+
 export type TourGuide = {
     tourGuideId: number;
     fullName: string;
@@ -38,4 +40,15 @@ export type TourGuideRegister = {
 export type TourGuideIdAndName = {
   tourGuideId: number;
   fullName: string;
+}
+
+export type TourGuideWithTour = {
+  tourGuideId: number;
+  fullName: string;
+  image: string;
+  bannerImage: string;
+  description: string;
+  yearOfExperience: number;
+  company: string;
+  tours: TourOfTourGuide[];
 }

@@ -6,9 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import OtherArea from "./otherActiveArea";
 import TourGuidesInArea from "./tourGuideInArea";
-import { useQueryString } from "@/utils/utils";
 import { getActiveArea } from "@/api/active-area.api";
-import { getActiveAreaMock } from "@/api/active-area-mock.api";
 import Footer from "@/components/footer";
 import MegaMenu from "@/components/mega-menu";
 
@@ -28,7 +26,7 @@ export default function AreaDetail({
       setTimeout(() => {
         controller.abort();
       }, 5000);
-      return getActiveAreaMock(areaId);
+      return getActiveArea(areaId);
     },
     retry: 0,
     refetchOnWindowFocus: false,

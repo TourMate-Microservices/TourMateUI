@@ -1,4 +1,4 @@
-import { TourGuide, TourGuideIdAndName } from "@/types/tour-guide";
+import { TourGuide, TourGuideIdAndName, TourGuideWithTour } from "@/types/tour-guide";
 import http from "../utils/http";
 import { PagedResult } from "@/types/response";
 
@@ -10,6 +10,17 @@ export const getTourGuides = async (page: number | string, limit: number | strin
       phone: phone,
     },
     signal
+  });
+
+  return res.data;
+};
+
+export const getTourGuidesWithTour = async (numOfTourGuides: number, numOfTours: number) => {
+  const res = await http.get<TourGuideWithTour[]>('/user-service/api/v1/tour-guides/tourguide-with-tours', {
+    params: {
+      numOfTourGuides: numOfTourGuides,
+      numOfTours: numOfTours
+    },
   });
 
   return res.data;

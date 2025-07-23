@@ -5,7 +5,6 @@ import Link from 'next/link';
 import React from 'react';
 import { ActiveArea } from '@/types/active-area';
 import { getOtherActiveArea } from '@/api/active-area.api';
-import { getOtherActiveAreaMock } from '@/api/active-area-mock.api';
 
 interface OtherAreasProps {
     activeAreaId: number;
@@ -40,7 +39,7 @@ const OtherAreaCard: React.FC<{ item: ActiveArea }> = ({ item }) => {
 const OtherArea: React.FC<OtherAreasProps> = ({ activeAreaId, size }) => {
     const { data } = useQuery({
         queryKey: ['other-active-area', activeAreaId, size],
-        queryFn: () => getOtherActiveAreaMock(activeAreaId, size),
+        queryFn: () => getOtherActiveArea(activeAreaId, size),
         staleTime: 24 * 3600 * 1000, // 1 day
     });
 

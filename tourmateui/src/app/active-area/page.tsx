@@ -17,7 +17,6 @@ import SafeImage from "@/components/safe-image"
 import bannerImg from '@/public/bacthang.jpg'
 import MegaMenu from "@/components/mega-menu"
 import Footer from "@/components/footer"
-import { getFilteredActiveAreasMock } from "@/api/active-area-mock.api"
 
 const LIMIT = 9
 
@@ -51,7 +50,7 @@ function ActiveAreaList() {
       setTimeout(() => {
         controller.abort()
       }, 5000)
-      return getFilteredActiveAreasMock(page, LIMIT, searchTerm, selectedRegion, controller.signal, true)
+      return getFilteredActiveAreas(page, LIMIT, searchTerm, selectedRegion, controller.signal, true)
     },
     retry: 0,
     refetchOnWindowFocus: false,

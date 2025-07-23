@@ -1,11 +1,9 @@
 'use client';
-import { getActiveAreaMock } from '@/api/active-area-mock.api';
 import { getActiveArea } from '@/api/active-area.api';
 import { getTourGuidesByArea } from '@/api/tour-guide.api';
 import { useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation'; // hook lấy query param trong Next.js 13 app router
 import React from 'react';
 
 export default function TourGuidesInArea({ areaId }: { areaId: number }) {
@@ -18,7 +16,7 @@ export default function TourGuidesInArea({ areaId }: { areaId: number }) {
 
   const areaQuery = useQuery({
     queryKey: ['active-area', areaId],
-    queryFn: () => getActiveAreaMock(areaId),
+    queryFn: () => getActiveArea(areaId),
     staleTime: 24 * 3600 * 1000, // cache 1 ngày
   });
 

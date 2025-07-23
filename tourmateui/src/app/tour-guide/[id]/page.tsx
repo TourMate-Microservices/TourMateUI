@@ -7,7 +7,7 @@ import { TourGuide } from '@/types/tour-guide';
 import { Button } from '@/components/ui/button';
 import dayjs from 'dayjs';
 import SafeImage from '@/components/safe-image';
-import "@/styles/globals.css";
+import "@/app/globals.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useRouter } from 'next/navigation';

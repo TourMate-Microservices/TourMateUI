@@ -259,7 +259,4 @@ export default function TourGuideDriver() {
         </Suspense>
     )
 }
-function getSimplifiedAreas(): any {
-    throw new Error("Function not implemented.")
-}
 
