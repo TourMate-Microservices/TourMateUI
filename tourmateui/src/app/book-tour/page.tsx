@@ -153,7 +153,7 @@ export default function TourBookingCalendar() {
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto p-6 -mt-20 relative z-10">
+        <div className="mx-auto p-10 -mt-20 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Sidebar Skeleton */}
             <div className="lg:col-span-1 space-y-6">
@@ -228,7 +228,7 @@ export default function TourBookingCalendar() {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {tourService && <HeroSection tourService={tourService} />}
 
-      <div className="max-w-7xl mx-auto p-6 -mt-20 relative z-10">
+      <div className="mx-auto p-10 -mt-20 relative z-10">
         {error && (
           <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg flex items-center justify-between">
             <div className="flex items-center space-x-2">

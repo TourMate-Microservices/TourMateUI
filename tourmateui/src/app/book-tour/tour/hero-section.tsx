@@ -16,7 +16,7 @@ export function HeroSection({ tourService }: HeroSectionProps) {
         className="w-full h-full object-cover"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 p-8">
+      <div className="absolute bottom-10 left-0 right-0 p-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between">
             <div className="text-white">
@@ -37,24 +37,6 @@ export function HeroSection({ tourService }: HeroSectionProps) {
                   </span>
                 </div>
               </div>
-            </div>
-            <div className="flex space-x-3">
-              <Button
-                variant="secondary"
-                size="sm"
-                className="bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30"
-              >
-                <Heart className="w-4 h-4 mr-2" />
-                Yêu thích
-              </Button>
-              <Button
-                variant="secondary"
-                size="sm"
-                className="bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30"
-              >
-                <Share2 className="w-4 h-4 mr-2" />
-                Chia sẻ
-              </Button>
             </div>
           </div>
         </div>

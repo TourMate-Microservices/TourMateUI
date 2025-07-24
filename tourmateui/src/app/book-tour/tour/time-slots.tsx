@@ -29,7 +29,7 @@ export function TimeSlots({
   // Thêm check nếu không có timeSlots
   if (timeSlots.length === 0) {
     return (
-      <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+      <Card className="py-5 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="text-xl flex items-center">
             <Clock className="w-6 h-6 mr-2 text-blue-600" />
@@ -63,7 +63,7 @@ export function TimeSlots({
   }
 
   return (
-    <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+    <Card className="py-5 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
       <CardHeader>
         <CardTitle className="text-xl flex items-center">
           <Clock className="w-6 h-6 mr-2 text-blue-600" />
@@ -154,7 +154,7 @@ export function TimeSlots({
             <ul className="space-y-1">
               <li>• Thời lượng: {tourService.duration.split(":")[0]} giờ</li>
               <li>• Khung giờ có sẵn: {timeSlots.join(", ")}</li>
-              <li>• Hover vào khung giờ đỏ để xem chi tiết conflict</li>
+              <li>• Hover vào khung giờ đỏ để xem chi tiết tour bị trùng</li>
             </ul>
           </div>
         </div>

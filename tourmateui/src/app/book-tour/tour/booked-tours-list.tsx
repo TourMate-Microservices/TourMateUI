@@ -15,7 +15,7 @@ export function BookedToursList({ bookedSlots }: BookedToursListProps) {
   )
 
   return (
-    <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+    <Card className="py-5 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
       <CardHeader>
         <CardTitle className="text-lg flex items-center justify-between">
           <div className="flex items-center">
