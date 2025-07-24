@@ -46,8 +46,8 @@ export default function TourBookingCalendar() {
         const service = await TourScheduleService.getTourService(1)
         setTourService(service)
 
-        const bookings = await TourScheduleService.getBookings(1, service.tourGuideId)
-        setBookedSlots(bookings)
+        const invoices = await TourScheduleService.getInvoices(1, service.tourGuideId)
+        setBookedSlots(invoices)
 
         await loadMonthSchedule(currentMonth)
       } catch (error) {
@@ -124,13 +124,13 @@ export default function TourBookingCalendar() {
         bookingType: formData.bookingType as "Đặt chuyến đi"
        }
 
-      const newBooking = await TourScheduleService.createBooking(bookingData)
-      setBookedSlots((prev) => [...prev, newBooking])
+      const newInvoice = await TourScheduleService.createInvoice(bookingData)
+      setBookedSlots((prev) => [...prev, newInvoice])
       await loadMonthSchedule(currentMonth)
 
       setIsBookingDialogOpen(false)
     } catch (error) {
-      console.error("Failed to create booking:", error)
+      console.error("Failed to create invoice:", error)
     }
   }
 

@@ -1,6 +1,7 @@
 import { Invoice, MonthlyScheduleRequest, MonthlyScheduleResponse, TourGuideSchedule, TourServiceBooking } from "@/types/invoice"
-import { apiClient } from "./api-client"
-import { CreateBookingRequest } from "@/types/api"
+import { CreateInvoiceRequest } from "@/types/api"
+import { createInvoice, getInvoices, getMonthlySchedule, updateInvoiceStatus, updatePaymentStatus } from "@/api/invoice.api"
+import { getTourService } from "@/api/tour-service.api"
 
 
 export class TourScheduleService {
@@ -22,7 +23,7 @@ export class TourScheduleService {
     }
 
     try {
-      const response = await apiClient.getMonthlySchedule({
+      const response = await getMonthlySchedule({
         tourGuideId: request.tourGuideId,
         year: request.year,
         month: request.month,
@@ -52,7 +53,7 @@ export class TourScheduleService {
    */
   static async getTourService(serviceId: number): Promise<TourServiceBooking> {
     try {
-      const response = await apiClient.getTourService({ serviceId })
+      const response = await getTourService(serviceId)
 
       if (response.success && response.data) {
         return response.data
@@ -68,17 +69,17 @@ export class TourScheduleService {
   }
 
   /**
-   * Lấy danh sách booking của service cụ thể
-   * Gọi API để lấy booking history cho sidebar
+   * Lấy danh sách invoice của service cụ thể
+   * Gọi API để lấy invoice history cho sidebar
    */
-  static async getBookings(
+  static async getInvoices(
     serviceId: number,
     tourGuideId: number,
     startDate?: string,
     endDate?: string,
   ): Promise<Invoice[]> {
     try {
-      const response = await apiClient.getBookings({
+      const response = await getInvoices({
         serviceId,
         tourGuideId,
         startDate,
@@ -99,11 +100,11 @@ export class TourScheduleService {
   }
 
   /**
-   * Tạo booking mới cho người dùng
+   * Tạo invoice mới cho người dùng
    * Gọi API để đặt tour và thanh toán
    */
-  static async createBooking(bookingData: CreateBookingRequest): Promise<Invoice> {
-    const response = await apiClient.createBooking(bookingData)
+  static async createInvoice(invoiceData: CreateInvoiceRequest): Promise<Invoice> {
+    const response = await createInvoice(invoiceData)
 
     if (response.success && response.data) {
       this.clearCache()
@@ -114,11 +115,11 @@ export class TourScheduleService {
   }
 
   /**
-   * Cập nhật trạng thái booking
-   * Gọi API để confirm/cancel booking
+   * Cập nhật trạng thái invoice
+   * Gọi API để confirm/cancel invoice
    */
-  static async updateBookingStatus(bookingId: number, status: string): Promise<Invoice> {
-    const response = await apiClient.updateBookingStatus(bookingId, status)
+  static async updateInvoiceStatus(invoiceId: number, status: string): Promise<Invoice> {
+    const response = await updateInvoiceStatus(invoiceId, status)
 
     if (response.success && response.data) {
       this.clearCache()
@@ -132,8 +133,8 @@ export class TourScheduleService {
    * Cập nhật trạng thái thanh toán
    * Gọi API để update payment status
    */
-  static async updatePaymentStatus(bookingId: number, paymentStatus: string): Promise<Invoice> {
-    const response = await apiClient.updatePaymentStatus(bookingId, paymentStatus)
+  static async updatePaymentStatus(invoiceId: number, paymentStatus: string): Promise<Invoice> {
+    const response = await updatePaymentStatus(invoiceId, paymentStatus)
 
     if (response.success && response.data) {
       this.clearCache()
