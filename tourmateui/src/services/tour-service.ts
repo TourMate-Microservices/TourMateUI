@@ -1,6 +1,7 @@
 import { Invoice, MonthlyScheduleRequest, MonthlyScheduleResponse, TourGuideSchedule, TourServiceBooking } from "@/types/invoice"
-import { apiClient } from "./api-client"
-import { CreateBookingRequest } from "@/types/api"
+import { CreateInvoiceRequest } from "@/types/api"
+import { createInvoice, getInvoices, getMonthlySchedule, updateInvoiceStatus, updatePaymentStatus } from "@/api/invoice.api"
+import { getTourService } from "@/api/tour-service.api"
 
 
 export class TourScheduleService {
@@ -21,20 +22,28 @@ export class TourScheduleService {
       }
     }
 
-    const response = await apiClient.getMonthlySchedule({
-      tourGuideId: request.tourGuideId,
-      year: request.year,
-      month: request.month,
-    })
+    try {
+      const response = await getMonthlySchedule({
+        tourGuideId: request.tourGuideId,
+        year: request.year,
+        month: request.month,
+      })
 
-    if (response.success && response.data) {
-      this.scheduleCache.set(cacheKey, response.data)
-      return {
-        schedules: response.data,
-        totalCount: response.data.length,
+      if (response.success && response.data) {
+        this.scheduleCache.set(cacheKey, response.data)
+        return {
+          schedules: response.data,
+          totalCount: response.data.length,
+        }
+      } else {
+        throw new Error("Không tìm thấy lịch trình")
       }
-    } else {
-      throw new Error(response.error || "Failed to fetch schedule")
+    } catch (error) {
+      console.error("Failed to fetch schedule:", error)
+      // Return empty schedule thay vì throw
+      const emptySchedule = { schedules: [], totalCount: 0 }
+      this.scheduleCache.set(cacheKey, [])
+      return emptySchedule
     }
   }
 
@@ -43,46 +52,59 @@ export class TourScheduleService {
    * Gọi API để lấy thông tin service, giá, khung giờ có sẵn, etc.
    */
   static async getTourService(serviceId: number): Promise<TourServiceBooking> {
-    const response = await apiClient.getTourService({ serviceId })
+    try {
+      const response = await getTourService(serviceId)
 
-    if (response.success && response.data) {
-      return response.data
-    } else {
-      throw new Error(response.error || "Failed to fetch tour service")
+      if (response.success && response.data) {
+        return response.data
+      } else {
+        throw new Error("Không tìm thấy thông tin tour")
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Lỗi tải tour: ${error.message}`)
+      }
+      throw new Error("Không thể kết nối đến server")
     }
   }
 
   /**
-   * Lấy danh sách booking của service cụ thể
-   * Gọi API để lấy booking history cho sidebar
+   * Lấy danh sách invoice của service cụ thể
+   * Gọi API để lấy invoice history cho sidebar
    */
-  static async getBookings(
+  static async getInvoices(
     serviceId: number,
     tourGuideId: number,
     startDate?: string,
     endDate?: string,
   ): Promise<Invoice[]> {
-    const response = await apiClient.getBookings({
-      serviceId,
-      tourGuideId,
-      startDate,
-      endDate,
-      status: ["confirmed", "pending"],
-    })
+    try {
+      const response = await getInvoices({
+        serviceId,
+        tourGuideId,
+        startDate,
+        endDate,
+        status: ["confirmed", "pending"],
+      })
 
-    if (response.success && response.data) {
-      return response.data.items
-    } else {
-      throw new Error(response.error || "Failed to fetch bookings")
+      if (response.success && response.data) {
+        return response.data.items
+      } else {
+        throw new Error("Không tìm thấy lịch sử booking")
+      }
+    } catch (error) {
+      console.error("Failed to fetch bookings:", error)
+      // Return empty array thay vì throw error
+      return []
     }
   }
 
   /**
-   * Tạo booking mới
-   * Gọi API để tạo booking và trả về booking đã tạo
+   * Tạo invoice mới cho người dùng
+   * Gọi API để đặt tour và thanh toán
    */
-  static async createBooking(bookingData: CreateBookingRequest): Promise<Invoice> {
-    const response = await apiClient.createBooking(bookingData)
+  static async createInvoice(invoiceData: CreateInvoiceRequest): Promise<Invoice> {
+    const response = await createInvoice(invoiceData)
 
     if (response.success && response.data) {
       this.clearCache()
@@ -93,11 +115,11 @@ export class TourScheduleService {
   }
 
   /**
-   * Cập nhật trạng thái booking
-   * Gọi API để confirm/cancel booking
+   * Cập nhật trạng thái invoice
+   * Gọi API để confirm/cancel invoice
    */
-  static async updateBookingStatus(bookingId: number, status: string): Promise<Invoice> {
-    const response = await apiClient.updateBookingStatus(bookingId, status)
+  static async updateInvoiceStatus(invoiceId: number, status: string): Promise<Invoice> {
+    const response = await updateInvoiceStatus(invoiceId, status)
 
     if (response.success && response.data) {
       this.clearCache()
@@ -111,8 +133,8 @@ export class TourScheduleService {
    * Cập nhật trạng thái thanh toán
    * Gọi API để update payment status
    */
-  static async updatePaymentStatus(bookingId: number, paymentStatus: string): Promise<Invoice> {
-    const response = await apiClient.updatePaymentStatus(bookingId, paymentStatus)
+  static async updatePaymentStatus(invoiceId: number, paymentStatus: string): Promise<Invoice> {
+    const response = await updatePaymentStatus(invoiceId, paymentStatus)
 
     if (response.success && response.data) {
       this.clearCache()

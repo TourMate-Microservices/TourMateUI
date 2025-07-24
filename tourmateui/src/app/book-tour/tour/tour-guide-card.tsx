@@ -10,7 +10,7 @@ interface TourGuideCardProps {
 
 export function TourGuideCard({ tourService }: TourGuideCardProps) {
   return (
-    <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+    <Card className="py-5 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
       <CardHeader className="pb-4">
         <div className="flex items-center space-x-4">
           <div className="relative">

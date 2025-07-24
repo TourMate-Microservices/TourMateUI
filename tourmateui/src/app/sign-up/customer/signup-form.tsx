@@ -13,6 +13,9 @@ import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { registerCustomer } from "@/api/account.api";
 import Logo from "@/public/logo.png";
+import { ImageUpload } from "./image-upload";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "../../../../firebaseConfig";
 
 export function SignupForm({
   className,
@@ -22,13 +25,15 @@ export function SignupForm({
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    confirmPassword: "", // Add confirmPassword to formData
+    confirmPassword: "",
     fullName: "",
     phone: "",
     gender: "",
     dateOfBirth: "",
+    image: "",
   });
   const [error, setError] = useState("");
+  const [profileImage, setProfileImage] = useState<string | null>(null)
 
   const mutation = useMutation({
     mutationFn: registerCustomer,
@@ -39,7 +44,6 @@ export function SignupForm({
       }, 500);
     },
     onError: (error) => {
-      
       setError(error.message || "Đăng ký thất bại");
     },
   });
@@ -51,8 +55,8 @@ export function SignupForm({
       setError("Mật khẩu không khớp.");
       return;
     }
-    
-    const { email, password, fullName, phone, gender, dateOfBirth } =
+
+    const { email, password, fullName, phone, gender, dateOfBirth, image } =
       formData;
     mutation.mutate({
       email,
@@ -61,6 +65,7 @@ export function SignupForm({
       phone,
       gender,
       dateOfBirth,
+      image,
     });
   };
 
@@ -73,6 +78,26 @@ export function SignupForm({
       [name]: value,
     }));
   };
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    try {
+      const storageRef = ref(storage, `customers/profile-images/${Date.now()}-${file.name}`)
+      const snapshot = await uploadBytes(storageRef, file)
+      const downloadURL = await getDownloadURL(snapshot.ref)
+
+      setProfileImage(downloadURL)
+      setFormData((prev) => ({
+        ...prev,
+        image: downloadURL,
+      }))
+    } catch (error) {
+      console.error("Error uploading image:", error)
+      alert("Tải ảnh lên thất bại. Vui lòng thử lại.")
+    }
+  }
 
   return (
     <form
@@ -96,6 +121,13 @@ export function SignupForm({
         </p>
       </div>
       <div className="grid gap-4">
+        <ImageUpload
+          label="Tải ảnh lên"
+          imageUrl={profileImage}
+          onImageUpload={handleImageUpload}
+          isProfile={true}
+        />
+
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <Input

@@ -26,7 +26,7 @@ export interface GetTourServiceParams {
   serviceId: number
 }
 
-export interface GetBookingsParams {
+export interface GetInvoicesParams {
   serviceId: number
   tourGuideId: number
   startDate?: string
@@ -34,7 +34,7 @@ export interface GetBookingsParams {
   status?: string[]
 }
 
-export interface CreateBookingRequest {
+export interface CreateInvoiceRequest {
   serviceId: number
   tourGuideId: number
   customerId: number
@@ -42,5 +42,5 @@ export interface CreateBookingRequest {
   endDate: string
   peopleAmount: string
   note: string
-  bookingType: "pay-now" | "hold-slot"
+  bookingType: "Đặt chuyến đi"
 }

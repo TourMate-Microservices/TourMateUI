@@ -4,9 +4,9 @@ import { Clock, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import type { Invoice, TourGuideSchedule, TourServiceBooking } from "@/types/invoice"
 import { generateTimeSlots } from "@/utils/date-utils"
 import { isTourGuideAvailable, getConflictingBookings, formatScheduleTime, isToday } from "@/utils/availability-utils"
-import { Invoice, TourGuideSchedule, TourServiceBooking } from "@/types/invoice"
 
 interface TimeSlotsProps {
   selectedDate: Date
@@ -26,6 +26,27 @@ export function TimeSlots({
   // Sử dụng time slots từ tour service
   const timeSlots = generateTimeSlots(tourService)
 
+  // Thêm check nếu không có timeSlots
+  if (timeSlots.length === 0) {
+    return (
+      <Card className="py-5 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="text-xl flex items-center">
+            <Clock className="w-6 h-6 mr-2 text-blue-600" />
+            Khung Giờ Có Sẵn
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="text-center py-12 text-gray-500">
+            <Clock className="w-16 h-16 mx-auto mb-4 opacity-30" />
+            <h3 className="text-lg font-medium mb-2">Không có khung giờ nào</h3>
+            <p className="text-sm">Tour này hiện tại không có khung giờ hoạt động</p>
+          </div>
+        </CardContent>
+      </Card>
+    )
+  }
+
   const isTimeSlotAvailable = (date: Date, timeSlot: string) => {
     return isTourGuideAvailable(tourService.tourGuideId, date, timeSlot, tourService.duration, tourGuideSchedule)
   }
@@ -42,7 +63,7 @@ export function TimeSlots({
   }
 
   return (
-    <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+    <Card className="py-5 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
       <CardHeader>
         <CardTitle className="text-xl flex items-center">
           <Clock className="w-6 h-6 mr-2 text-blue-600" />
@@ -58,7 +79,7 @@ export function TimeSlots({
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {timeSlots.map((timeSlot: string) => {
+          {timeSlots.map((timeSlot) => {
             const isAvailable = isTimeSlotAvailable(selectedDate, timeSlot)
             const conflictingBookings = getConflictInfo(selectedDate, timeSlot)
             const isPast = isPastTime(timeSlot)
@@ -133,7 +154,7 @@ export function TimeSlots({
             <ul className="space-y-1">
               <li>• Thời lượng: {tourService.duration.split(":")[0]} giờ</li>
               <li>• Khung giờ có sẵn: {timeSlots.join(", ")}</li>
-              <li>• Hover vào khung giờ đỏ để xem chi tiết conflict</li>
+              <li>• Hover vào khung giờ đỏ để xem chi tiết tour bị trùng</li>
             </ul>
           </div>
         </div>

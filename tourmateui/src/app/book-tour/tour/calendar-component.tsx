@@ -63,7 +63,7 @@ export function CalendarComponent({
   }
 
   return (
-    <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+    <Card className="py-5 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl flex items-center">
@@ -178,14 +178,6 @@ export function CalendarComponent({
               </div>
               <span className="font-medium">HDV bận (tour khác)</span>
             </div>
-          </div>
-
-          {/* Test data info */}
-          <div className="text-xs text-gray-600 bg-yellow-50 p-2 rounded border border-yellow-200">
-            <div className="font-medium text-yellow-800 mb-1">🧪 Test Data:</div>
-            <div>• Màu cam: Ngày có booking tour hiện tại</div>
-            <div>• Màu tím: Ngày HDV bận tour khác</div>
-            <div>• Data được generate tự động cho mỗi tháng</div>
           </div>
         </div>
       </CardContent>

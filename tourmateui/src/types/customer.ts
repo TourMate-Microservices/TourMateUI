@@ -1,4 +1,5 @@
 export type CustomerRegister = {
+    image: string;
     email: string;
     password: string;
     fullName: string;

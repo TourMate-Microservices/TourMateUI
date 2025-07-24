@@ -64,3 +64,12 @@ export interface MonthlyScheduleResponse {
   schedules: TourGuideSchedule[]
   totalCount: number
 }
+
+export interface MonthlyInvoiceStatistics {
+  totalInvoices: number
+  totalRevenue: number
+  completedInvoices: number
+  pendingInvoices: number
+  cancelledInvoices: number
+  averageBookingValue: number
+}
