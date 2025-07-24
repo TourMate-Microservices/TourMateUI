@@ -30,7 +30,7 @@ export const getByAccountId = async (accountId: number): Promise<TourGuide> => {
 
 export const getList = async (name: string, areaId: string | number | undefined, page: number | string, limit: number | string, signal?: AbortSignal) => {
   const num = Number(areaId)
-  const res = await http.get<PagedResult<TourGuide>>('tour-guide/get-list', {
+  const res = await http.get<PagedResult<TourGuide>>('v1/tour-guides/get-list', {
     params: {
       pageSize: limit,
       pageIndex: page,
@@ -47,7 +47,7 @@ export const getTourGuide = async (id: number) => http.get<TourGuide>(`tour-guid
 
 
 export const getOtherTourGuides = async (tourGuideId: number | string, pageSize: number, signal?: AbortSignal) => {
-  const res = await http.get<TourGuide[]>('tour-guide/other', {
+  const res = await http.get<TourGuide[]>('v1/tour-guides/other', {
     params: {
       pageSize: pageSize,
       tourGuideId: tourGuideId,
@@ -59,10 +59,12 @@ export const getOtherTourGuides = async (tourGuideId: number | string, pageSize:
 };
 
 export const getTourGuidesByArea = async (areaId: number | string, pageSize: number, signal?: AbortSignal) => {
-  const res = await http.get<TourGuide>('tour-guide/getbyarea', {
+  const res = await http.get<PagedResult<TourGuide>>('v1/tour-guides/get-by-area', {
     params: {
       pageSize: pageSize,
-      areaId: areaId,
+      areaId,
+      pageIndex: 1,
+      prioritizeMembership: true
     },
     signal
   });
@@ -71,7 +73,7 @@ export const getTourGuidesByArea = async (areaId: number | string, pageSize: num
 
 export const changePassword = async (id: number, newPassword: string) => {
   try {
-    const response = await http.put(`/tour-guide/change-password/${id}`, newPassword);
+    const response = await http.put(`v1/tour-guides/change-password/${id}`, newPassword);
     return response.data;
   }
   catch (err) {

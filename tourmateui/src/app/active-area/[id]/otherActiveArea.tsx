@@ -6,13 +6,9 @@ import React from 'react';
 import { ActiveArea } from '@/types/active-area';
 import { getOtherActiveArea } from '@/api/active-area.api';
 import { getOtherActiveAreaMock } from '@/api/active-area-mock.api';
+import { AreaDetail_AreaData } from '@/types/area-detail-response';
 
-interface OtherAreasProps {
-    activeAreaId: number;
-    size: number;
-}
-
-const OtherAreaCard: React.FC<{ item: ActiveArea }> = ({ item }) => {
+const OtherAreaCard: React.FC<{ item: AreaDetail_AreaData }> = ({ item }) => {
     return (
         <Link href={`/active-area/${item.areaId}`} passHref>
             <motion.div
@@ -37,14 +33,7 @@ const OtherAreaCard: React.FC<{ item: ActiveArea }> = ({ item }) => {
     );
 };
 
-const OtherArea: React.FC<OtherAreasProps> = ({ activeAreaId, size }) => {
-    const { data } = useQuery({
-        queryKey: ['other-active-area', activeAreaId, size],
-        queryFn: () => getOtherActiveAreaMock(activeAreaId, size),
-        staleTime: 24 * 3600 * 1000, // 1 day
-    });
-
-
+const OtherArea = ({ data }: { data: AreaDetail_AreaData[] }) => {
     return (
         <motion.div
             className="w-full mx-auto px-4"

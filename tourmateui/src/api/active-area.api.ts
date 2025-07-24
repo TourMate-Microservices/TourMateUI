@@ -1,4 +1,5 @@
 import { ActiveArea, AreaIdAndName, MostPopularArea } from "@/types/active-area";
+import { AreaDetailResponse } from "@/types/area-detail-response";
 import { PagedResult } from "@/types/paged-result";
 import http from "@/utils/http";
 
@@ -35,7 +36,7 @@ export const getFilteredActiveAreas = async (page: number | string, limit: numbe
 };
 
 export const getActiveArea = async (id: number) => {
-  const response = await http.get<ActiveArea>(`active-area/${id}`)
+  const response = await http.get<AreaDetailResponse>(`active-area/${id}`)
   return response.data
 } 
 

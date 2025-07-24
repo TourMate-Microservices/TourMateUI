@@ -50,21 +50,21 @@ export default function AreaDetail({
         {/* Left content section */}
         <Banner
           imageUrl={
-            data?.bannerImg ||
+            data?.area.bannerImg ||
             "https://img.freepik.com/premium-photo/vietnam-flag-vintage-wood-wall_118047-4319.jpg?w=1380"
           }
-          title={data?.areaTitle || "No title available"}
-          subtitle={data?.areaSubtitle || "No title available"}
+          title={data?.area.areaTitle || "No title available"}
+          subtitle={data?.area.areaSubtitle || "No title available"}
         />
         <div className="flex justify-between gap-5 py-15 px-15">
           {/* LEFT CONTENT */}
           <div className="w-[68%]">
-            <h1 className="mb-5 text-xl font-semibold">{data?.areaTitle}</h1>
+            <h1 className="mb-5 text-xl font-semibold">{data?.area.areaTitle}</h1>
             <div
               className="w-full quill-content text-justify"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(
-                  (data?.areaContent || "").replace(
+                  (data?.area.areaContent || "").replace(
                     /(https?:\/\/[^\s"<>]+(?:png|jpg|jpeg|gif|bmp|svg))/gi,
                     (match) => {
                       return `<img src="${match}" alt="Image" style="width: 100%; height: auto; margin-bottom: 10px;" />`;
@@ -78,14 +78,14 @@ export default function AreaDetail({
           {/* SIDEBAR */}
           <div className="w-[30%] p-2">
             <div className="sticky top-30 max-h-[calc(100vh-5rem)] overflow-auto space-y-10">
-              <TourGuidesInArea areaId={areaId} />
+              <TourGuidesInArea data={data?.tourGuide} currentName={data?.area.areaName}/>
             </div>
           </div>
 
         </div>
         <div className="px-15 pb-15 w-full min-w-full max-w-md mx-auto text-center">
           <hr className="border-gray-200 sm:w-full mx-auto mb-10" />
-          <OtherArea activeAreaId={areaId} size={2} />
+          <OtherArea data={data?.other ?? []} />
         </div>
       </div>
       <Footer />

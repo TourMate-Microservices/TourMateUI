@@ -1,4 +1,4 @@
-import { TourGuideDetailWithServices, TourService } from "@/types/tour-guide-detail";
+import { TourService } from "@/types/tour-guide-detail";
 
 const mockServices: TourService[] = [
   {

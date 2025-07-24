@@ -1,4 +1,5 @@
 import { ActiveArea } from "@/types/active-area";
+import { AreaDetail_TourGuideResponse, AreaDetailResponse } from "@/types/area-detail-response";
 import { PagedResult } from "@/types/response";
 import http from "@/utils/http";
 import { randomInt } from "node:crypto";
@@ -119,8 +120,21 @@ export const getFilteredActiveAreasMock = async (page: number | string, limit: n
 };
 
 export const getActiveAreaMock = async (id: number) => {
-    const data: ActiveArea[] = [...mockData]
-    return data.find(v => v.areaId == id) as ActiveArea
+    const area = [...mockData][0]
+    const tourGuide: AreaDetail_TourGuideResponse = {
+        tourGuideId: 1,
+        fullName: "Dang Ngoc",
+        image: 'https://bvhttdl.mediacdn.vn/291773308735864832/2024/5/13/mc4-0x0uyhl-1715565259568-1715565259969515164705.jpg',
+        yearOfExperience: 1,
+        description: 'HDV du lịch lâu năm',
+        company: 'Công ty TNHH ABC',
+    }
+    const r: AreaDetailResponse = {
+        area,
+        tourGuide: [tourGuide],
+        other: [...mockData].slice(5, 7)
+    }
+    return r
 }
 
 export const getOtherActiveAreaMock = async (currentActiveAreaId: number, size: number, signal?: AbortSignal) => {

@@ -69,7 +69,7 @@ export async function registerTourGuide(payload: TourGuideRegister): Promise<{ m
 
 export async function registerCustomer(payload: CustomerRegister): Promise<{ msg: string }> {
   try {
-    const response = await http.post<{ msg: string }>("/user-service/api/v1/accounts/register-customer", payload, {
+    const response = await http.post<{ msg: string }>("/v1/accounts/register-customer", payload, {
       headers: { "Content-Type": "application/json" },
     });
     return response.data;
