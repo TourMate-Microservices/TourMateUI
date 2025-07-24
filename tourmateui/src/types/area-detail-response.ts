@@ -1,4 +1,4 @@
-export type AreaDetail_TourGuideResponse = {
+export type TourGuideResponse = {
     tourGuideId: number;
     fullName: string;
     image: string;
@@ -6,7 +6,7 @@ export type AreaDetail_TourGuideResponse = {
     description: string;
     company: string;
 }
-export type AreaDetail_AreaData = {
+export type AreaData = {
     areaId: number;
     areaName: string;
     areaTitle: string;
@@ -16,7 +16,12 @@ export type AreaDetail_AreaData = {
 }
 
 export type AreaDetailResponse = {
-    area: AreaDetail_AreaData,
-    tourGuide: AreaDetail_TourGuideResponse[],
-    other: AreaDetail_AreaData[]
+    areaId: number;
+    areaName: string;
+    areaTitle: string;
+    areaSubtitle: string;
+    areaContent: string;
+    bannerImg: string;
+    tourGuide: TourGuideResponse[],
+    other: AreaData[]
 }

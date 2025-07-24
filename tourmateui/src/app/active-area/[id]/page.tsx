@@ -9,6 +9,7 @@ import TourGuidesInArea from "./tourGuideInArea";
 import { getActiveArea } from "@/api/active-area.api";
 import Footer from "@/components/footer";
 import MegaMenu from "@/components/mega-menu";
+import { getActiveAreaMock } from "@/api/active-area-mock.api";
 
 
 
@@ -26,7 +27,7 @@ export default function AreaDetail({
       setTimeout(() => {
         controller.abort();
       }, 5000);
-      return getActiveArea(areaId);
+      return getActiveAreaMock(areaId);
     },
     retry: 0,
     refetchOnWindowFocus: false,
@@ -48,21 +49,21 @@ export default function AreaDetail({
         {/* Left content section */}
         <Banner
           imageUrl={
-            data?.area.bannerImg ||
+            data?.bannerImg ||
             "https://img.freepik.com/premium-photo/vietnam-flag-vintage-wood-wall_118047-4319.jpg?w=1380"
           }
-          title={data?.area.areaTitle || "No title available"}
-          subtitle={data?.area.areaSubtitle || "No title available"}
+          title={data?.areaTitle || "No title available"}
+          subtitle={data?.areaSubtitle || "No title available"}
         />
         <div className="flex justify-between gap-5 py-15 px-15">
           {/* LEFT CONTENT */}
           <div className="w-[68%]">
-            <h1 className="mb-5 text-xl font-semibold">{data?.area.areaTitle}</h1>
+            <h1 className="mb-5 text-xl font-semibold">{data?.areaTitle}</h1>
             <div
               className="w-full quill-content text-justify"
               dangerouslySetInnerHTML={{
                 __html: DOMPurify.sanitize(
-                  (data?.area.areaContent || "").replace(
+                  (data?.areaContent || "").replace(
                     /(https?:\/\/[^\s"<>]+(?:png|jpg|jpeg|gif|bmp|svg))/gi,
                     (match) => {
                       return `<img src="${match}" alt="Image" style="width: 100%; height: auto; margin-bottom: 10px;" />`;
@@ -76,7 +77,7 @@ export default function AreaDetail({
           {/* SIDEBAR */}
           <div className="w-[30%] p-2">
             <div className="sticky top-30 max-h-[calc(100vh-5rem)] overflow-auto space-y-10">
-              <TourGuidesInArea data={data?.tourGuide} currentName={data?.area.areaName}/>
+              <TourGuidesInArea data={data?.tourGuide} currentName={data?.areaName}/>
             </div>
           </div>
 

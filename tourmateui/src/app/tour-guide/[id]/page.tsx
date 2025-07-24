@@ -3,7 +3,6 @@ import Banner from '@/components/Banner';
 import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
 import { FaMapMarkerAlt, FaPhoneAlt, FaRegClock, FaFacebookMessenger, FaRegMap, FaRegUser, FaSuitcaseRolling, FaCheck } from 'react-icons/fa';
-import { TourGuideDetailWithServices } from '@/types/tour-guide-detail';
 import { Button } from '@/components/ui/button';
 import dayjs from 'dayjs';
 import SafeImage from '@/components/safe-image';
@@ -14,8 +13,10 @@ import { useRouter } from 'next/navigation';
 import { getTourGuideWithServices } from '@/api/tour-guide.api';
 import bannerImg from '@/public/tour-guide-list-banner.png';
 import TourServices from './services';
+import { TourGuideDetail } from '@/types/tour-guide-detail';
+import { getTourGuideWithServicesMock } from '@/api/tour-guide-with-service.mock.api';
 
-export default function TourGuideDetail({
+export default function TourGuideDetailPage({
   params,
 }: {
   params: { id: number };
@@ -25,7 +26,7 @@ export default function TourGuideDetail({
 
   const tourGuideData = useQuery({
     queryKey: ['tour-guide', id],
-    queryFn: () => getTourGuideWithServices(id),
+    queryFn: () => getTourGuideWithServicesMock(id),
     staleTime: 24 * 3600 * 1000,
   });
 
@@ -116,7 +117,7 @@ export default function TourGuideDetail({
   );
 }
 
-const statToRender = (t: TourGuideDetailWithServices) => [
+const statToRender = (t: TourGuideDetail) => [
   {
     icon: <FaRegMap size={25} />,
     value: t.area?.areaName || 'Chưa có địa điểm',

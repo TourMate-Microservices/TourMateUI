@@ -1,5 +1,5 @@
 import { ActiveArea } from "@/types/active-area";
-import { AreaDetail_TourGuideResponse, AreaDetailResponse } from "@/types/area-detail-response";
+import { TourGuideResponse, AreaDetailResponse } from "@/types/area-detail-response";
 import { PagedResult } from "@/types/response";
 import http from "@/utils/http";
 import { randomInt } from "node:crypto";
@@ -121,7 +121,7 @@ export const getFilteredActiveAreasMock = async (page: number | string, limit: n
 
 export const getActiveAreaMock = async (id: number) => {
     const area = [...mockData][0]
-    const tourGuide: AreaDetail_TourGuideResponse = {
+    const tourGuide: TourGuideResponse = {
         tourGuideId: 1,
         fullName: "Dang Ngoc",
         image: 'https://bvhttdl.mediacdn.vn/291773308735864832/2024/5/13/mc4-0x0uyhl-1715565259568-1715565259969515164705.jpg',
@@ -129,22 +129,6 @@ export const getActiveAreaMock = async (id: number) => {
         description: 'HDV du lịch lâu năm',
         company: 'Công ty TNHH ABC',
     }
-    const r: AreaDetailResponse = {
-        area,
-        tourGuide: [tourGuide],
-        other: [...mockData].slice(5, 7)
-    }
+    const r: AreaDetailResponse = ({ ...area, tourGuide: [tourGuide], other: mockData.slice(4, 6) })
     return r
 }
-
-export const getOtherActiveAreaMock = async (currentActiveAreaId: number, size: number, signal?: AbortSignal) => {
-    const data: ActiveArea[] = [...mockData]
-        .filter(x => x.areaId != currentActiveAreaId);
-    const n = data.length - 1
-    const rand1 = Math.floor(Math.random() * (n - 1))
-    var rand2 = Math.floor(Math.random() * (n - 1))
-    while (rand2 == rand1) {
-        rand2 = Math.floor(Math.random() * (n - 1))
-    }
-    return [data[rand1], data[rand2]]
-};

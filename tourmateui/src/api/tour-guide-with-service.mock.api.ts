@@ -1,4 +1,4 @@
-import { TourService } from "@/types/tour-guide-detail";
+import { TourGuideDetail, TourService } from "@/types/tour-guide-detail";
 
 const mockServices: TourService[] = [
   {
@@ -140,7 +140,7 @@ const mockServices: TourService[] = [
   }
 ];
 
-export const mockTourGuideDetail = {
+export const mockTourGuideDetail:TourGuideDetail = {
   tourGuideId: 1,
   fullName: "Nguyễn Văn An",
   gender: "Nam",
@@ -160,14 +160,16 @@ export const mockTourGuideDetail = {
   company: "Công ty Du lịch Việt",
   areaId: 0,
   area: {
-                areaId: 0,
-                areaName: "TP.HCM và miền Nam",
-                areaTitle: "",
-                areaSubtitle: "",
-                areaContent: "",
-                bannerImg: "",
-                areaType: "",
-                createdAt: ""
-            },
+    areaId: 0,
+    areaName: "TP.HCM và miền Nam",
+    areaTitle: "",
+    areaSubtitle: "",
+    areaContent: "",
+    bannerImg: "",
+    areaType: "",
+    createdAt: ""
+  },
   tourServices: mockServices
 };
+
+export const getTourGuideWithServicesMock = async (id: number) => mockTourGuideDetail

@@ -2,6 +2,7 @@ import { TourGuide, TourGuideIdAndName, TourGuideWithTour } from "@/types/tour-g
 import http from "../utils/http";
 import { PagedResult } from "@/types/response";
 import { mockTourGuideDetail } from "./tour-guide-with-service.mock.api";
+import { TourGuideDetail } from "@/types/tour-guide-detail";
 
 export const getTourGuides = async (page: number | string, limit: number | string, signal?: AbortSignal, phone?: string) => {
   const res = await http.get<PagedResult<TourGuide>>('tour-guides', {
@@ -84,6 +85,16 @@ export const getTourGuidesByArea = async (areaId: number | string, pageSize: num
 export const changePassword = async (id: number, newPassword: string) => {
   try {
     const response = await http.put(`/tour-guides/change-password/${id}`, newPassword);
+    return response.data;
+  }
+  catch (err) {
+    throw err
+  }
+}
+
+export const getTourGuideWithServices = async (id: number | string) => {
+  try {
+    const response = await http.get<TourGuideDetail>(`/tour-guides/${id}`);
     return response.data;
   }
   catch (err) {
