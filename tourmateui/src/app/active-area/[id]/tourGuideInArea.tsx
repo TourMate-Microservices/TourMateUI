@@ -1,5 +1,4 @@
 'use client';
-import { getActiveAreaMock } from '@/api/active-area-mock.api';
 import { getActiveArea } from '@/api/active-area.api';
 import { getTourGuidesByArea } from '@/api/tour-guide.api';
 import { AreaDetail_TourGuideResponse } from '@/types/area-detail-response';

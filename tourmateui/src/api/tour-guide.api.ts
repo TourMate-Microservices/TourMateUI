@@ -1,11 +1,10 @@
-import { TourGuide, TourGuideIdAndName } from "@/types/tour-guide";
-import { TourGuideDetailWithServices } from "@/types/tour-guide-detail";
+import { TourGuide, TourGuideIdAndName, TourGuideWithTour } from "@/types/tour-guide";
 import http from "../utils/http";
 import { PagedResult } from "@/types/response";
 import { mockTourGuideDetail } from "./tour-guide-with-service.mock.api";
 
 export const getTourGuides = async (page: number | string, limit: number | string, signal?: AbortSignal, phone?: string) => {
-  const res = await http.get<PagedResult<TourGuide>>('tour-guide', {
+  const res = await http.get<PagedResult<TourGuide>>('tour-guides', {
     params: {
       pageSize: limit,
       pageIndex: page,
@@ -17,20 +16,31 @@ export const getTourGuides = async (page: number | string, limit: number | strin
   return res.data;
 };
 
+export const getTourGuidesWithTour = async (numOfTourGuides: number, numOfTours: number) => {
+  const res = await http.get<TourGuideWithTour[]>('/user-service/api/v1/tour-guides/tourguide-with-tours', {
+    params: {
+      numOfTourGuides: numOfTourGuides,
+      numOfTours: numOfTours
+    },
+  });
+
+  return res.data;
+};
+
 export const getTourGuideByAccountId = async (accountId: number): Promise<TourGuideIdAndName> => {
-  const response = await http.get<TourGuideIdAndName>(`/tour-guide/from-account/${accountId}`);
+  const response = await http.get<TourGuideIdAndName>(`/tour-guides/from-account/${accountId}`);
   return response.data;
 };
 
 export const getByAccountId = async (accountId: number): Promise<TourGuide> => {
-  const response = await http.get<TourGuide>(`/tour-guide/get-by-accountid/${accountId}`);
+  const response = await http.get<TourGuide>(`/tour-guides/get-by-accountid/${accountId}`);
   return response.data;
 };
 
 
 export const getList = async (name: string, areaId: string | number | undefined, page: number | string, limit: number | string, signal?: AbortSignal) => {
   const num = Number(areaId)
-  const res = await http.get<PagedResult<TourGuide>>('v1/tour-guides/get-list', {
+  const res = await http.get<PagedResult<TourGuide>>('tour-guides/get-list', {
     params: {
       pageSize: limit,
       pageIndex: page,
@@ -47,7 +57,7 @@ export const getTourGuide = async (id: number) => http.get<TourGuide>(`tour-guid
 
 
 export const getOtherTourGuides = async (tourGuideId: number | string, pageSize: number, signal?: AbortSignal) => {
-  const res = await http.get<TourGuide[]>('v1/tour-guides/other', {
+  const res = await http.get<TourGuide[]>('tour-guides/other', {
     params: {
       pageSize: pageSize,
       tourGuideId: tourGuideId,
@@ -59,7 +69,7 @@ export const getOtherTourGuides = async (tourGuideId: number | string, pageSize:
 };
 
 export const getTourGuidesByArea = async (areaId: number | string, pageSize: number, signal?: AbortSignal) => {
-  const res = await http.get<PagedResult<TourGuide>>('v1/tour-guides/get-by-area', {
+  const res = await http.get<TourGuide>('tour-guides/getbyarea', {
     params: {
       pageSize: pageSize,
       areaId,
@@ -73,20 +83,10 @@ export const getTourGuidesByArea = async (areaId: number | string, pageSize: num
 
 export const changePassword = async (id: number, newPassword: string) => {
   try {
-    const response = await http.put(`v1/tour-guides/change-password/${id}`, newPassword);
+    const response = await http.put(`/tour-guides/change-password/${id}`, newPassword);
     return response.data;
   }
   catch (err) {
     throw err
   }
 }
-
-export const getTourGuideWithServices = async (id: number): Promise<TourGuideDetailWithServices | null> => {
-  console.log("Mock getTourGuideWithServices called with id:", id);
-  
-  if (mockTourGuideDetail.tourGuideId === id) {
-    return Promise.resolve(mockTourGuideDetail);
-  }
-
-  return Promise.resolve(null);
-};

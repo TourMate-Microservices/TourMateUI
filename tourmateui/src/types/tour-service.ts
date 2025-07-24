@@ -11,3 +11,10 @@ export type TourService = {
     title: string,
     tourDesc: string
 }
+
+export type TourOfTourGuide = {
+    serviceId: number,
+    serviceName: string,
+    title: string,
+    image: string
+}

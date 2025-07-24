@@ -2,12 +2,12 @@
 import { useQuery } from "@tanstack/react-query"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { TourGuide } from "@/types/tour-guide"
+import { TourGuideWithTour } from "@/types/tour-guide"
+import { TourOfTourGuide } from "@/types/tour-service"
 import AOS from "aos"
 import { useEffect } from "react"
 import { Star, MapPin, Calendar } from 'lucide-react'
-import { getOtherTourGuides } from "@/api/tour-guide.api"
-import { getTourServicesOf } from "@/api/tour-service.api"
+import { getTourGuidesWithTour } from "@/api/tour-guide.api"
 import SafeImage from "./safe-image"
 
 export default function RotatingTourGuideHomePage() {
@@ -21,9 +21,9 @@ export default function RotatingTourGuideHomePage() {
     }, []);
 
     const { data, isLoading } = useQuery({
-        queryKey: ['random-tour-guide'],
+        queryKey: ['tour-guides-with-tours'],
         queryFn: async () => {
-            const response = await getOtherTourGuides(-1, 4)
+            const response = await getTourGuidesWithTour(4, 2)
             return response ?? []
         },
         refetchInterval: 5000,
@@ -31,7 +31,7 @@ export default function RotatingTourGuideHomePage() {
         refetchOnReconnect: false,
     })
 
-    const tourGuides = data
+    const tourGuides = data ?? []
 
     if (isLoading || !tourGuides) {
         return (
@@ -88,7 +88,7 @@ export default function RotatingTourGuideHomePage() {
 
                 {/* Tour Guides Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" data-aos="fade-up" data-aos-delay="200">
-                    {tourGuides.map((currentGuide, index) => {
+                    {tourGuides.map((currentGuide: TourGuideWithTour, index: number) => {
                         const key = (currentGuide.tourGuideId + new Date().getTime()).toString()
                         return (
                             <TourGuideCard key={key} currentGuide={currentGuide} index={index} />
@@ -113,12 +113,11 @@ export default function RotatingTourGuideHomePage() {
     )
 }
 
-function TourGuideCard({ currentGuide, index }: { currentGuide: TourGuide; index: number }) {
-    const { data } = useQuery({
-        queryKey: ['services-of', currentGuide.tourGuideId],
-        queryFn: () => getTourServicesOf(currentGuide.tourGuideId, 1, 2),
-    })
-    const services = data?.data ?? []
+function TourGuideCard({ currentGuide, index }: { currentGuide: TourGuideWithTour; index: number }) {
+    // Tours are already included in currentGuide.tours, no need for separate API call
+    const services = currentGuide.tours ?? []
+
+    console.log(currentGuide)
 
     return (
         <div
@@ -172,7 +171,7 @@ function TourGuideCard({ currentGuide, index }: { currentGuide: TourGuide; index
                     {/* Banner Image */}
                     <div className="relative h-48 overflow-hidden mx-6 rounded-2xl">
                         <SafeImage
-                            src={currentGuide.bannerImage.trim()}
+                            src={currentGuide.bannerImage || ''}
                             width={800}
                             height={400}
                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
@@ -212,7 +211,7 @@ function TourGuideCard({ currentGuide, index }: { currentGuide: TourGuide; index
                         {/* Services */}
                         {services.length > 0 && (
                             <div className="grid grid-cols-2 gap-3 mb-6">
-                                {services.map(service => (
+                                {services.map((service: TourOfTourGuide) => (
                                     <div key={service.serviceId} className="relative rounded-xl overflow-hidden group/service shadow-md">
                                         <SafeImage
                                             src={service.image}

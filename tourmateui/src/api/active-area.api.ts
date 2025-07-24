@@ -9,7 +9,7 @@ export const fetchAreaIdAndName = async (): Promise<AreaIdAndName[]> => {
 };
 
 export const getActiveAreas = async (page: number | string, limit: number | string, signal?: AbortSignal) => {
-  const res = await http.get<PagedResult<ActiveArea>>('active-area', {
+  const res = await http.get<PagedResult<ActiveArea>>('active-areas', {
     params: {
       pageSize: limit,
       pageIndex: page
@@ -21,7 +21,7 @@ export const getActiveAreas = async (page: number | string, limit: number | stri
 };
 
 export const getFilteredActiveAreas = async (page: number | string, limit: number | string, search: string, region: string, signal?: AbortSignal, excludeContent?: boolean) => {
-  const res = await http.get<PagedResult<ActiveArea>>('active-area/filtered-area', {
+  const res = await http.get<PagedResult<ActiveArea>>('active-areas/filtered-area', {
     params: {
       pageSize: limit,
       pageIndex: page,
