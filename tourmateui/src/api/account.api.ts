@@ -6,7 +6,7 @@ import axios from "axios";
 
 export async function login(payload: LoginPayload): Promise<LoginResponse> {
   try {
-    const response = await http.post<LoginResponse>("/user-service/api/v1/accounts/login", payload, {
+    const response = await http.post<LoginResponse>("/v1/accounts/login", payload, {
       headers: { "Content-Type": "application/json" },
     });
 
@@ -44,7 +44,7 @@ export async function login(payload: LoginPayload): Promise<LoginResponse> {
  */
 export async function registerTourGuide(payload: TourGuideRegister): Promise<{ msg: string }> {
   try {
-    const response = await http.post<{ msg: string }>("/user-service/api/v1/accounts/register-tourguide", payload, {
+    const response = await http.post<{ msg: string }>("/v1/accounts/register-tourguide", payload, {
       headers: { "Content-Type": "application/json" },
     });
     return response.data;

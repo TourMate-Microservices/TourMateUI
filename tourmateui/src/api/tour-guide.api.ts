@@ -18,7 +18,7 @@ export const getTourGuides = async (page: number | string, limit: number | strin
 };
 
 export const getTourGuidesWithTour = async (numOfTourGuides: number, numOfTours: number) => {
-  const res = await http.get<TourGuideWithTour[]>('/user-service/api/v1/tour-guides/tourguide-with-tours', {
+  const res = await http.get<TourGuideWithTour[]>('/v1/tour-guides/tourguide-with-tours', {
     params: {
       numOfTourGuides: numOfTourGuides,
       numOfTours: numOfTours

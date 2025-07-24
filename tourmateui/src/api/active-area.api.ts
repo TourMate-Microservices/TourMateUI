@@ -4,12 +4,12 @@ import { PagedResult } from "@/types/paged-result";
 import { tourServiceHttp } from "@/utils/http";
 
 export const fetchAreaIdAndName = async (): Promise<AreaIdAndName[]> => {
-  const response = await tourServiceHttp.get<AreaIdAndName[]>('/active-areas/simplified');
+  const response = await tourServiceHttp.get<AreaIdAndName[]>('/v1/active-areas/simplified');
   return response.data;
 };
 
 export const getActiveAreas = async (page: number | string, limit: number | string, signal?: AbortSignal) => {
-  const res = await tourServiceHttp.get<PagedResult<ActiveArea>>('active-areas', {
+  const res = await tourServiceHttp.get<PagedResult<ActiveArea>>('/v1/active-areas', {
     params: {
       pageSize: limit,
       pageIndex: page
@@ -21,7 +21,7 @@ export const getActiveAreas = async (page: number | string, limit: number | stri
 };
 
 export const getFilteredActiveAreas = async (page: number | string, limit: number | string, search: string, region: string, signal?: AbortSignal, excludeContent?: boolean) => {
-  const res = await tourServiceHttp.get<PagedResult<ActiveArea>>('/active-areas', {
+  const res = await tourServiceHttp.get<PagedResult<ActiveArea>>('/v1/active-areas', {
     params: {
       size: limit,
       page: page,
@@ -36,11 +36,11 @@ export const getFilteredActiveAreas = async (page: number | string, limit: numbe
 };
 
 export const getActiveArea = async (id: number) => {
-  const response = await tourServiceHttp.get<AreaDetailResponse>(`/active-areas/area-with-guide?areaId=${id}`)
+  const response = await tourServiceHttp.get<AreaDetailResponse>(`/v1/active-areas/area-with-guide?areaId=${id}`)
   return response.data
 }
 
-export const getMostPopularAreas = async () => await tourServiceHttp.get<MostPopularArea[]>('active-area/most-popular')
+export const getMostPopularAreas = async () => await tourServiceHttp.get<MostPopularArea[]>('/active-area/most-popular')
 
 export const getRandomActiveArea = async (size: number, signal?: AbortSignal) => {
   const res = await tourServiceHttp.get<ActiveArea>('/active-area/random', {
