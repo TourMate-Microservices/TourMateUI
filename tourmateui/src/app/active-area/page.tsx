@@ -51,7 +51,7 @@ function ActiveAreaList() {
       setTimeout(() => {
         controller.abort()
       }, 5000)
-      return getFilteredActiveAreasMock(page, LIMIT, searchTerm, selectedRegion, controller.signal, true)
+      return getFilteredActiveAreas(page, LIMIT, searchTerm, selectedRegion, controller.signal, true)
     },
     retry: 0,
     refetchOnWindowFocus: false,

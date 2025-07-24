@@ -2,7 +2,7 @@ import type { PagedResult } from "@/types/paged-result"
 import type { TourService } from "@/types/tour-service"
 import type { TourServiceBooking } from "@/types/invoice"
 import type { ApiResponse } from "@/types/api"
-import http from "@/utils/http"
+import { tourServiceHttp } from "@/utils/http"
 
 /**
  * Lấy danh sách tour services của một hướng dẫn viên
@@ -14,7 +14,7 @@ export const getTourServicesOf = async (
   limit: number | string,
   signal?: AbortSignal,
 ) => {
-  const res = await http.get<PagedResult<TourService>>("tour-services/services-of", {
+  const res = await tourServiceHttp.get<PagedResult<TourService>>("tour-services/services-of", {
     params: {
       pageSize: limit,
       pageIndex: page,
@@ -30,7 +30,7 @@ export const getTourServicesOf = async (
  * GET /tour-services/{serviceId}
  */
 export const getTourService = async (serviceId: number | string, signal?: AbortSignal) => {
-  const res = await http.get<ApiResponse<TourServiceBooking>>(`tour-services/${serviceId}`, {
+  const res = await tourServiceHttp.get<ApiResponse<TourServiceBooking>>(`tour-services/${serviceId}`, {
     signal,
   })
   return res.data
@@ -41,7 +41,7 @@ export const getTourService = async (serviceId: number | string, signal?: AbortS
  * GET /tour-services
  */
 export const getTourServices = async (signal?: AbortSignal) => {
-  const res = await http.get<ApiResponse<TourServiceBooking[]>>("tour-services", {
+  const res = await tourServiceHttp.get<ApiResponse<TourServiceBooking[]>>("tour-services", {
     signal,
   })
   return res.data
@@ -52,7 +52,7 @@ export const getTourServices = async (signal?: AbortSignal) => {
  * POST /tour-services
  */
 export const createTourService = async (data: Partial<TourService>, signal?: AbortSignal) => {
-  const res = await http.post<ApiResponse<TourService>>("tour-services", data, {
+  const res = await tourServiceHttp.post<ApiResponse<TourService>>("tour-services", data, {
     signal,
   })
   return res.data
@@ -67,7 +67,7 @@ export const updateTourService = async (
   data: Partial<TourService>,
   signal?: AbortSignal,
 ) => {
-  const res = await http.put<ApiResponse<TourService>>(`tour-services/${serviceId}`, data, {
+  const res = await tourServiceHttp.put<ApiResponse<TourService>>(`tour-services/${serviceId}`, data, {
     signal,
   })
   return res.data
@@ -78,7 +78,7 @@ export const updateTourService = async (
  * DELETE /tour-services/{serviceId}
  */
 export const deleteTourService = async (serviceId: number | string, signal?: AbortSignal) => {
-  const res = await http.delete<ApiResponse<void>>(`tour-services/${serviceId}`, {
+  const res = await tourServiceHttp.delete<ApiResponse<void>>(`tour-services/${serviceId}`, {
     signal,
   })
   return res.data

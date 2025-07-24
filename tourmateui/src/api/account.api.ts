@@ -1,7 +1,7 @@
 import { LoginPayload, LoginResponse } from "@/types/authenticate";
 import { CustomerRegister } from "@/types/customer";
 import { TourGuideRegister } from "@/types/tour-guide";
-import http from "@/utils/http";
+import {http} from "@/utils/http";
 import axios from "axios";
 
 export async function login(payload: LoginPayload): Promise<LoginResponse> {

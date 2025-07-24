@@ -7,7 +7,7 @@ import type {
   GetInvoicesParams,
   CreateInvoiceRequest,
 } from "@/types/api"
-import http from "@/utils/http"
+import {http} from "@/utils/http"
 
 /**
  * Lấy lịch trình của hướng dẫn viên theo tháng

@@ -1,8 +1,6 @@
 import { ActiveArea } from "@/types/active-area";
 import { TourGuideResponse, AreaDetailResponse } from "@/types/area-detail-response";
 import { PagedResult } from "@/types/response";
-import http from "@/utils/http";
-import { randomInt } from "node:crypto";
 
 const mockData: ActiveArea[] = [
     {

@@ -1,10 +1,10 @@
 import axios, { AxiosInstance } from 'axios'
-import { apiUrl } from '@/constants/constants';
+import { tourServiceUrl, userServiceUrl } from '@/constants/constants';
 
 class Http {
   instance: AxiosInstance
 
-  constructor() {
+  constructor(apiUrl: string) {
     this.instance = axios.create({
       baseURL: apiUrl,
       timeout: 20000,
@@ -35,5 +35,5 @@ class Http {
   }
 }
 
-const http = new Http().instance
-export default http
+export const http = new Http(userServiceUrl).instance
+export const tourServiceHttp = new Http(tourServiceUrl).instance

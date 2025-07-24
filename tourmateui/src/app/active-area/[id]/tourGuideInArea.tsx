@@ -1,13 +1,10 @@
 'use client';
-import { getActiveArea } from '@/api/active-area.api';
-import { getTourGuidesByArea } from '@/api/tour-guide.api';
-import { AreaDetail_TourGuideResponse } from '@/types/area-detail-response';
-import { useQuery } from '@tanstack/react-query';
+import { TourGuideResponse } from '@/types/area-detail-response';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import React from 'react';
 
-export default function TourGuidesInArea({ data, currentName }: { data?: AreaDetail_TourGuideResponse[], currentName?: string }) {
+export default function TourGuidesInArea({ data, currentName }: { data?: TourGuideResponse[], currentName?: string }) {
 
 
   if (!data || data.length === 0) {

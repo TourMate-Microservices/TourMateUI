@@ -1,5 +1,5 @@
 import { TourGuide, TourGuideIdAndName, TourGuideWithTour } from "@/types/tour-guide";
-import http from "../utils/http";
+import {http} from "../utils/http";
 import { PagedResult } from "@/types/response";
 import { mockTourGuideDetail } from "./tour-guide-with-service.mock.api";
 import { TourGuideDetail } from "@/types/tour-guide-detail";

@@ -1,7 +1,7 @@
 'use client'
 import Banner from '@/components/Banner';
 import { useQuery } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { FaMapMarkerAlt, FaPhoneAlt, FaRegClock, FaFacebookMessenger, FaRegMap, FaRegUser, FaSuitcaseRolling, FaCheck } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import dayjs from 'dayjs';
@@ -19,9 +19,42 @@ import { getTourGuideWithServicesMock } from '@/api/tour-guide-with-service.mock
 export default function TourGuideDetailPage({
   params,
 }: {
-  params: { id: number };
+  params: Promise<{ id: number }>;
 }) {
-  const id = Number(params.id);
+  const statToRender = (t: TourGuideDetail) => [
+    {
+      icon: <FaRegMap size={25} />,
+      value: t.area?.areaName || 'Chưa có địa điểm',
+      name: 'Địa điểm hoạt động',
+    },
+    {
+      icon: <FaRegClock size={25} />,
+      value: dayjs(t.dateOfBirth).format('DD/MM/YYYY'),
+      name: 'Ngày sinh',
+    },
+    {
+      icon: <FaSuitcaseRolling size={25} />,
+      value: t.yearOfExperience ? `${t.yearOfExperience} năm` : 'Chưa có kinh nghiệm',
+      name: 'Số năm kinh nghiệm',
+    },
+    {
+      icon: <FaRegUser size={25} />,
+      value: t.gender || 'Chưa rõ',
+      name: 'Giới tính',
+    },
+    {
+      icon: <FaMapMarkerAlt size={25} />,
+      value: t.address || 'Chưa có địa chỉ',
+      name: 'Địa chỉ',
+    },
+    {
+      icon: <FaPhoneAlt size={25} />,
+      value: t.phone || 'Chưa có số điện thoại',
+      name: 'Số điện thoại',
+    },
+  ];
+
+  const { id } = use(params);
   const router = useRouter();
 
   const tourGuideData = useQuery({
@@ -100,10 +133,10 @@ export default function TourGuideDetailPage({
               __html:
                 tourGuide?.description
                   ? tourGuide.description.replace(
-                      /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|svg))/gi,
-                      (match) =>
-                        `<img src="${match}" alt="Image" style="max-width: 100%; height: auto; object-fit: contain;" />`
-                    )
+                    /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|svg))/gi,
+                    (match) =>
+                      `<img src="${match}" alt="Image" style="max-width: 100%; height: auto; object-fit: contain;" />`
+                  )
                   : 'Không có mô tả',
             }}
           />
@@ -116,36 +149,3 @@ export default function TourGuideDetailPage({
     </div>
   );
 }
-
-const statToRender = (t: TourGuideDetail) => [
-  {
-    icon: <FaRegMap size={25} />,
-    value: t.area?.areaName || 'Chưa có địa điểm',
-    name: 'Địa điểm hoạt động',
-  },
-  {
-    icon: <FaRegClock size={25} />,
-    value: dayjs(t.dateOfBirth).format('DD/MM/YYYY'),
-    name: 'Ngày sinh',
-  },
-  {
-    icon: <FaSuitcaseRolling size={25} />,
-    value: t.yearOfExperience ? `${t.yearOfExperience} năm` : 'Chưa có kinh nghiệm',
-    name: 'Số năm kinh nghiệm',
-  },
-  {
-    icon: <FaRegUser size={25} />,
-    value: t.gender || 'Chưa rõ',
-    name: 'Giới tính',
-  },
-  {
-    icon: <FaMapMarkerAlt size={25} />,
-    value: t.address || 'Chưa có địa chỉ',
-    name: 'Địa chỉ',
-  },
-  {
-    icon: <FaPhoneAlt size={25} />,
-    value: t.phone || 'Chưa có số điện thoại',
-    name: 'Số điện thoại',
-  },
-];
