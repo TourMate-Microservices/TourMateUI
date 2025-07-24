@@ -8,6 +8,7 @@ import { MonthlyScheduleRequest, TourGuideSchedule } from "@/types/invoice"
 export function useMonthlySchedule(tourGuideId: number) {
   const [schedules, setSchedules] = useState<Map<string, TourGuideSchedule[]>>(new Map())
   const [loading, setLoading] = useState<Set<string>>(new Set())
+  const [error, setError] = useState<string | null>(null)
 
   /**
    * Load lịch trình theo tháng từ API
@@ -22,6 +23,7 @@ export function useMonthlySchedule(tourGuideId: number) {
       }
 
       setLoading((prev) => new Set(prev).add(monthKey))
+      setError(null)
 
       try {
         const request: MonthlyScheduleRequest = {
@@ -34,7 +36,9 @@ export function useMonthlySchedule(tourGuideId: number) {
         setSchedules((prev) => new Map(prev).set(monthKey, response.schedules))
       } catch (err) {
         console.error("Failed to load schedule:", err)
-        throw err
+        setError("Không thể tải lịch trình")
+        // Set empty array để UI vẫn hiển thị được
+        setSchedules((prev) => new Map(prev).set(monthKey, []))
       } finally {
         setLoading((prev) => {
           const newSet = new Set(prev)
@@ -66,9 +70,11 @@ export function useMonthlySchedule(tourGuideId: number) {
     loadMonthSchedule,
     getSchedulesForMonth,
     isLoadingMonth,
+    error,
     clearCache: () => {
       setSchedules(new Map())
       setLoading(new Set())
+      setError(null)
       TourScheduleService.clearCache()
     },
   }

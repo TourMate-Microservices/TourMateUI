@@ -21,20 +21,28 @@ export class TourScheduleService {
       }
     }
 
-    const response = await apiClient.getMonthlySchedule({
-      tourGuideId: request.tourGuideId,
-      year: request.year,
-      month: request.month,
-    })
+    try {
+      const response = await apiClient.getMonthlySchedule({
+        tourGuideId: request.tourGuideId,
+        year: request.year,
+        month: request.month,
+      })
 
-    if (response.success && response.data) {
-      this.scheduleCache.set(cacheKey, response.data)
-      return {
-        schedules: response.data,
-        totalCount: response.data.length,
+      if (response.success && response.data) {
+        this.scheduleCache.set(cacheKey, response.data)
+        return {
+          schedules: response.data,
+          totalCount: response.data.length,
+        }
+      } else {
+        throw new Error("Không tìm thấy lịch trình")
       }
-    } else {
-      throw new Error(response.error || "Failed to fetch schedule")
+    } catch (error) {
+      console.error("Failed to fetch schedule:", error)
+      // Return empty schedule thay vì throw
+      const emptySchedule = { schedules: [], totalCount: 0 }
+      this.scheduleCache.set(cacheKey, [])
+      return emptySchedule
     }
   }
 
@@ -43,12 +51,19 @@ export class TourScheduleService {
    * Gọi API để lấy thông tin service, giá, khung giờ có sẵn, etc.
    */
   static async getTourService(serviceId: number): Promise<TourServiceBooking> {
-    const response = await apiClient.getTourService({ serviceId })
+    try {
+      const response = await apiClient.getTourService({ serviceId })
 
-    if (response.success && response.data) {
-      return response.data
-    } else {
-      throw new Error(response.error || "Failed to fetch tour service")
+      if (response.success && response.data) {
+        return response.data
+      } else {
+        throw new Error("Không tìm thấy thông tin tour")
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Lỗi tải tour: ${error.message}`)
+      }
+      throw new Error("Không thể kết nối đến server")
     }
   }
 
@@ -62,24 +77,30 @@ export class TourScheduleService {
     startDate?: string,
     endDate?: string,
   ): Promise<Invoice[]> {
-    const response = await apiClient.getBookings({
-      serviceId,
-      tourGuideId,
-      startDate,
-      endDate,
-      status: ["confirmed", "pending"],
-    })
+    try {
+      const response = await apiClient.getBookings({
+        serviceId,
+        tourGuideId,
+        startDate,
+        endDate,
+        status: ["confirmed", "pending"],
+      })
 
-    if (response.success && response.data) {
-      return response.data.items
-    } else {
-      throw new Error(response.error || "Failed to fetch bookings")
+      if (response.success && response.data) {
+        return response.data.items
+      } else {
+        throw new Error("Không tìm thấy lịch sử booking")
+      }
+    } catch (error) {
+      console.error("Failed to fetch bookings:", error)
+      // Return empty array thay vì throw error
+      return []
     }
   }
 
   /**
-   * Tạo booking mới
-   * Gọi API để tạo booking và trả về booking đã tạo
+   * Tạo booking mới cho người dùng
+   * Gọi API để đặt tour và thanh toán
    */
   static async createBooking(bookingData: CreateBookingRequest): Promise<Invoice> {
     const response = await apiClient.createBooking(bookingData)

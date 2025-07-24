@@ -1,8 +1,8 @@
 import { Calendar, Users, Clock } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import type { Invoice } from "@/types/invoice"
 import { formatCurrency } from "@/utils/date-utils"
-import { Invoice } from "@/types/invoice"
 
 interface BookedToursListProps {
   bookedSlots: Invoice[]
@@ -20,7 +20,7 @@ export function BookedToursList({ bookedSlots }: BookedToursListProps) {
         <CardTitle className="text-lg flex items-center justify-between">
           <div className="flex items-center">
             <Calendar className="w-5 h-5 mr-2 text-blue-600" />
-            Lịch Đã Đặt
+            Lịch Sử Đặt Tour
           </div>
           <Badge variant="secondary" className="bg-blue-100 text-blue-700">
             {bookedSlots.length} tour
@@ -30,9 +30,13 @@ export function BookedToursList({ bookedSlots }: BookedToursListProps) {
       <CardContent>
         <div className="space-y-3 max-h-80 overflow-y-auto">
           {sortedBookings.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
-              <Calendar className="w-12 h-12 mx-auto mb-3 opacity-50" />
-              <p>Chưa có booking nào</p>
+            <div className="text-center py-12 text-gray-500">
+              <Calendar className="w-16 h-16 mx-auto mb-4 opacity-30" />
+              <h3 className="text-lg font-medium mb-2">Chưa có tour nào</h3>
+              <p className="text-sm">Hãy chọn ngày và đặt tour đầu tiên của bạn!</p>
+              <div className="mt-4 p-3 bg-blue-50 rounded-lg text-blue-700 text-xs">
+                💡 Mẹo: Chọn ngày trên lịch để xem các khung giờ có sẵn
+              </div>
             </div>
           ) : (
             sortedBookings.map((booking) => {
@@ -102,7 +106,7 @@ export function BookedToursList({ bookedSlots }: BookedToursListProps) {
                     </div>
 
                     {booking.note && (
-                      <div className="text-sm text-gray-600 bg-white/50 p-2 rounded italic">&ldquo;{booking.note}&rdquo;</div>
+                      <div className="text-sm text-gray-600 bg-white/50 p-2 rounded italic">&quot;{booking.note}&quot;</div>
                     )}
 
                     <div className="flex items-center justify-between pt-2 border-t border-gray-200">

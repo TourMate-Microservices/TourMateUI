@@ -42,5 +42,5 @@ export interface CreateBookingRequest {
   endDate: string
   peopleAmount: string
   note: string
-  bookingType: "pay-now" | "hold-slot"
+  bookingType: "Đặt chuyến đi"
 }
