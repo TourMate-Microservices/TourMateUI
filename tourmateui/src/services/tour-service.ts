@@ -29,11 +29,11 @@ export class TourScheduleService {
         month: request.month,
       })
 
-      if (response.success && response.data) {
-        this.scheduleCache.set(cacheKey, response.data)
+      if (response) {
+        this.scheduleCache.set(cacheKey, response)
         return {
-          schedules: response.data,
-          totalCount: response.data.length,
+          schedules: response,
+          totalCount: response.length,
         }
       } else {
         throw new Error("Không tìm thấy lịch trình")
@@ -55,8 +55,8 @@ export class TourScheduleService {
     try {
       const response = await getTourService(serviceId)
 
-      if (response.success && response.data) {
-        return response.data
+      if (response) {
+        return response
       } else {
         throw new Error("Không tìm thấy thông tin tour")
       }
@@ -87,8 +87,8 @@ export class TourScheduleService {
         status: ["confirmed", "pending"],
       })
 
-      if (response.success && response.data) {
-        return response.data.items
+      if (response) {
+        return response.items
       } else {
         throw new Error("Không tìm thấy lịch sử booking")
       }
@@ -106,11 +106,11 @@ export class TourScheduleService {
   static async createInvoice(invoiceData: CreateInvoiceRequest): Promise<Invoice> {
     const response = await createInvoice(invoiceData)
 
-    if (response.success && response.data) {
+    if (response) {
       this.clearCache()
-      return response.data
+      return response
     } else {
-      throw new Error(response.error || "Failed to create booking")
+      throw new Error("Failed to create booking")
     }
   }
 
@@ -121,11 +121,11 @@ export class TourScheduleService {
   static async updateInvoiceStatus(invoiceId: number, status: string): Promise<Invoice> {
     const response = await updateInvoiceStatus(invoiceId, status)
 
-    if (response.success && response.data) {
+    if (response) {
       this.clearCache()
-      return response.data
+      return response
     } else {
-      throw new Error(response.error || "Failed to update booking status")
+      throw new Error("Failed to update booking status")
     }
   }
 
@@ -136,11 +136,11 @@ export class TourScheduleService {
   static async updatePaymentStatus(invoiceId: number, paymentStatus: string): Promise<Invoice> {
     const response = await updatePaymentStatus(invoiceId, paymentStatus)
 
-    if (response.success && response.data) {
+    if (response) {
       this.clearCache()
-      return response.data
+      return response
     } else {
-      throw new Error(response.error || "Failed to update payment status")
+      throw new Error("Failed to update payment status")
     }
   }
 
