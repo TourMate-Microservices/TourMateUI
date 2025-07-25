@@ -1,7 +1,19 @@
-import type { NextConfig } from "next";
+// next.config.js (hoặc next.config.ts nếu bạn dùng TypeScript)
+import type { NextConfig } from 'next';
+import withFlowbiteReact from 'flowbite-react/plugin/nextjs';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: [
+      'images.unsplash.com',
+      'i.pravatar.cc',
+      'img.freepik.com', // thêm domain freepik
+      'bestlocationhotels.com',
+      'thanhnien.mediacdn.vn',
+      'media-cdn-v2.laodong.vn',
+      'ik.imagekit.io'
+    ],
+  },
 };
 
-export default nextConfig;
+export default withFlowbiteReact(nextConfig);

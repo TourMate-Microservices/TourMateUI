@@ -127,3 +127,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+.charm-regular {
+  font-family: "Charm", cursive;
+  font-weight: 400;
+  font-style: normal;
+}

@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Logo from "@/public/logo.png"
+import Logo from "@/public/logo.png";
+import Providers from "./providers";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const geistSans = Geist({
@@ -37,7 +40,8 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
       >
         <div className="flex-grow">
-          {children}
+          <Providers>{children}</Providers>
+        <ToastContainer />
         </div>
       </body>
     </html>

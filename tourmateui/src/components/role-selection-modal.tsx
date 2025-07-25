@@ -28,7 +28,7 @@ export function RoleSelectionModal({
   const router = useRouter();
 
   const handleRoleSelection = (role: "customer" | "tourguide") => {
-    router.push(`/signUp/${role}`);
+    router.push(`/sign-up/${role}`);
     onClose();
   };
 
