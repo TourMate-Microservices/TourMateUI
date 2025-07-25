@@ -1,34 +1,18 @@
-import { ActiveArea } from "./active-area";
-
-export interface TourService {
+export interface Tour {
   serviceId: number;
   serviceName: string;
-  price: number;
-  duration: string;
-  content: string;
-  image: string;
-  tourGuideId: number;
-  createdDate: string;
-  isDeleted: boolean;
   title: string;
-  tourDesc: string;
+  image: string;
+  createdDate: string;
 }
 
 export interface TourGuideDetail {
   tourGuideId: number;
-  fullName: string;
-  gender: string;
-  dateOfBirth: string;
-  accountId: number;
-  address: string;
   image: string;
-  phone: string;
-  isVerified: boolean;
   bannerImage: string;
-  yearOfExperience: number;
+  fullName: string;
   description: string;
+  yearOfExperience: number;
   company: string;
-  areaId: number;
-  area: ActiveArea;
-  tourServices: TourService[];
+  tours: Tour[];
 }

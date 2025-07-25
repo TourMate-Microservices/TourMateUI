@@ -9,42 +9,15 @@ import AOS from 'aos'
 import 'aos/dist/aos.css'
 
 import PaginateList from '@/components/paginate-list'
-import { TourService } from '@/types/tour-guide-detail'
-import { mockTourGuideDetail } from '@/api/tour-guide-with-service.mock.api'
+import { Tour } from '@/types/tour-guide-detail'
+// Không dùng mock nữa, nhận tours từ props
 
-const getTourServicesOf = (
-  tourGuideId: number,
-  page: number,
-  pageSize: number
-): Promise<{
-  result: TourService[]
-  totalPage: number
-}> => {
-  const allServices = mockTourGuideDetail.tourServices.filter(
-  (s: TourService) => s.tourGuideId === tourGuideId
-)
-  const totalPage = Math.ceil(allServices.length / pageSize)
-  const start = (page - 1) * pageSize
-  const result = allServices.slice(start, start + pageSize)
-
-  return Promise.resolve({
-    result,
-    totalPage,
-  })
-}
-
-export default function TourServices({ tourGuideId }: { tourGuideId: number }) {
+export default function TourServices({ tours }: { tours: Tour[] }) {
   const [page, setPage] = useState(1)
   const pageSize = 6
-
-  const { data } = useQuery({
-    queryKey: ['tour-services-of', tourGuideId, pageSize, page],
-    queryFn: () => getTourServicesOf(tourGuideId, page, pageSize),
-    staleTime: 24 * 3600 * 1000,
-  })
-
-  const services = data?.result ?? []
-  const maxPage = data?.totalPage ?? 0
+  const totalPage = Math.ceil((tours?.length ?? 0) / pageSize)
+  const start = (page - 1) * pageSize
+  const services = tours?.slice(start, start + pageSize) ?? []
 
   useEffect(() => {
     AOS.init({
@@ -104,7 +77,7 @@ export default function TourServices({ tourGuideId }: { tourGuideId: number }) {
       <div className="mt-10">
         <PaginateList
           current={page}
-          maxPage={maxPage}
+          maxPage={totalPage}
           onClick={(p) => setPage(p)}
         />
       </div>

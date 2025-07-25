@@ -1,5 +1,6 @@
 "use client"
 import Banner from "@/components/Banner"
+import MegaMenu from "@/components/mega-menu"
 import SafeImage from "@/components/safe-image"
 import { useQuery } from "@tanstack/react-query"
 import Link from "next/link"
@@ -12,7 +13,7 @@ import { Search, MapPin, ChevronLeft, ChevronRight, Filter, User, Calendar } fro
 import { useQueryString } from "@/utils/utils"
 import { fetchAreaIdAndName } from "@/api/active-area.api"
 import bannerImg from '@/public/tour-guide-list-banner.png'
-import { getTourGuides } from "@/api/tour-guide-mock.api"
+import { getTourGuidesPaged } from "@/api/tour-guide.api"
 
 const LIMIT = 12
 
@@ -41,16 +42,14 @@ function TourGuideMain() {
     const { data } = useQuery({
         queryKey: ["tour-guide", LIMIT, page, searchTerm],
         queryFn: () => {
-            const controller = new AbortController()
-            setTimeout(() => {
-                controller.abort()
-            }, 5000)
-            return getTourGuides(1, 1,)
+            const controller = new window.AbortController();
+            setTimeout(() => controller.abort(), 5000);
+            return getTourGuidesPaged(page, LIMIT, searchTerm.name, searchTerm.areaId, controller.signal);
         },
         retry: 0,
         refetchOnWindowFocus: false,
         staleTime: 24 * 3600 * 1000,
-    })
+    });
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = event.target
@@ -63,6 +62,7 @@ function TourGuideMain() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+            <MegaMenu />
             <div>
                 <Banner imageUrl={bannerImg} title="TÌM KIẾM HƯỚNG DẪN VIÊN" />
             </div>
