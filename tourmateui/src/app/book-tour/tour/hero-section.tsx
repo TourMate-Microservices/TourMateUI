@@ -1,5 +1,4 @@
-import { Heart, Share2, MapPin, Clock, Star } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { MapPin, Clock, Star } from "lucide-react"
 import { formatDuration } from "@/utils/date-utils"
 import { TourServiceBooking } from "@/types/invoice"
 

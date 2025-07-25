@@ -23,7 +23,7 @@ export interface GetInvoicesParams {
   tourGuideId: number
   startDate?: string
   endDate?: string
-  status?: string[]
+  status?: string
 }
 
 export interface CreateInvoiceRequest {

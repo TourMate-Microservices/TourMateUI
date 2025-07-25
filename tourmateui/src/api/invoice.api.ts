@@ -13,7 +13,7 @@ import http from "@/utils/http"
  * GET /schedules/monthly
  */
 export const getMonthlySchedule = async (params: GetMonthlyScheduleParams, signal?: AbortSignal) => {
-  const res = await http.get<TourGuideSchedule[]>(`tour-service/api/v1/schedules/monthly`, {
+  const res = await http.get<TourGuideSchedule[]>(`tour-service/api/v1/invoices/schedules/monthly`, {
     params: {
       tourGuideId: params.tourGuideId,
       year: params.year,

@@ -84,7 +84,6 @@ export class TourScheduleService {
         tourGuideId,
         startDate,
         endDate,
-        status: ["confirmed", "pending"],
       })
 
       if (response) {

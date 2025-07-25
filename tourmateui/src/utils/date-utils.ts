@@ -4,7 +4,6 @@ export const generateCalendarDays = (currentMonth: Date) => {
   const year = currentMonth.getFullYear()
   const month = currentMonth.getMonth()
   const firstDay = new Date(year, month, 1)
-  const lastDay = new Date(year, month + 1, 0)
   const startDate = new Date(firstDay)
   startDate.setDate(startDate.getDate() - firstDay.getDay())
 
@@ -26,6 +25,12 @@ export const generateTimeSlots = (tourService: TourServiceBooking) => {
   // Nếu có custom time slots, sử dụng chúng
   if (availableTimeSlots && availableTimeSlots.length > 0) {
     return availableTimeSlots
+  }
+
+  // Kiểm tra nếu workingHours tồn tại và có start/end
+  if (!workingHours || !workingHours.start || !workingHours.end) {
+    // Trả về default time slots nếu không có working hours
+    return ["05:00","06:00","07:00","08:00", "09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"]
   }
 
   // Nếu không, tạo slots từ working hours
@@ -58,8 +63,27 @@ export const formatDateTime = (dateString: string) => {
 }
 
 export const formatDuration = (duration: string) => {
-  const [hours, minutes] = duration.split(":")
-  return `${hours}h${minutes !== "00" ? minutes + "m" : ""}`
+  if (!duration) return ""
+  
+  // Xử lý format từ database: "00:04:00.0000000" 
+  // Loại bỏ phần milliseconds nếu có
+  const cleanDuration = duration.split('.')[0]
+  const [days, hours, minutes] = cleanDuration.split(":")
+  
+  const d = parseInt(days, 10)
+  const h = parseInt(hours, 10)
+  const m = parseInt(minutes, 10)
+  
+  if (d === 0 && h === 0 && m === 0) return "0m"
+  if (d === 0 && h === 0) return `${m}m`
+  if (d === 0 && m === 0) return `${h}h`
+  if (d === 0) return `${h}h${m}m`
+  
+  // Có ngày
+  if (h === 0 && m === 0) return `${d} ngày`
+  if (m === 0) return `${d} ngày ${h}h`
+  
+  return `${d} ngày ${h}h${m}m`
 }
 
 // Utility để tạo month key cho caching

@@ -18,7 +18,6 @@ interface TimeSlotsProps {
 
 export function TimeSlots({
   selectedDate,
-  bookedSlots,
   tourGuideSchedule,
   tourService,
   onTimeSlotSelect,
@@ -90,7 +89,7 @@ export function TimeSlots({
                   variant={isAvailable && !isPast ? "outline" : "secondary"}
                   disabled={!isAvailable || isPast}
                   className={`
-                    w-full h-16 text-base font-medium transition-all duration-200 flex flex-col items-center justify-center
+                    w-full h-20 text-base font-medium transition-all duration-200 flex flex-col items-center justify-center
                     ${
                       isAvailable && !isPast
                         ? "hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 hover:border-green-300 hover:text-green-700 hover:scale-105 hover:shadow-md"
