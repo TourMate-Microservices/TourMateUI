@@ -1,35 +1,3 @@
-// Type cho response paged
-export interface TourGuidePagedResponse {
-  data: TourGuide[];
-  total_count: number;
-  page: number;
-  per_page: number;
-  total_pages: number;
-  has_next: boolean;
-  has_previous: boolean;
-}
-
-export const getTourGuidesPaged = async (
-  page: number | string,
-  limit: number | string,
-  name?: string,
-  areaId?: number,
-  signal?: AbortSignal
-) => {
-  const res = await http.get<TourGuidePagedResponse>(
-    "user-service/api/v1/tour-guides/paged",
-    {
-      params: {
-        pageIndex: page,
-        pageSize: limit,
-        name,
-        areaId,
-      },
-      signal,
-    }
-  );
-  return res.data;
-};
 import { TourGuide, TourGuideIdAndName, TourGuideWithTour } from "@/types/tour-guide";
 import {http} from "../utils/http";
 import { PagedResult } from "@/types/response";
@@ -133,23 +101,3 @@ export const getTourGuideWithServices = async (id: number | string) => {
     throw err
   }
 }
-
-// Lấy chi tiết hướng dẫn viên kèm danh sách tour từ API tourguide-with-tours
-export const getTourGuideWithToursById = async (id: number | string, numOfTours: number = 6) => {
-  try {
-    const response = await http.get<any>(
-      `user-service/api/v1/tour-guides/tourguide-with-tours`,
-      {
-        params: {
-          numOfTourGuides: 1,
-          numOfTours,
-          id,
-        },
-      }
-    );
-    // Nếu trả về mảng, lấy phần tử đầu tiên
-    return Array.isArray(response.data) ? response.data[0] : response.data;
-  } catch (err) {
-    throw err;
-  }
-};
