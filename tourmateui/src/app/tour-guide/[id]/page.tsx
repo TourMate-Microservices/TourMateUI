@@ -16,7 +16,7 @@ import TourServices from './services';
 import { TourGuideDetail } from '@/types/tour-guide-detail';
 import { getTourGuideWithServicesMock } from '@/api/tour-guide-with-service.mock.api';
 import MegaMenu from '@/components/mega-menu';
-import { Footer } from 'react-day-picker';
+import Footer from '@/components/footer';
 
 export default function TourGuideDetailPage({
   params,
