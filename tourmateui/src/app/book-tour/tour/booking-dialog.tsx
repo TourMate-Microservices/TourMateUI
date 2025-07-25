@@ -73,12 +73,11 @@ export function BookingDialog({
           <div className="space-y-3">
             <Label className="text-base font-semibold">Hình thức đặt tour</Label>
             <RadioGroup
-              value={formData.bookingType}
-              onValueChange={(value: string) => onFormDataChange({ bookingType: value })}
-              className="space-y-3"
+              value="pay-now"
+              className="space-y-3 opacity-60 pointer-events-none"
             >
-              <div className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-green-50 transition-colors">
-                <RadioGroupItem value="pay-now" id="pay-now" />
+              <div className="flex items-center space-x-3 p-4 border rounded-lg bg-green-50 transition-colors">
+                <RadioGroupItem value="pay-now" id="pay-now" checked />
                 <div className="flex-1">
                   <Label htmlFor="pay-now" className="flex items-center cursor-pointer">
                     <CreditCard className="w-5 h-5 mr-2 text-green-600" />

@@ -34,5 +34,5 @@ export interface CreateInvoiceRequest {
   endDate: string
   peopleAmount: string
   note: string
-  bookingType: "Đặt chuyến đi"
+  bookingType: "pay-now"
 }

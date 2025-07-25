@@ -25,7 +25,7 @@ export default function TourBookingCalendar() {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("")
   const [formData, setFormData] = useState<BookingFormData>({
     selectedPeople: "2",
-    bookingType: "Đặt chuyến đi", // or another default value as appropriate
+    bookingType: "pay-now",
     note: "",
   })
   const [isLoadingData, setIsLoadingData] = useState(true)
@@ -138,7 +138,7 @@ export default function TourBookingCalendar() {
         endDate: `${selectedDate.toISOString().split("T")[0]}T${(Number.parseInt(selectedTimeSlot.split(":")[0]) + Number.parseInt(tourService.duration.split(":")[0])).toString().padStart(2, "0")}:00:00`,
         peopleAmount: formData.selectedPeople,
         note: formData.note,
-        bookingType: formData.bookingType as "Đặt chuyến đi"
+        bookingType: "pay-now" as const
        }
 
       const newInvoice = await TourScheduleService.createInvoice(bookingData)
