@@ -3,21 +3,20 @@ import {userServiceHttp} from "../utils/http";
 import { PagedResult } from "@/types/response";
 import { TourGuideDetail } from "@/types/tour-guide-detail";
 
-export const getTourGuides = async (page: number | string, limit: number | string, signal?: AbortSignal, phone?: string) => {
-  const res = await userServiceHttp.get<PagedResult<TourGuide>>('tour-guides', {
+export const getTourGuides = async (page: number | string, limit: number | string, fullName?: string) => {
+  const res = await userServiceHttp.get<PagedResult<TourGuide>>('/tour-guides/paged', {
     params: {
       pageSize: limit,
       pageIndex: page,
-      phone: phone,
+      fullName: fullName,
     },
-    signal
   });
 
   return res.data;
 };
 
 export const getTourGuidesWithTour = async (numOfTourGuides: number, numOfTours: number) => {
-  const res = await userServiceHttp.get<TourGuideWithTour[]>('tour-guides/tourguide-with-tours', {
+  const res = await userServiceHttp.get<TourGuideWithTour[]>('/tour-guides/tourguide-with-tours', {
     params: {
       numOfTourGuides: numOfTourGuides,
       numOfTours: numOfTours
@@ -93,7 +92,7 @@ export const changePassword = async (id: number, newPassword: string) => {
 
 export const getTourGuideWithServices = async (id: number | string) => {
   try {
-    const response = await userServiceHttp.get<TourGuideDetail>(`tour-guides/${id}`);
+    const response = await userServiceHttp.get<TourGuideDetail>(`/tour-guides/by-id-with-tours-paged?id=${id}&page=1&perPage=5`);
     return response.data;
   }
   catch (err) {

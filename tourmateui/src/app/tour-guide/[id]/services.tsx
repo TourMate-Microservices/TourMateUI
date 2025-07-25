@@ -10,41 +10,14 @@ import 'aos/dist/aos.css'
 
 import PaginateList from '@/components/paginate-list'
 import { TourService } from '@/types/tour-guide-detail'
-import { mockTourGuideDetail } from '@/api/tour-guide-with-service.mock.api'
+import { PagedResult } from '@/types/paged-result'
 
-const getTourServicesOf = (
-  tourGuideId: number,
-  page: number,
-  pageSize: number
-): Promise<{
-  result: TourService[]
-  totalPage: number
-}> => {
-  const allServices = mockTourGuideDetail.tourServices.filter(
-  (s: TourService) => s.tourGuideId === tourGuideId
-)
-  const totalPage = Math.ceil(allServices.length / pageSize)
-  const start = (page - 1) * pageSize
-  const result = allServices.slice(start, start + pageSize)
-
-  return Promise.resolve({
-    result,
-    totalPage,
-  })
-}
-
-export default function TourServices({ tourGuideId }: { tourGuideId: number }) {
+export default function TourServices({ data }: { data?: PagedResult<TourService> }) {
   const [page, setPage] = useState(1)
   const pageSize = 6
 
-  const { data } = useQuery({
-    queryKey: ['tour-services-of', tourGuideId, pageSize, page],
-    queryFn: () => getTourServicesOf(tourGuideId, page, pageSize),
-    staleTime: 24 * 3600 * 1000,
-  })
-
-  const services = data?.result ?? []
-  const maxPage = data?.totalPage ?? 0
+  const services = data?.data ?? []
+  const maxPage = data?.total_pages ?? 0
 
   useEffect(() => {
     AOS.init({

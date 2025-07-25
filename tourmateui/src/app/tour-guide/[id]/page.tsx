@@ -1,5 +1,4 @@
 'use client'
-import Banner from '@/components/banner';
 import { useQuery } from '@tanstack/react-query';
 import React, { use, useEffect, useState } from 'react';
 import { FaMapMarkerAlt, FaPhoneAlt, FaRegClock, FaFacebookMessenger, FaRegMap, FaRegUser, FaSuitcaseRolling, FaCheck } from 'react-icons/fa';
@@ -13,9 +12,10 @@ import { useRouter } from 'next/navigation';
 import bannerImg from '@/public/tour-guide-list-banner.png';
 import TourServices from './services';
 import { TourGuideDetail } from '@/types/tour-guide-detail';
-import { getTourGuideWithServicesMock } from '@/api/tour-guide-with-service.mock.api';
 import MegaMenu from '@/components/mega-menu';
 import Footer from '@/components/footer';
+import { getTourGuideWithServices } from '@/api/tour-guide.api';
+import Banner from '@/components/Banner';
 
 export default function TourGuideDetailPage({
   params,
@@ -25,32 +25,32 @@ export default function TourGuideDetailPage({
   const statToRender = (t: TourGuideDetail) => [
     {
       icon: <FaRegMap size={25} />,
-      value: t.area?.areaName || 'Chưa có địa điểm',
+      value: t.tourGuide.address || 'Chưa có địa điểm',
       name: 'Địa điểm hoạt động',
     },
     {
       icon: <FaRegClock size={25} />,
-      value: dayjs(t.dateOfBirth).format('DD/MM/YYYY'),
+      value: dayjs(t.tourGuide.dateOfBirth).format('DD/MM/YYYY'),
       name: 'Ngày sinh',
     },
     {
       icon: <FaSuitcaseRolling size={25} />,
-      value: t.yearOfExperience ? `${t.yearOfExperience} năm` : 'Chưa có kinh nghiệm',
+      value: t.tourGuide.yearOfExperience ? `${t.tourGuide.yearOfExperience} năm` : 'Chưa có kinh nghiệm',
       name: 'Số năm kinh nghiệm',
     },
     {
       icon: <FaRegUser size={25} />,
-      value: t.gender || 'Chưa rõ',
+      value: t.tourGuide.gender || 'Chưa rõ',
       name: 'Giới tính',
     },
     {
       icon: <FaMapMarkerAlt size={25} />,
-      value: t.address || 'Chưa có địa chỉ',
+      value: t.tourGuide.address || 'Chưa có địa chỉ',
       name: 'Địa chỉ',
     },
     {
       icon: <FaPhoneAlt size={25} />,
-      value: t.phone || 'Chưa có số điện thoại',
+      value: t.tourGuide.phone || 'Chưa có số điện thoại',
       name: 'Số điện thoại',
     },
   ];
@@ -60,7 +60,7 @@ export default function TourGuideDetailPage({
 
   const tourGuideData = useQuery({
     queryKey: ['tour-guide', id],
-    queryFn: () => getTourGuideWithServicesMock(id),
+    queryFn: () => getTourGuideWithServices(id),
     staleTime: 24 * 3600 * 1000,
   });
 
@@ -87,15 +87,15 @@ export default function TourGuideDetailPage({
         <div className="w-[85%] mx-auto bg-white shadow-xl rounded-xl p-6 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
             <SafeImage
-              src={tourGuide?.image}
-              alt={tourGuide?.fullName}
+              src={tourGuide?.tourGuide.image}
+              alt={tourGuide?.tourGuide.fullName}
               className="w-full h-60 object-cover border-2 rounded-md"
             />
 
             <div className="md:col-span-2 space-y-4">
               <h4 className="text-3xl font-bold text-gray-800">
-                {tourGuide?.fullName}{' '}
-                {tourGuide?.isVerified && <FaCheck className="text-blue-500 inline ml-1" />}
+                {tourGuide?.tourGuide.fullName}{' '}
+                {tourGuide?.tourGuide.isVerified && <FaCheck className="text-blue-500 inline ml-1" />}
               </h4>
 
               {tourGuide && (
@@ -134,8 +134,8 @@ export default function TourGuideDetailPage({
               className={`text-justify text-gray-700 ${displayDesc ? 'block pb-5' : 'hidden'}`}
               dangerouslySetInnerHTML={{
                 __html:
-                  tourGuide?.description
-                    ? tourGuide.description.replace(
+                  tourGuide?.tourGuide.description
+                    ? tourGuide.tourGuide.description.replace(
                       /(https?:\/\/.*\.(?:png|jpg|jpeg|gif|bmp|svg))/gi,
                       (match) =>
                         `<img src="${match}" alt="Image" style="max-width: 100%; height: auto; object-fit: contain;" />`
@@ -147,7 +147,7 @@ export default function TourGuideDetailPage({
         </div>
 
         <div className="w-[85%] mx-auto shadow-xl rounded-xl p-6 bg-white">
-          {id && <TourServices tourGuideId={id} />}
+          {id && <TourServices data={tourGuide?.tourServices} />}
         </div>
       </div>
       <Footer />

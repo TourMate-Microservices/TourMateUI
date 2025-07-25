@@ -12,11 +12,11 @@ import { getFilteredActiveAreas } from "@/api/active-area.api"
 
 import { Search, MapPin, ChevronLeft, ChevronRight, Filter } from "lucide-react"
 import { useQueryString } from "@/utils/utils"
-import Banner from "@/components/banner"
 import SafeImage from "@/components/safe-image"
 import bannerImg from '@/public/bacthang.jpg'
 import MegaMenu from "@/components/mega-menu"
 import Footer from "@/components/footer"
+import Banner from "@/components/Banner"
 
 const LIMIT = 9
 

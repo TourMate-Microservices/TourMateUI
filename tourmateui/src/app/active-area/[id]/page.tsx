@@ -1,7 +1,6 @@
 "use client";
 
 import { Suspense, use } from "react";
-import Banner from "@/components/banner";
 import { useQuery } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import OtherArea from "./other-active-area";
@@ -9,6 +8,7 @@ import TourGuidesInArea from "./tour-guide-in-area";
 import { getActiveArea } from "@/api/active-area.api";
 import Footer from "@/components/footer";
 import MegaMenu from "@/components/mega-menu";
+import Banner from "@/components/Banner";
 export default function AreaDetail({
   params,
 }: {
