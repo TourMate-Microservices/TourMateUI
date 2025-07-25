@@ -14,7 +14,7 @@ import { fetchAreaIdAndName } from "@/api/active-area.api"
 import bannerImg from '@/public/tour-guide-list-banner.png'
 import { getTourGuides } from "@/api/tour-guide-mock.api"
 import MegaMenu from "@/components/mega-menu"
-import { Footer } from "react-day-picker"
+import Footer from "@/components/footer"
 
 const LIMIT = 12
 
