@@ -56,7 +56,14 @@ export default function TourBookingCalendar() {
         const service = await TourScheduleService.getTourService(serviceId)
         setTourService(service)
 
-        const invoices = await TourScheduleService.getInvoices(serviceId, service.tourGuideId)
+        // Tính toán start và end date của tháng hiện tại
+        const startOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1)
+        const endOfMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0)
+        
+        const startDate = startOfMonth.toISOString().split('T')[0]
+        const endDate = endOfMonth.toISOString().split('T')[0]
+
+        const invoices = await TourScheduleService.getInvoices(serviceId, service.tourGuideId, startDate, endDate)
         setBookedSlots(invoices)
 
         await loadMonthSchedule(currentMonth)
