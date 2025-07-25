@@ -35,5 +35,5 @@ class Http {
   }
 }
 
-export const http = new Http(userServiceUrl).instance
 export const tourServiceHttp = new Http(tourServiceUrl).instance
+export const userServiceHttp = new Http(userServiceUrl).instance

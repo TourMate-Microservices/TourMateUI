@@ -1,5 +1,5 @@
 'use client'
-import Banner from '@/components/Banner';
+import Banner from '@/components/banner';
 import { useQuery } from '@tanstack/react-query';
 import React, { use, useEffect, useState } from 'react';
 import { FaMapMarkerAlt, FaPhoneAlt, FaRegClock, FaFacebookMessenger, FaRegMap, FaRegUser, FaSuitcaseRolling, FaCheck } from 'react-icons/fa';
@@ -10,7 +10,6 @@ import "@/app/globals.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useRouter } from 'next/navigation';
-import { getTourGuideWithServices } from '@/api/tour-guide.api';
 import bannerImg from '@/public/tour-guide-list-banner.png';
 import TourServices from './services';
 import { TourGuideDetail } from '@/types/tour-guide-detail';

@@ -1,11 +1,11 @@
 "use client";
 
 import { Suspense, use } from "react";
-import Banner from "@/components/Banner";
+import Banner from "@/components/banner";
 import { useQuery } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
-import OtherArea from "./otherActiveArea";
-import TourGuidesInArea from "./tourGuideInArea";
+import OtherArea from "./other-active-area";
+import TourGuidesInArea from "./tour-guide-in-area";
 import { getActiveArea } from "@/api/active-area.api";
 import Footer from "@/components/footer";
 import MegaMenu from "@/components/mega-menu";
@@ -56,18 +56,18 @@ export default function AreaDetail({
           <div className="w-[68%]">
             <h1 className="mb-5 text-xl font-semibold">{data?.areaTitle}</h1>
             <div
-              className="w-full quill-content text-justify"
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(
-                  (data?.areaContent || "").replace(
-                    /(https?:\/\/[^\s"<>]+(?:png|jpg|jpeg|gif|bmp|svg))/gi,
-                    (match) => {
-                      return `<img src="${match}" alt="Image" style="width: 100%; height: auto; margin-bottom: 10px;" />`;
-                    }
-                  )
-                ),
-              }}
-            />
+            className="w-full quill-content text-justify"
+            dangerouslySetInnerHTML={{
+              __html: DOMPurify.sanitize(
+                (data?.areaContent || "").replace(
+                  /(https?:\/\/[^\s"<>]+(?:png|jpg|jpeg|gif|bmp|svg))/gi,
+                  (match) => {
+                    return `<img src="${match}" alt="Image" style="width: 100%; height: auto; margin-bottom: 10px;" />`;
+                  }
+                )
+              ),
+            }}
+          />
           </div>
 
           {/* SIDEBAR */}

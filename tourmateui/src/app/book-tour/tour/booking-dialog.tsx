@@ -35,8 +35,7 @@ export function BookingDialog({
   const calculateTotal = () => {
     const people = Number.parseInt(formData.selectedPeople)
     const basePrice = tourService.price * people
-    const serviceFee = basePrice * 0.05
-    return basePrice + serviceFee
+    return basePrice
   }
 
   return (
@@ -112,10 +111,6 @@ export function BookingDialog({
               <div className="flex justify-between">
                 <span>Giá tour ({formData.selectedPeople} người)</span>
                 <span>{formatCurrency(tourService.price * Number.parseInt(formData.selectedPeople))}</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Phí dịch vụ (5%)</span>
-                <span>{formatCurrency(tourService.price * Number.parseInt(formData.selectedPeople) * 0.05)}</span>
               </div>
               <Separator />
               <div className="flex justify-between text-lg font-bold text-green-600">

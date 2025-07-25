@@ -12,6 +12,8 @@ import { BookedToursList } from "../tour/booked-tours-list"
 import { CalendarComponent } from "../tour/calendar-component"
 import { TimeSlots } from "../tour/time-slots"
 import { BookingDialog } from "../tour/booking-dialog"
+import Footer from "@/components/footer"
+import MegaMenu from "@/components/mega-menu"
 
 export default function TourBookingCalendar() {
   const params = useParams()
@@ -157,6 +159,8 @@ export default function TourBookingCalendar() {
   // Loading skeleton thay vì loading screen
   if (isLoadingData) {
     return (
+      <>
+      <MegaMenu />
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
         {/* Hero Skeleton */}
         <div className="relative h-96 bg-gray-200 animate-pulse">
@@ -213,12 +217,16 @@ export default function TourBookingCalendar() {
           </div>
         </div>
       </div>
+      <Footer />
+      </>
     )
   }
 
   // Error state với retry button
   if (error && !tourService) {
     return (
+      <> 
+      <MegaMenu />
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto p-6">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -238,12 +246,13 @@ export default function TourBookingCalendar() {
           </Button>
         </div>
       </div>
+      <Footer /> </>
     )
   }
 
-  console.log(tourService)
-
   return (
+    <>
+    <MegaMenu/>
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {tourService && <HeroSection tourService={tourService} />}
 
@@ -315,5 +324,7 @@ export default function TourBookingCalendar() {
         />
       )}
     </div>
+    <Footer />
+    </>
   )
 }

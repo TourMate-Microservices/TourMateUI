@@ -1,5 +1,5 @@
 "use client"
-import Banner from "@/components/Banner"
+import Banner from "@/components/banner"
 import SafeImage from "@/components/safe-image"
 import { useQuery } from "@tanstack/react-query"
 import Link from "next/link"

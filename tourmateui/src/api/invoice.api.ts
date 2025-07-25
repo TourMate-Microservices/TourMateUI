@@ -6,14 +6,14 @@ import type {
   GetInvoicesParams,
   CreateInvoiceRequest,
 } from "@/types/api"
-import {http} from "@/utils/http"
+import {tourServiceHttp} from "@/utils/http"
 
 /**
  * Lấy lịch trình của hướng dẫn viên theo tháng
  * GET /schedules/monthly
  */
 export const getMonthlySchedule = async (params: GetMonthlyScheduleParams, signal?: AbortSignal) => {
-  const res = await http.get<TourGuideSchedule[]>(`tour-service/api/v1/invoices/schedules/monthly`, {
+  const res = await tourServiceHttp.get<TourGuideSchedule[]>(`invoices/schedules/monthly`, {
     params: {
       tourGuideId: params.tourGuideId,
       year: params.year,
@@ -38,7 +38,7 @@ export const getInvoices = async (params: GetInvoicesParams, signal?: AbortSigna
   if (params.endDate) queryParams.endDate = params.endDate
   if (params.status) queryParams.status = params.status
 
-  const res = await http.get<PaginatedResponse<Invoice>>("tour-service/api/v1/invoices", {
+  const res = await tourServiceHttp.get<PaginatedResponse<Invoice>>("invoices", {
     params: queryParams,
     signal,
   })
@@ -66,7 +66,7 @@ export const getInvoicesPaged = async (
   if (serviceId) params.serviceId = serviceId
   if (status) params.status = status
 
-  const res = await http.get<PagedResult<Invoice>>("tour-service/api/v1/invoices/paged", {
+  const res = await tourServiceHttp.get<PagedResult<Invoice>>("invoices/paged", {
     params,
     signal,
   })
@@ -78,7 +78,7 @@ export const getInvoicesPaged = async (
  * GET /invoices/{bookingId}
  */
 export const getInvoice = async (bookingId: number | string, signal?: AbortSignal) => {
-  const res = await http.get<Invoice>(`tour-service/api/v1/invoices/${bookingId}`, {
+  const res = await tourServiceHttp.get<Invoice>(`invoices/${bookingId}`, {
     signal,
   })
   return res.data
@@ -89,7 +89,7 @@ export const getInvoice = async (bookingId: number | string, signal?: AbortSigna
  * POST /invoices
  */
 export const createInvoice = async (data: CreateInvoiceRequest, signal?: AbortSignal) => {
-  const res = await http.post<Invoice>("tour-service/api/v1/invoices", data, {
+  const res = await tourServiceHttp.post<Invoice>("invoices", data, {
     signal,
   })
   return res.data
@@ -104,7 +104,7 @@ export const updateInvoice = async (
   data: Partial<CreateInvoiceRequest>,
   signal?: AbortSignal,
 ) => {
-  const res = await http.put<Invoice>(`tour-service/api/v1/invoices/${bookingId}`, data, {
+  const res = await tourServiceHttp.put<Invoice>(`invoices/${bookingId}`, data, {
     signal,
   })
   return res.data
@@ -115,8 +115,8 @@ export const updateInvoice = async (
  * PATCH /invoices/{invoiceId}/status
  */
 export const updateInvoiceStatus = async (invoiceId: number | string, status: string, signal?: AbortSignal) => {
-  const res = await http.patch<Invoice>(
-    `tour-service/api/v1/invoices/${invoiceId}/status`,
+  const res = await tourServiceHttp.patch<Invoice>(
+    `invoices/${invoiceId}/status`,
     { status },
     {
       signal,
@@ -130,8 +130,8 @@ export const updateInvoiceStatus = async (invoiceId: number | string, status: st
  * PATCH /invoices/{invoiceId}/payment-status
  */
 export const updatePaymentStatus = async (invoiceId: number | string, paymentStatus: string, signal?: AbortSignal) => {
-  const res = await http.patch<Invoice>(
-    `tour-service/api/v1/invoices/${invoiceId}/payment-status`,
+  const res = await tourServiceHttp.patch<Invoice>(
+    `invoices/${invoiceId}/payment-status`,
     { paymentStatus },
     {
       signal,
@@ -145,7 +145,7 @@ export const updatePaymentStatus = async (invoiceId: number | string, paymentSta
  * DELETE /invoices/{invoiceId}
  */
 export const deleteInvoice = async (invoiceId: number | string, signal?: AbortSignal) => {
-  const res = await http.delete<void>(`tour-service/api/v1/invoices/${invoiceId}`, {
+  const res = await tourServiceHttp.delete<void>(`invoices/${invoiceId}`, {
     signal,
   })
   return res.data
@@ -161,7 +161,7 @@ export const getMonthlyInvoiceStatistics = async (
   month: number | string,
   signal?: AbortSignal,
 ) => {
-  const res = await http.get<MonthlyInvoiceStatistics>("tour-service/api/v1/invoices/statistics/monthly", {
+  const res = await tourServiceHttp.get<MonthlyInvoiceStatistics>("invoices/statistics/monthly", {
     params: {
       tourGuideId,
       year,
