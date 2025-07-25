@@ -9,9 +9,6 @@ import TourGuidesInArea from "./tourGuideInArea";
 import { getActiveArea } from "@/api/active-area.api";
 import Footer from "@/components/footer";
 import MegaMenu from "@/components/mega-menu";
-
-
-
 export default function AreaDetail({
   params,
 }: {
@@ -76,14 +73,14 @@ export default function AreaDetail({
           {/* SIDEBAR */}
           <div className="w-[30%] p-2">
             <div className="sticky top-30 max-h-[calc(100vh-5rem)] overflow-auto space-y-10">
-              <TourGuidesInArea areaId={areaId} />
+              <TourGuidesInArea data={data?.tourGuide} currentName={data?.areaName}/>
             </div>
           </div>
 
         </div>
         <div className="px-15 pb-15 w-full min-w-full max-w-md mx-auto text-center">
           <hr className="border-gray-200 sm:w-full mx-auto mb-10" />
-          <OtherArea activeAreaId={areaId} size={2} />
+          <OtherArea data={data?.other ?? []} />
         </div>
       </div>
       <Footer />

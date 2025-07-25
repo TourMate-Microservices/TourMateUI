@@ -1,30 +1,13 @@
 'use client';
-import { getActiveArea } from '@/api/active-area.api';
-import { getTourGuidesByArea } from '@/api/tour-guide.api';
-import { useQuery } from '@tanstack/react-query';
+import { TourGuideResponse } from '@/types/area-detail-response';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import React from 'react';
 
-export default function TourGuidesInArea({ areaId }: { areaId: number }) {
+export default function TourGuidesInArea({ data, currentName }: { data?: TourGuideResponse[], currentName?: string }) {
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['tour-guides', areaId],
-    queryFn: () => getTourGuidesByArea(areaId, 2), // API trả về mảng TourGuide[]
-    staleTime: 24 * 3600 * 1000, // cache 1 ngày
-  });
 
-  const areaQuery = useQuery({
-    queryKey: ['active-area', areaId],
-    queryFn: () => getActiveArea(areaId),
-    staleTime: 24 * 3600 * 1000, // cache 1 ngày
-  });
-
-  if (isLoading) {
-    return <p className="text-center py-4">Đang tải dữ liệu...</p>;
-  }
-
-  if (error || !Array.isArray(data) || data.length === 0) {
+  if (!data || data.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center bg-[#f9fbfc] px-4 py-10 text-center">
         <h2 className="text-2xl font-semibold text-[#3e72b9] mb-2">
@@ -43,14 +26,14 @@ export default function TourGuidesInArea({ areaId }: { areaId: number }) {
       style={{ fontFamily: "'Playfair Display', serif" }}
     >
       <h1 className="text-3xl italic text-[#3e72b9] font-normal mb-8 text-center">
-        Hướng dẫn viên tại<br /> {areaQuery.data?.areaName || "Khu vực chưa xác định"}
+        Hướng dẫn viên tại<br /> {currentName || "Khu vực chưa xác định"}
       </h1>
 
       <AnimatePresence mode="wait">
         <div className="grid grid-cols-1 md:grid-cols-1 gap-8">
           {data.map((guide) => (
             <motion.div
-              key={guide.id}
+              key={guide.tourGuideId}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
@@ -65,12 +48,17 @@ export default function TourGuidesInArea({ areaId }: { areaId: number }) {
                 />
                 <div>
                   <h2 className="text-lg font-semibold">{guide.fullName}</h2>
-                  <p className="text-sm text-gray-600">{guide.tourGuideDescs?.[0]?.company}</p>
+                  <p className="text-sm text-gray-600">
+                    {guide.yearOfExperience ?
+                      guide.yearOfExperience + ' Năm kinh nghiệm' :
+                      ''
+                    }
+                  </p>
                 </div>
               </div>
 
               <p className="italic text-gray-700 mb-4" dangerouslySetInnerHTML={{
-                __html: guide?.tourGuideDescs?.[0].description || "Không có mô tả",
+                __html: guide.description,
               }} />
 
               <Link

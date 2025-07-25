@@ -17,6 +17,7 @@ import SafeImage from "@/components/safe-image"
 import bannerImg from '@/public/bacthang.jpg'
 import MegaMenu from "@/components/mega-menu"
 import Footer from "@/components/footer"
+import { getFilteredActiveAreasMock } from "@/api/active-area-mock.api"
 
 const LIMIT = 9
 
