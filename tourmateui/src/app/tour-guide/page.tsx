@@ -13,6 +13,8 @@ import { useQueryString } from "@/utils/utils"
 import { fetchAreaIdAndName } from "@/api/active-area.api"
 import bannerImg from '@/public/tour-guide-list-banner.png'
 import { getTourGuides } from "@/api/tour-guide-mock.api"
+import MegaMenu from "@/components/mega-menu"
+import { Footer } from "react-day-picker"
 
 const LIMIT = 12
 
@@ -255,7 +257,9 @@ export default function TourGuideDriver() {
                 </div>
             }
         >
+            <MegaMenu />
             <TourGuideMain />
+            <Footer />
         </Suspense>
     )
 }
