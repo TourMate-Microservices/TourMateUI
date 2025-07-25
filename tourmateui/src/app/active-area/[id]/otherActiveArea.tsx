@@ -3,15 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import React from 'react';
-import { ActiveArea } from '@/types/active-area';
-import { getOtherActiveArea } from '@/api/active-area.api';
+import { AreaData } from '@/types/area-detail-response';
 
-interface OtherAreasProps {
-    activeAreaId: number;
-    size: number;
-}
-
-const OtherAreaCard: React.FC<{ item: ActiveArea }> = ({ item }) => {
+const OtherAreaCard: React.FC<{ item: AreaData }> = ({ item }) => {
     return (
         <Link href={`/active-area/${item.areaId}`} passHref>
             <motion.div
@@ -36,14 +30,7 @@ const OtherAreaCard: React.FC<{ item: ActiveArea }> = ({ item }) => {
     );
 };
 
-const OtherArea: React.FC<OtherAreasProps> = ({ activeAreaId, size }) => {
-    const { data } = useQuery({
-        queryKey: ['other-active-area', activeAreaId, size],
-        queryFn: () => getOtherActiveArea(activeAreaId, size),
-        staleTime: 24 * 3600 * 1000, // 1 day
-    });
-
-
+const OtherArea = ({ data }: { data: AreaData[] }) => {
     return (
         <motion.div
             className="w-full mx-auto px-4"

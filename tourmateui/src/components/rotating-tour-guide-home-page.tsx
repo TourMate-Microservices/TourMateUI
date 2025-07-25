@@ -99,7 +99,7 @@ export default function RotatingTourGuideHomePage() {
                 {/* View All Button */}
                 <div className="text-center mt-16" data-aos="fade-up" data-aos-delay="400">
                     <Link
-                        href="/services/tour-guide"
+                        href="/tour-guide"
                         className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold text-lg rounded-2xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 group"
                     >
                         Xem tất cả hướng dẫn viên
@@ -232,7 +232,7 @@ function TourGuideCard({ currentGuide, index }: { currentGuide: TourGuideWithTou
 
                         {/* Action Button */}
                         <Link
-                            href={`/services/tour-guide/${currentGuide.tourGuideId}`}
+                            href={`/tour-guide/${currentGuide.tourGuideId}`}
                             className="block w-full text-center py-3 px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl group/btn"
                         >
                             <span className="flex items-center justify-center gap-2">
