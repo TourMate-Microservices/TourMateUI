@@ -43,17 +43,14 @@ export const getActiveArea = async (id: number) => {
 export const getMostPopularAreas = async () => await tourServiceHttp.get<MostPopularArea[]>('active-area/most-popular')
 
 export const getRandomActiveArea = async (size: number, signal?: AbortSignal) => {
-  const res = await tourServiceHttp.get<ActiveArea>('active-area/random', {
-    params: {
-      size: size,
-    },
+  const res = await tourServiceHttp.get<ActiveArea>(`active-areas/random/${size}`, {
     signal
   });
   return res.data;
 };
 
 export const getOtherActiveArea = async (currentActiveAreaId: number, size: number, signal?: AbortSignal) => {
-  const res = await tourServiceHttp.get<ActiveArea[]>('active-area/other', {
+  const res = await tourServiceHttp.get<ActiveArea[]>('active-areas/other', {
     params: {
       currentActiveAreaId: currentActiveAreaId,
       size: size

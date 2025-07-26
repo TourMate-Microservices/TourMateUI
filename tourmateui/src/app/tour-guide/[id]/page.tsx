@@ -15,7 +15,7 @@ import { TourGuideDetail } from '@/types/tour-guide-detail';
 import MegaMenu from '@/components/mega-menu';
 import Footer from '@/components/footer';
 import { getTourGuideWithServices } from '@/api/tour-guide.api';
-import Banner from '@/components/banner';
+import Banner from '@/components/Banner';
 
 export default function TourGuideDetailPage({
   params,

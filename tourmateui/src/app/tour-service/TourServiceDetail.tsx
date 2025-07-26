@@ -13,6 +13,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useToken } from "@/components/getToken";
+import Banner from "@/components/Banner";
+import Feedbacks from "./feedbacks";
 
 
 
@@ -44,19 +46,6 @@ export function TourServiceDetail() {
     alert("Bạn cần đăng nhập để đặt lịch hoặc trò chuyện với hướng dẫn viên du lịch.");
   }
 
-  // const {
-  //   data: tourGuideData,
-  //   error: tourGuideError,
-  //   isLoading: isTourGuideLoading,
-  // } = useQuery({
-  //   queryKey: ["tour-guide-info", tourGuidId],
-  //   queryFn: () => getTourGuide(tourGuidId as number),
-  //   enabled: !!tourGuidId,
-  //   retry: 0,
-  //   refetchOnWindowFocus: false,
-  //   staleTime: 24 * 3600 * 1000,
-  // });
-
   if (isLoading) {
     return <div>Loading tour service...</div>;
   }
@@ -65,25 +54,17 @@ export function TourServiceDetail() {
     return <div>Error loading tour service!</div>;
   }
 
-  // if (isTourGuideLoading) {
-  //   return <div>Loading tour guide...</div>;
-  // }
-
-  // if (tourGuideError) {
-  //   return <div>Error loading tour guide!</div>;
-  // }
-
   return (
     <div className="flex flex-wrap">
       {/* Left content section */}
-      {/* <Banner
+      <Banner
         imageUrl={
           data?.image ||
           "https://img.freepik.com/premium-photo/vietnam-flag-vintage-wood-wall_118047-4319.jpg?w=1380"
         }
         title={data?.serviceName || "No title available"}
         subtitle={data?.title || "No title available"}
-      /> */}
+      />
       <div
         className="w-full max-w-md mx-auto text-center mt-15"
         style={{ fontFamily: "'Playfair Display', serif" }}
@@ -134,42 +115,16 @@ export function TourServiceDetail() {
               <p className="text-center text-lg">{data?.serviceName}</p>
               <p className="text-center">{data?.tourDesc}</p>
             </div>
-
-            {/* Div 2 - Tour guide info */}
-            {/* <div className="relative bg-[#F2F8FB] p-6 pt-20 rounded-lg space-y-4">
-              <div className="absolute left-1/2 -top-10 transform -translate-x-1/2 w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-lg bg-white">
-                <img
-                  src={tourGuideData?.data?.image || "/default-avatar.png"}
-                  alt={tourGuideData?.data?.fullName || "Tour Guide"}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <h2 className="text-2xl text-gray-600 font-bold text-center">
-                {tourGuideData?.data?.fullName || "Tên không có"}
-              </h2>
-              <p className="text-center">GIỚI THIỆU</p>
-              <p
-                className="text-sm text-gray-600 line-clamp-10"
-                dangerouslySetInnerHTML={{
-                  // __html: tourGuideData?.tourGuideDescs?.[0].description || "Không có mô tả",
-                  __html: "Không có mô tả",
-                }}
-              />
-              <Link
-                href={`/services/tour-guide/${data?.tourGuideId}`}
-                className="block px-4 py-2 mx-auto w-fit bg-[#DBE4F7] text-black rounded text-center hover:bg-gray-300 transition-colors duration-300 text-sm"
-              >
-                CHI TIẾT
-              </Link>
-            </div> */}
           </div> {/* <-- Đóng sticky div */}
         </div>
 
       </div>
 
 
-
+      <div className="px-15 w-full min-w-full max-w-md mx-auto text-center">
+        <hr className="border-gray-200 sm:w-full mx-auto mb-10" />
+        <Feedbacks averageRating={0} feedbacks={data?.feedbacks} />
+      </div>
       <div className="px-15 w-full min-w-full max-w-md mx-auto text-center">
         <hr className="border-gray-200 sm:w-full mx-auto mb-10" />
         <OtherServices tourGuideId={tourGuidId as number} serviceId={tourServiceId} />
