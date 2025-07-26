@@ -12,9 +12,10 @@ export async function login(payload: LoginPayload): Promise<LoginResponse> {
 
     const data = response.data;
 
-    if (data && data.accessToken && data.refreshToken) {
+    console.log("Login successful:", data);
+    
+    if (data && data.accessToken) {
       sessionStorage.setItem("accessToken", data.accessToken);
-      sessionStorage.setItem("refreshToken", data.refreshToken);
     }
 
     return data;
