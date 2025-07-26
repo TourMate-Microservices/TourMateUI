@@ -52,8 +52,8 @@ const OtherServices: React.FC<OtherServicesProps> = ({
 }) => {
     const pageSize = 4
     const { data } = useQuery({
-        queryKey: ['other-tour-services-of', tourGuideId, serviceId, pageSize],
-        queryFn: () => getTourServicesOf(tourGuideId, serviceId, pageSize),
+        queryKey: ['other-tour-services-of', tourGuideId, 0, pageSize],
+        queryFn: () => getTourServicesOf(tourGuideId, 0, pageSize),
         staleTime: 24 * 3600 * 1000, // 1 day
     })
 
@@ -66,17 +66,16 @@ const OtherServices: React.FC<OtherServicesProps> = ({
                 Các chuyến đi khác
             </h1>
             <AnimatePresence mode="wait">
-                {Array.isArray(data) && data.length === 0 ? (
-                    <div className="text-center py-4">Không có dịch vụ nào</div>
-                ) : (
+                {data && Array.isArray(data.data) && data.data.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        {Array.isArray(data)
-                            ? data.map((item) => (
-                                <ServiceCard key={item.serviceId} item={item} />
-                            ))
-                            : null}
+                        {data.data.map((item) => (
+                            <ServiceCard key={item.serviceId} item={item} />
+                        ))}
                     </div>
+                ) : (
+                    <div className="text-center py-4">Không có dịch vụ nào</div>
                 )}
+
             </AnimatePresence>
             <div className="flex justify-center mt-8">
                 <Link href={`/tour-guide/${tourGuideId}`} passHref>

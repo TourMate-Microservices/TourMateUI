@@ -34,10 +34,9 @@ const TourGuidesCard: React.FC<{ item: TourGuide }> = ({ item }) => {
                     <p
                         className="text-sm text-gray-600 line-clamp-5"
                         dangerouslySetInnerHTML={{
-                            // __html: (item.tourGuideDescs && item.tourGuideDescs.length > 0)
-                            //     ? item.tourGuideDescs[0].description
-                            //     : "Không có mô tả",
-                            __html:  "Không có mô tả",
+                            __html: (item.description && item.description.length > 0)
+                                ? item.description
+                                : "Không có mô tả",
                         }}
                     />
                     <span

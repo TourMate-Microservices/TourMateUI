@@ -52,7 +52,7 @@ export const getList = async (name: string, areaId: string | number | undefined,
   return res.data;
 };
 
-export const getTourGuide = async (id: number) => userServiceHttp.get<TourGuide>(`tour-guide/${id}`)
+export const getTourGuide = async (id: number) => userServiceHttp.get<TourGuide>(`tour-guides/${id}`)
 
 
 export const getOtherTourGuides = async (tourGuideId: number | string, pageSize: number, signal?: AbortSignal) => {
