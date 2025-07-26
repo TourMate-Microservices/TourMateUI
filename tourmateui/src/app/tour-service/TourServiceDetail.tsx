@@ -1,7 +1,6 @@
 "use client";
 
 import { useQueryString } from "@/utils/utils";
-import Banner from "@/components/Banner";
 import { useQuery } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import { getTourService } from "@/api/tour-service.api";
@@ -77,14 +76,14 @@ export function TourServiceDetail() {
   return (
     <div className="flex flex-wrap">
       {/* Left content section */}
-      <Banner
+      {/* <Banner
         imageUrl={
           data?.image ||
           "https://img.freepik.com/premium-photo/vietnam-flag-vintage-wood-wall_118047-4319.jpg?w=1380"
         }
         title={data?.serviceName || "No title available"}
         subtitle={data?.title || "No title available"}
-      />
+      /> */}
       <div
         className="w-full max-w-md mx-auto text-center mt-15"
         style={{ fontFamily: "'Playfair Display', serif" }}
