@@ -7,12 +7,10 @@ import Image from "next/image"
 import Logo from "@/public/logo.png"
 import Link from "next/link"
 import { getUserRole } from "@/utils/get-token"
-import { ChevronDown } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import ActionMenu from "./action-menu"
 import { RoleSelectionModal } from "./role-selection-modal"
-
 
 const MegaMenu = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)

@@ -11,8 +11,8 @@ export const fetchAreaIdAndName = async (): Promise<AreaIdAndName[]> => {
 export const getActiveAreas = async (page: number | string, limit: number | string, signal?: AbortSignal) => {
   const res = await tourServiceHttp.get<PagedResult<ActiveArea>>('active-areas', {
     params: {
-      pageSize: limit,
-      pageIndex: page
+      size: limit,
+      page: page
     },
     signal
   });

@@ -8,7 +8,7 @@ import TourGuidesInArea from "./tour-guide-in-area";
 import { getActiveArea } from "@/api/active-area.api";
 import Footer from "@/components/footer";
 import MegaMenu from "@/components/mega-menu";
-import Banner from "@/components/Banner";
+import Banner from "@/components/banner";
 export default function AreaDetail({
   params,
 }: {
