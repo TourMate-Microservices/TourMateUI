@@ -15,7 +15,8 @@ import { TourGuideDetail } from '@/types/tour-guide-detail';
 import MegaMenu from '@/components/mega-menu';
 import Footer from '@/components/footer';
 import { getTourGuideWithServices } from '@/api/tour-guide.api';
-import Banner from '@/components/Banner';
+import Banner from '@/components/banner';
+import Feedbacks from './feedback';
 
 export default function TourGuideDetailPage({
   params,
@@ -142,6 +143,9 @@ export default function TourGuideDetailPage({
 
         <div className="w-[85%] mx-auto shadow-xl rounded-xl p-6 mb-10 bg-white">
           {id && <TourServices data={tourGuide?.tours} />}
+        </div>
+        <div className="w-[85%] mx-auto shadow-xl rounded-xl p-6 mb-10 bg-white">
+          {id && <Feedbacks feedbacks={tourGuide?.feedbacks} />}
         </div>
       </div>
       <Footer />

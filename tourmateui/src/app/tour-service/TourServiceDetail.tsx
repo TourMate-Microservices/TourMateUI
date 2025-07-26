@@ -13,8 +13,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useToken } from "@/components/getToken";
-import Banner from "@/components/Banner";
-import Feedbacks from "./feedbacks";
+import Banner from "@/components/banner";
 
 
 
@@ -120,11 +119,6 @@ export function TourServiceDetail() {
 
       </div>
 
-
-      <div className="px-15 w-full min-w-full max-w-md mx-auto text-center">
-        <hr className="border-gray-200 sm:w-full mx-auto mb-10" />
-        <Feedbacks averageRating={0} feedbacks={data?.feedbacks} />
-      </div>
       <div className="px-15 w-full min-w-full max-w-md mx-auto text-center">
         <hr className="border-gray-200 sm:w-full mx-auto mb-10" />
         <OtherServices tourGuideId={tourGuidId as number} serviceId={tourServiceId} />

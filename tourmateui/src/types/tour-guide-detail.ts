@@ -1,3 +1,4 @@
+import { Feedback } from "./feedbacks";
 import { PagedResult } from "./response";
 
 export interface TourService {
@@ -32,4 +33,5 @@ export interface TourGuideDetail {
     areaId: number;
   }
   tours: PagedResult<TourService>;
+  feedbacks: PagedResult<Feedback>
 }
