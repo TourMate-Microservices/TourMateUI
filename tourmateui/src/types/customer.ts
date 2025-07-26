@@ -7,3 +7,14 @@ export type CustomerRegister = {
     gender: string;
     dateOfBirth: string; // ISO date string
 };
+
+
+export type Customer = {
+  customerId: number;
+  fullName: string;
+  accountId: number;
+  gender: string;
+  dateOfBirth: string;
+  phone: string;
+  image: string;
+};

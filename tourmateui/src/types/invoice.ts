@@ -1,3 +1,5 @@
+import { TourService } from "./tour-service"
+
 export interface Invoice {
   invoiceId: number
   startDate: string
@@ -11,7 +13,7 @@ export interface Invoice {
   customerId: number
   tourGuideId: number
   serviceId: number
-  serviceName?: string
+  service: TourService
 }
 
 export interface TourServiceBooking {
@@ -40,7 +42,6 @@ export interface TourServiceBooking {
 
 export interface BookingFormData {
   selectedPeople: string
-  bookingType: string
   note: string
 }
 
@@ -72,4 +73,26 @@ export interface MonthlyInvoiceStatistics {
   pendingInvoices: number
   cancelledInvoices: number
   averageBookingValue: number
+}
+
+export interface InvoiceSchedule {
+  invoiceId: number;
+  customerName: string;
+  customerPhone: string;
+  tourGuideName: string;
+  tourGuidePhone: string;
+  email: string;
+  tourName: string;
+  tourDesc: string;
+  areaName: string;
+  startDate: string; // hoặc Date, tùy cách bạn parse ở client
+  endDate: string;   // tương tự
+  peopleAmount: string;
+  price: number;
+  paymentMethod: string;
+  status: string;
+  note: string;
+  createdDate: string; // hoặc Date
+  tourGuideId: number;
+  customerId: number;
 }

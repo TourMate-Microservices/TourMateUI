@@ -20,6 +20,7 @@ interface BookingDialogProps {
   formData: BookingFormData
   onFormDataChange: (data: Partial<BookingFormData>) => void
   onConfirmBooking: () => void
+  isLoadingCustomer?: boolean
 }
 
 export function BookingDialog({
@@ -31,6 +32,7 @@ export function BookingDialog({
   formData,
   onFormDataChange,
   onConfirmBooking,
+  isLoadingCustomer = false,
 }: BookingDialogProps) {
   const calculateTotal = () => {
     const people = Number.parseInt(formData.selectedPeople)
@@ -126,10 +128,11 @@ export function BookingDialog({
           </Button>
           <Button
             onClick={onConfirmBooking}
-            className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"
+            disabled={isLoadingCustomer}
+            className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
                 <CreditCard className="w-4 h-4 mr-2" />
-                Thanh toán {formatCurrency(calculateTotal())}
+                {isLoadingCustomer ? "Đang tải..." : `Thanh toán ${formatCurrency(calculateTotal())}`}
           </Button>
         </div>
       </DialogContent>

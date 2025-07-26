@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
 import { useMonthlySchedule } from "./../../hooks/use-monthly-schedule"
 import { TourScheduleService } from "@/services/tour-service"
 import { Button } from "@/components/ui/button"
@@ -14,9 +14,14 @@ import { TimeSlots } from "../tour/time-slots"
 import { BookingDialog } from "../tour/booking-dialog"
 import Footer from "@/components/footer"
 import MegaMenu from "@/components/mega-menu"
+import { MyJwtPayload } from "@/types/jwt-payload"
+import { useToken } from "@/utils/get-token"
+import { jwtDecode } from "jwt-decode"
+import { getCustomer } from "@/api/customer.api"
 
 export default function TourBookingCalendar() {
   const params = useParams()
+  const router = useRouter()
   const serviceId = Number(params.serviceId)
   
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())
@@ -26,16 +31,39 @@ export default function TourBookingCalendar() {
   const [isBookingDialogOpen, setIsBookingDialogOpen] = useState(false)
   const [selectedTimeSlot, setSelectedTimeSlot] = useState<string>("")
   const [formData, setFormData] = useState<BookingFormData>({
-    selectedPeople: "2",
-    bookingType: "pay-now",
+    selectedPeople: "1",
     note: "",
   })
   const [isLoadingData, setIsLoadingData] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [customerId, setCustomerId] = useState<number | null>(null)
+  const [isLoadingCustomer, setIsLoadingCustomer] = useState(false)
 
   const { loadMonthSchedule, getSchedulesForMonth, isLoadingMonth } = useMonthlySchedule(
     tourService?.tourGuideId || 0,
   )
+
+  const token = useToken("accessToken")
+    const decoded: MyJwtPayload | null = token ? jwtDecode<MyJwtPayload>(token.toString()) : null
+    const accountId = decoded?.AccountId
+
+  useEffect(() => {
+    if (accountId) {
+      setIsLoadingCustomer(true)
+      const result = getCustomer(accountId)
+      result.then(customer => {
+        if (customer) {
+          setCustomerId(customer.customerId)
+        } else {
+          console.error("Không tìm thấy thông tin khách hàng")
+        }
+      }).catch(error => {
+        console.error("Lỗi khi tải thông tin khách hàng:", error)
+      }).finally(() => {
+        setIsLoadingCustomer(false)
+      })
+    }
+  }, [accountId])
 
   /**
    * Load dữ liệu ban đầu khi component mount
@@ -126,30 +154,42 @@ export default function TourBookingCalendar() {
 
   /**
    * Xử lý xác nhận booking
-   * Gọi API tạo booking mới và cập nhật state
+   * Gọi API tạo booking mới và redirect đến trang payment
    */
   const handleConfirmBooking = async () => {
     if (!tourService) return
 
+    // Kiểm tra xem customerId đã được load chưa
+    if (!customerId) {
+      console.error("Customer ID chưa được tải. Vui lòng thử lại.")
+      // Có thể thêm toast notification ở đây
+      return
+    }
+
     try {
       const bookingData = {
-        serviceId: tourService.serviceId,
-        tourGuideId: tourService.tourGuideId,
-        customerId: 999, // TODO: Get from user auth
+        invoiceId: 0, // Chưa có ID khi tạo mới
         startDate: `${selectedDate.toISOString().split("T")[0]}T${selectedTimeSlot}:00`,
         endDate: `${selectedDate.toISOString().split("T")[0]}T${(Number.parseInt(selectedTimeSlot.split(":")[0]) + Number.parseInt(tourService.duration.split(":")[0])).toString().padStart(2, "0")}:00:00`,
         peopleAmount: formData.selectedPeople,
+        status: "pending",
+        paymentStatus: "unpaid",
+        price: tourService.price * Number.parseInt(formData.selectedPeople),
         note: formData.note,
-        bookingType: "pay-now" as const
-       }
+        createdDate: new Date().toISOString(),
+        tourGuideId: tourService.tourGuideId,
+        customerId: customerId,
+        serviceId: tourService.serviceId
+    }
 
       const newInvoice = await TourScheduleService.createInvoice(bookingData)
-      setBookedSlots((prev) => [...prev, newInvoice])
-      await loadMonthSchedule(currentMonth)
-
-      setIsBookingDialogOpen(false)
+      
+      // Redirect đến trang payment với invoice ID
+      router.push(`/payment/tour/${newInvoice.invoiceId}`)
+      
     } catch (error) {
       console.error("Failed to create invoice:", error)
+      // Có thể thêm toast notification ở đây để thông báo lỗi
     }
   }
 
@@ -321,6 +361,7 @@ export default function TourBookingCalendar() {
           formData={formData}
           onFormDataChange={handleFormDataChange}
           onConfirmBooking={handleConfirmBooking}
+          isLoadingCustomer={isLoadingCustomer}
         />
       )}
     </div>

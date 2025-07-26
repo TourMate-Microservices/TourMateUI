@@ -1,5 +1,5 @@
 import type { PagedResult } from "@/types/paged-result"
-import type { Invoice, TourGuideSchedule, MonthlyInvoiceStatistics } from "@/types/invoice"
+import type { Invoice, TourGuideSchedule, MonthlyInvoiceStatistics, InvoiceSchedule } from "@/types/invoice"
 import type {
   PaginatedResponse,
   GetMonthlyScheduleParams,
@@ -8,6 +8,15 @@ import type {
 } from "@/types/api"
 import {tourServiceHttp} from "@/utils/http"
 
+
+/**
+ * Lấy lịch trình để thanh toán
+ * GET /invoices/schedule/
+ */
+export const fetchScheduleByInvoiceId = async (invoiceId: number) => {
+  const res = await tourServiceHttp.get<InvoiceSchedule>(`invoices/schedule/${invoiceId}`);
+  return res.data;
+};
 /**
  * Lấy lịch trình của hướng dẫn viên theo tháng
  * GET /schedules/monthly

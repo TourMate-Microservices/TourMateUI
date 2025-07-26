@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
-import { tourServiceUrl, userServiceUrl } from '@/constants/constants';
+import { paymentServiceUrl, tourServiceUrl, userServiceUrl } from '@/constants/constants';
 
 class Http {
   instance: AxiosInstance
@@ -37,3 +37,4 @@ class Http {
 
 export const tourServiceHttp = new Http(tourServiceUrl).instance
 export const userServiceHttp = new Http(userServiceUrl).instance
+export const paymentServiceHttp = new Http(paymentServiceUrl).instance

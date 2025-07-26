@@ -1,7 +1,7 @@
 'use client'
 import { useQuery } from '@tanstack/react-query';
 import React, { use, useEffect, useState } from 'react';
-import { FaMapMarkerAlt, FaPhoneAlt, FaRegClock, FaFacebookMessenger, FaRegMap, FaRegUser, FaSuitcaseRolling, FaCheck } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaPhoneAlt, FaRegClock, FaRegUser, FaSuitcaseRolling, FaCheck } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import dayjs from 'dayjs';
 import SafeImage from '@/components/safe-image';
@@ -15,7 +15,7 @@ import { TourGuideDetail } from '@/types/tour-guide-detail';
 import MegaMenu from '@/components/mega-menu';
 import Footer from '@/components/footer';
 import { getTourGuideWithServices } from '@/api/tour-guide.api';
-import Banner from '@/components/Banner';
+import Banner from '@/components/banner';
 
 export default function TourGuideDetailPage({
   params,
@@ -23,11 +23,6 @@ export default function TourGuideDetailPage({
   params: Promise<{ id: number }>;
 }) {
   const statToRender = (t: TourGuideDetail) => [
-    {
-      icon: <FaRegMap size={25} />,
-      value: t.tourGuide.address || 'Chưa có địa điểm',
-      name: 'Địa điểm hoạt động',
-    },
     {
       icon: <FaRegClock size={25} />,
       value: dayjs(t.tourGuide.dateOfBirth).format('DD/MM/YYYY'),
@@ -76,8 +71,7 @@ export default function TourGuideDetailPage({
     });
   }, []);
 
-  const token = sessionStorage.getItem('accessToken');
-
+  console.log('Tour Guide Data:', tourGuide);
   return (
     <>
       <MegaMenu />
@@ -146,8 +140,8 @@ export default function TourGuideDetailPage({
           </div>
         </div>
 
-        <div className="w-[85%] mx-auto shadow-xl rounded-xl p-6 bg-white">
-          {id && <TourServices data={tourGuide?.tourServices} />}
+        <div className="w-[85%] mx-auto shadow-xl rounded-xl p-6 mb-10 bg-white">
+          {id && <TourServices data={tourGuide?.tours} />}
         </div>
       </div>
       <Footer />
