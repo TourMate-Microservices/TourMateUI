@@ -147,7 +147,7 @@ export default function TourGuideDetailPage({
         </div>
 
         <div className="w-[85%] mx-auto shadow-xl rounded-xl p-6 bg-white">
-          {id && <TourServices data={tourGuide?.tourServices} />}
+          {id && <TourServices data={tourGuide?.tours} />}
         </div>
       </div>
       <Footer />

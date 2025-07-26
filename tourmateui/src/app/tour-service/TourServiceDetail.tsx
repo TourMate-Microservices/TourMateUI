@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useToken } from "@/components/getToken";
+import Banner from "@/components/Banner";
 
 
 
@@ -76,14 +77,14 @@ export function TourServiceDetail() {
   return (
     <div className="flex flex-wrap">
       {/* Left content section */}
-      {/* <Banner
+      <Banner
         imageUrl={
           data?.image ||
           "https://img.freepik.com/premium-photo/vietnam-flag-vintage-wood-wall_118047-4319.jpg?w=1380"
         }
         title={data?.serviceName || "No title available"}
         subtitle={data?.title || "No title available"}
-      /> */}
+      />
       <div
         className="w-full max-w-md mx-auto text-center mt-15"
         style={{ fontFamily: "'Playfair Display', serif" }}

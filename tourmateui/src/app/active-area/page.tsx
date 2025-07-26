@@ -16,7 +16,7 @@ import SafeImage from "@/components/safe-image"
 import bannerImg from '@/public/bacthang.jpg'
 import MegaMenu from "@/components/mega-menu"
 import Footer from "@/components/footer"
-import Banner from "@/components/banner"
+import Banner from "@/components/Banner"
 
 const LIMIT = 9
 

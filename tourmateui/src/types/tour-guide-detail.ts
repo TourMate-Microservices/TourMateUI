@@ -1,4 +1,3 @@
-import { ActiveArea } from "./active-area";
 import { PagedResult } from "./response";
 
 export interface TourService {
@@ -32,5 +31,5 @@ export interface TourGuideDetail {
     company: string;
     areaId: number;
   }
-  tourServices: PagedResult<TourService>;
+  tours: PagedResult<TourService>;
 }
