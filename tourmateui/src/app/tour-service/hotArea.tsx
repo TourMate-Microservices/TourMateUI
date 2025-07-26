@@ -8,7 +8,7 @@ import { getRandomActiveArea } from '@/api/active-area.api'
 
 const HotAreaCard: React.FC<{ item: ActiveArea }> = ({ item }) => {
     return (
-        <Link href={`/services/active-area/detail?id=${item.areaId}`} passHref>
+        <Link href={`/active-area/${item.areaId}`} passHref>
             <motion.div
                 key={item.areaId}
                 whileHover={{ scale: 1.02 }}

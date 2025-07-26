@@ -79,7 +79,7 @@ const OtherServices: React.FC<OtherServicesProps> = ({
                 )}
             </AnimatePresence>
             <div className="flex justify-center mt-8">
-                <Link href={`/services/tour-guide/${tourGuideId}`} passHref>
+                <Link href={`/tour-guide/${tourGuideId}`} passHref>
                     <button className="px-15 py-3 bg-[#DBE4F7] rounded text-black uppercase text-xs tracking-wide hover:bg-[#c2d3e8] transition">
                         Xem thêm các tour
                     </button>

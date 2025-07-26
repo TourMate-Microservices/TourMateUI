@@ -1,3 +1,6 @@
+import { Feedback } from "./feedbacks"
+import { PagedResult } from "./paged-result"
+
 export interface Invoice {
   invoiceId: number
   startDate: string
@@ -35,7 +38,8 @@ export interface TourServiceBooking {
   workingHours: {
     start: string // "07:00"
     end: string // "20:00"
-  }
+  },
+  feedbacks: PagedResult<Feedback>
 }
 
 export interface BookingFormData {
