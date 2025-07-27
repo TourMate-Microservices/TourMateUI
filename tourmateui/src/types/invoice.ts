@@ -1,3 +1,20 @@
+// Phân trang kết quả search invoice theo tour guide
+export interface InvoiceSearchPaged {
+  data: Invoice[];
+  total_count: number;
+  page: number;
+  per_page: number;
+  total_pages: number;
+  has_next: boolean;
+  has_previous: boolean;
+}
+
+// Tham số search-by-tourguide-status-paged
+export interface SearchByTourGuideStatusPagedParams {
+  tourGuideId: number;
+  page?: number;
+  size?: number;
+}
 import { TourService } from "./tour-service"
 import { Feedback } from "./feedbacks"
 import { PagedResult } from "./paged-result"
@@ -98,4 +115,8 @@ export interface InvoiceSchedule {
   createdDate: string; // hoặc Date
   tourGuideId: number;
   customerId: number;
+}
+
+export interface InvoiceSearchPaged {
+
 }
