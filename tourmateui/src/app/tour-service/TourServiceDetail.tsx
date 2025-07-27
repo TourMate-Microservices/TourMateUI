@@ -13,7 +13,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useToken } from "@/components/getToken";
-import Banner from "@/components/banner";
+import Banner from "@/components/Banner";
 
 
 

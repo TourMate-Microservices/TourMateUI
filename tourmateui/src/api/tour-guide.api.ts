@@ -1,5 +1,5 @@
 import { TourGuide, TourGuideIdAndName, TourGuideWithTour } from "@/types/tour-guide";
-import { userServiceHttp } from "../utils/http";
+import { tourServiceHttp, userServiceHttp } from "../utils/http";
 import { PagedResult } from "@/types/response";
 import { TourGuideDetail } from "@/types/tour-guide-detail";
 
@@ -52,7 +52,7 @@ export const getList = async (name: string, areaId: string | number | undefined,
   return res.data;
 };
 
-export const getTourGuide = async (id: number) => userServiceHttp.get<TourGuide>(`tour-guides/${id}`)
+export const getTourGuide = async (id: number) => tourServiceHttp.get<TourGuide>(`tour-guides/${id}`)
 
 
 export const getOtherTourGuides = async (tourGuideId: number | string, pageSize: number, signal?: AbortSignal) => {
