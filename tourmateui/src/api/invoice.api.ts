@@ -15,7 +15,7 @@ export interface SearchByTourGuideStatusPagedParams {
   size?: number;
 }
 
-import type { PagedResult } from "@/types/paged-result"
+import type { PagedResult } from "@/types/response"
 import type { Invoice, TourGuideSchedule, MonthlyInvoiceStatistics, InvoiceSchedule } from "@/types/invoice"
 import type {
   PaginatedResponse,

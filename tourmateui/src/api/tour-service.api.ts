@@ -1,4 +1,4 @@
-import type { PagedResult } from "@/types/paged-result"
+import type { PagedResult } from "@/types/response"
 import type { TourService } from "@/types/tour-service"
 import type { TourServiceBooking } from "@/types/invoice"
 import { tourServiceHttp } from "@/utils/http"

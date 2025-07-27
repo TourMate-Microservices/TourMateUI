@@ -1,6 +1,6 @@
 import { ActiveArea, AreaIdAndName, MostPopularArea } from "@/types/active-area";
 import { AreaDetailResponse } from "@/types/area-detail-response";
-import { PagedResult } from "@/types/paged-result";
+import { PagedResult } from "@/types/response";
 import { tourServiceHttp } from "@/utils/http";
 
 export const fetchAreaIdAndName = async (): Promise<AreaIdAndName[]> => {

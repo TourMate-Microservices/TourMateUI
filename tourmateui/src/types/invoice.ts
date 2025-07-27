@@ -17,7 +17,7 @@ export interface SearchByTourGuideStatusPagedParams {
 }
 import { TourService } from "./tour-service"
 import { Feedback } from "./feedbacks"
-import { PagedResult } from "./paged-result"
+import { PagedResult } from "./response"
 
 export interface Invoice {
   invoiceId: number

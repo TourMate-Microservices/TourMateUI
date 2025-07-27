@@ -1,5 +1,5 @@
 import { Feedback } from '@/types/feedbacks'
-import { PagedResult } from '@/types/paged-result'
+import { PagedResult } from '@/types/response'
 import React, { useEffect, useState } from 'react'
 import AOS from "aos";
 import { Calendar, ChevronLeft, ChevronRight, MessageSquare, Star, User } from 'lucide-react';

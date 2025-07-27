@@ -10,7 +10,7 @@ import 'aos/dist/aos.css'
 
 import PaginateList from '@/components/paginate-list'
 import { TourService } from '@/types/tour-guide-detail'
-import { PagedResult } from '@/types/paged-result'
+import { PagedResult } from '@/types/response'
 
 export default function TourServices({ data }: { data?: PagedResult<TourService> }) {
   const [page, setPage] = useState(1)
