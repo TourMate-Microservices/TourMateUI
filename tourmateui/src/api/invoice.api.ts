@@ -1,3 +1,20 @@
+// Chuẩn hoá lại type cho giống các API khác
+export interface InvoiceSearchPaged {
+  data: Invoice[];
+  total_count: number;
+  page: number;
+  per_page: number;
+  total_pages: number;
+  has_next: boolean;
+  has_previous: boolean;
+}
+// Tham số search-by-tourguide-status-paged
+export interface SearchByTourGuideStatusPagedParams {
+  tourGuideId: number;
+  page?: number;
+  size?: number;
+}
+
 import type { PagedResult } from "@/types/paged-result"
 import type { Invoice, TourGuideSchedule, MonthlyInvoiceStatistics, InvoiceSchedule } from "@/types/invoice"
 import type {
@@ -180,3 +197,13 @@ export const getMonthlyInvoiceStatistics = async (
   })
   return res.data
 }
+
+export const searchInvoicesByTourGuideStatusPaged = async (
+  params: SearchByTourGuideStatusPagedParams
+): Promise<InvoiceSearchPaged> => {
+  const res = await tourServiceHttp.get<InvoiceSearchPaged>(
+    "/invoices/search-by-tourguide-status-paged",
+    { params }
+  );
+  return res.data;
+};
