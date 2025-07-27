@@ -97,8 +97,8 @@ export const getTourGuideWithServices = async (id: number | string) => {
       data: [
         {
           feedbackId: 0,
-          customerAvatar: "",
-          customerName: "",
+          image: "",
+          fullName: "",
           customerId: 0,
           date: "",
           rating: 3,
@@ -107,8 +107,8 @@ export const getTourGuideWithServices = async (id: number | string) => {
         },
         {
           feedbackId: 1,
-          customerAvatar: "",
-          customerName: "",
+          image: "",
+          fullName: "",
           customerId: 0,
           date: "",
           rating: 1,
@@ -117,8 +117,8 @@ export const getTourGuideWithServices = async (id: number | string) => {
         },
         {
           feedbackId: 2,
-          customerAvatar: "",
-          customerName: "",
+          image: "",
+          fullName: "",
           customerId: 0,
           date: "",
           rating: 5,
@@ -127,8 +127,8 @@ export const getTourGuideWithServices = async (id: number | string) => {
         },
         {
           feedbackId: 3,
-          customerAvatar: "",
-          customerName: "",
+          image: "",
+          fullName: "",
           customerId: 0,
           date: "",
           rating: 2,

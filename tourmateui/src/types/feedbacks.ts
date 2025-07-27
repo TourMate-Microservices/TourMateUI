@@ -1,10 +1,13 @@
 export type Feedback = {
     feedbackId: number,
-    customerAvatar: string,
-    customerName: string,
+    image: string,
+    fullName: string,
     customerId: number,
     date: string,
     rating: number,
     invoiceId: number,
-    content: string
+    content: string,
+    createdDate: string,
+    serviceId: number,
+    serviceName: string
 }

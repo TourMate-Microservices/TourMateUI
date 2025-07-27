@@ -6,12 +6,23 @@ import { Calendar, ChevronLeft, ChevronRight, MessageSquare, Star, User } from '
 import SafeImage from '@/components/safe-image';
 import dayjs from 'dayjs';
 import { Button } from '@/components/ui/button';
+import { useQuery } from '@tanstack/react-query';
+import { fetchFeedbacksOfTourGuide } from '@/api/feedback.api';
 
-export default function Feedbacks({ feedbacks, }: { feedbacks?: PagedResult<Feedback> }) {
+export default function Feedbacks({ tourGuideId }: { tourGuideId: number }) {
     const [currentPage, setCurrentPage] = useState(1)
+    const PAGE_SIZE = 5
+    const {data: feedbacks} = useQuery({
+        queryKey: ['feedbacks-of', tourGuideId, currentPage, PAGE_SIZE],
+        queryFn: async () => fetchFeedbacksOfTourGuide(tourGuideId, currentPage, PAGE_SIZE)
+    })
     const items = feedbacks?.data ?? []
+    console.log(items);
+    
     const totalPages = feedbacks?.total_pages || 1
     const totalFeedbacks = feedbacks?.total_count || 0
+    console.log(totalFeedbacks);
+    
     const ratingCounts = [5, 4, 3, 2, 1].map((rating) => ({
         rating,
         count: items.filter((f) => f.rating === rating).length,
@@ -62,7 +73,7 @@ export default function Feedbacks({ feedbacks, }: { feedbacks?: PagedResult<Feed
                 </div>
             </div>
 
-            {totalFeedbacks > 0 ? (
+            {(totalFeedbacks > 0 || items.length > 0) ? (
                 <>
                     {/* Statistics Overview */}
                     <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 border border-blue-100">
@@ -112,13 +123,13 @@ export default function Feedbacks({ feedbacks, }: { feedbacks?: PagedResult<Feed
                                     <div className="flex items-center gap-4">
                                         <div className="relative">
                                             <SafeImage
-                                                src={feedback.customerAvatar || "/default-avatar.png"}
-                                                alt={feedback.customerName || "Khách hàng"}
+                                                src={feedback.image || "/default-avatar.png"}
+                                                alt={feedback.fullName || "Khách hàng"}
                                                 className="w-12 h-12 rounded-full object-cover border-2 border-gray-200"
                                             />
                                         </div>
                                         <div>
-                                            <h4 className="font-semibold text-gray-900">{feedback.customerName || "Khách hàng"}</h4>
+                                            <h4 className="font-semibold text-gray-900">{feedback.fullName || "Khách hàng"}</h4>
                                             <div className="flex items-center gap-2 text-sm text-gray-500">
                                                 <Calendar className="h-3 w-3" />
                                                 <span>{dayjs(feedback.date).format('DD/MM/YYYY')}</span>
