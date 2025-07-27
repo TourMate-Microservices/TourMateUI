@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import TourGuideSidebar from "./sidebar"
 import ScheduleCard from "./schedule-card"
 import { Search, ChevronLeft, ChevronRight } from "lucide-react"
@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query"
 import MegaMenu from "@/components/mega-menu"
 import Footer from "@/components/footer"
 import { searchInvoicesByTourGuideStatusPaged } from "@/api/invoice.api"
+import { getTourGuideByAccountId } from "@/api/tour-guide.api"
 import type { InvoiceSearchPaged } from "@/types/invoice"
 import { MyJwtPayload } from "@/types/JwtPayload"
 import { useToken } from "@/components/getToken"
@@ -21,22 +22,36 @@ export default function TourSchedulePage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedFilter, setSelectedFilter] = useState("Chờ xác nhận")
   const [currentPage, setCurrentPage] = useState(1)
-
+  const [tourGuideId, setTourGuideId] = useState<number | null>(null)
 
   const token = useToken("accessToken")
   const payLoad: MyJwtPayload | undefined = token ? jwtDecode<MyJwtPayload>(token) : undefined
   const accountId = Number(payLoad?.AccountId)
   const role = payLoad?.["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
 
+  // Lấy tourGuideId từ accountId
+  useEffect(() => {
+    if (accountId) {
+      getTourGuideByAccountId(accountId)
+        .then(tourGuideData => {
+          setTourGuideId(tourGuideData.tourGuideId)
+        })
+        .catch(error => {
+          console.error("Failed to get tour guide:", error)
+        })
+    }
+  }, [accountId])
+
   const { data, isLoading, isError } = useQuery<InvoiceSearchPaged>({
-    queryKey: ["tour-schedules", accountId, currentPage, searchTerm],
+    queryKey: ["tour-schedules", tourGuideId, currentPage, searchTerm],
     queryFn: () =>
       searchInvoicesByTourGuideStatusPaged({
-        tourGuideId: accountId,
+        tourGuideId: tourGuideId!,
         page: currentPage,
         size: pageSize,
         // Có thể bổ sung filter/searchTerm nếu backend hỗ trợ
       }),
+    enabled: !!tourGuideId, // Chỉ gọi API khi đã có tourGuideId
     retry: 1,
     refetchOnWindowFocus: false,
   })
