@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
 import { MyJwtPayload } from "@/types/jwt-payload";
+import { Customer } from "@/types/customer";
+import { getCustomerWithAcc } from "@/api/customer.api";
 
 type TourGuideSidebarProps = {
     onNavItemClick?: (label: string) => void;
@@ -24,6 +26,10 @@ const TourGuideSidebar: FC<TourGuideSidebarProps> = ({ onNavItemClick }) => {
 
     // Get token and decode user info at the top of the component
     const token = typeof window !== "undefined" ? sessionStorage.getItem("accessToken") : null;
+    const [user, setUser] = useState<Customer>();
+
+    
+    
     let accountName = "";
     let accountId = "";
     let role = "";
@@ -35,6 +41,12 @@ const TourGuideSidebar: FC<TourGuideSidebarProps> = ({ onNavItemClick }) => {
             role = decoded?.["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] as string || "";
         } catch {}
     }
+
+    React.useEffect(() => {
+        if (!accountId) return;
+        getCustomerWithAcc(accountId).then(setUser).catch(console.error);
+    }, [accountId]);
+    
     const navigationItems = [
         { label: "Chờ xác nhận", icon: Calendar },
         { label: "Lịch hẹn sắp tới", icon: CalendarCheck },
@@ -58,6 +70,7 @@ const TourGuideSidebar: FC<TourGuideSidebarProps> = ({ onNavItemClick }) => {
             {/* User Info */}
             <div className="flex items-center gap-4 mb-6 p-4 rounded-xl shadow-sm">
                 <Avatar className="h-12 w-12 shadow-md mt-4">
+                    <AvatarImage src={user?.image} />
                     <AvatarFallback className="bg-blue-600 text-white font-semibold">TG</AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
