@@ -14,7 +14,7 @@ import bannerImg from '@/public/tour-guide-list-banner.png'
 import MegaMenu from "@/components/mega-menu"
 import Footer from "@/components/footer"
 import { getList } from "@/api/tour-guide.api"
-import Banner from "@/components/banner"
+import Banner from "@/components/Banner"
 
 const LIMIT = 12
 

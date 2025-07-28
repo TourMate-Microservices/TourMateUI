@@ -14,6 +14,7 @@ import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import { MyJwtPayload } from "@/types/jwt-payload";
 import { useToken } from "@/utils/get-token";
+import CustomerProfile from "./customerProfile";
 
 export default function ActionMenu() {
 
@@ -46,6 +47,7 @@ export default function ActionMenu() {
           </SheetDescription>
           {role === "Customer" ? (
             <>
+              <CustomerProfile />
               <Link
                 href={`/tour-schedule`}
                 className="w-full flex items-center gap-3 text-gray-800 hover:bg-gray-100 px-4 py-2 rounded-md"
