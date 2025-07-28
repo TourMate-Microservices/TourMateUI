@@ -5,3 +5,8 @@ export const getCustomer = async (id: number) => {
   const response = await userServiceHttp.get<Customer>('customers/get-by-id/' + id)
   return response.data
 }
+
+export const getCustomerWithAcc = async (accountId: string) => {
+  const response = await userServiceHttp.get<Customer>('customers/get-by-account/' + accountId)
+  return response.data
+}
