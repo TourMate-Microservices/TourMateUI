@@ -50,8 +50,8 @@ const TourGuideSidebar: FC<TourGuideSidebarProps> = ({ onNavItemClick }) => {
     const navigationItems = [
         { label: "Chờ xác nhận", icon: Calendar },
         { label: "Lịch hẹn sắp tới", icon: CalendarCheck },
-            { label: "Tour đã hướng dẫn", icon: MapPin },
-        ];
+        { label: "Tour đã hướng dẫn", icon: MapPin },
+    ];
 
     const actionCards = [
         { label: "Hồ sơ", icon: User, bgColor: "bg-red-500", href: "/tour-guide/profile" },
@@ -59,9 +59,11 @@ const TourGuideSidebar: FC<TourGuideSidebarProps> = ({ onNavItemClick }) => {
         { label: "Tin nhắn", icon: MessageCircleMore, bgColor: "bg-blue-500", href: "/chat" },
     ];
 
-    const labelToValueMap: Record<string, string> = {
-        'Chờ xác nhận': 'Chờ xác nhận',
-        'Lịch hẹn sắp tới': 'Sắp diễn ra',
+    // Map label sang status code API (dùng đúng mapping với page.tsx)
+    const labelToStatus: Record<string, string> = {
+        'Chờ xác nhận': 'pending',
+        'Lịch hẹn sắp tới': 'confirmed',
+        'Tour đã hướng dẫn': 'passed',
     };
 
 
@@ -116,8 +118,8 @@ const TourGuideSidebar: FC<TourGuideSidebarProps> = ({ onNavItemClick }) => {
                             type="button"
                             onClick={() => {
                                 setSelectedNav(item.label);
-                                const mappedValue = labelToValueMap[item.label] || item.label;
-                                onNavItemClick?.(mappedValue);
+                                // Truyền status code sang page để queryKey thay đổi, luôn fetch lại data
+                                onNavItemClick?.(item.label);
                             }}
                             className={`w-full flex items-center gap-3 px-4 py-3 mb-2 rounded-lg font-medium transition-colors duration-300
                 ${isSelected

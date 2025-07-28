@@ -38,6 +38,7 @@ export type TourGuideRegister = {
 }
 
 export type TourGuideIdAndName = {
+  gender: string;
   tourGuideId: number;
   fullName: string;
 }

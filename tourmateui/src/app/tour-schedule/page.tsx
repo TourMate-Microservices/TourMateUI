@@ -8,11 +8,13 @@ import { useQuery } from "@tanstack/react-query"
 // import { TourSchedule } from "@/types/tour-schedule"
 import MegaMenu from "@/components/mega-menu"
 import Footer from "@/components/footer"
-import { searchInvoicesByTourGuideStatusPaged } from "@/api/invoice.api"
+import { searchInvoicesByCustomerStatusPaged, searchInvoicesByTourGuideStatusPaged } from "@/api/invoice.api"
 import type { InvoiceSearchPaged } from "@/types/invoice"
 import { MyJwtPayload } from "@/types/JwtPayload"
 import { useToken } from "@/components/getToken"
 import { jwtDecode } from "jwt-decode"
+import { getCustomerWithAcc } from "@/api/customer.api"
+import React from "react"
 
 
 const pageSize = 5
@@ -28,13 +30,38 @@ export default function TourSchedulePage() {
   const accountId = Number(payLoad?.AccountId)
   const role = payLoad?.["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
 
+  // Map label sang status code API
+  const labelToStatus: Record<string, string> = {
+    'Chờ xác nhận': 'pending',
+    'Lịch hẹn sắp tới': 'confirmed',
+    'Tour đã hướng dẫn': 'passed',
+  };
+
+  const [customerId, setCustomerId] = useState<number | null>(null);
+
+  // Lấy customerId từ accountId
+  React.useEffect(() => {
+    if (accountId) {
+      getCustomerWithAcc(accountId)
+        .then((customer) => {
+          if (customer && customer.customerId) setCustomerId(customer.customerId);
+        })
+        .catch((err) => {
+          setCustomerId(null);
+        });
+    }
+  }, [accountId]);
+
+  const statusCode = labelToStatus[selectedFilter];
   const { data, isLoading, isError } = useQuery<InvoiceSearchPaged>({
-    queryKey: ["tour-schedules", accountId, currentPage, searchTerm],
+    queryKey: ["tour-schedules", customerId, statusCode, currentPage, searchTerm],
     queryFn: () =>
-      searchInvoicesByTourGuideStatusPaged({
-        tourGuideId: accountId,
+      searchInvoicesByCustomerStatusPaged({
+        customerId: customerId as unknown as number,
         page: currentPage,
         size: pageSize,
+        status: statusCode,
+        // paymentStatus: 'paid',
         // Có thể bổ sung filter/searchTerm nếu backend hỗ trợ
       }),
     retry: 1,
