@@ -39,7 +39,7 @@ export function TourServiceDetail() {
   const tourGuidId = data?.tourGuideId;
   const goToChat = () => {
     if (token) {
-      router.push(`/chat?userId=${tourGuidId}`);
+      router.push(`/book-tour/${tourServiceId}`);
       return;
     }
     alert("Bạn cần đăng nhập để đặt lịch hoặc trò chuyện với hướng dẫn viên du lịch.");

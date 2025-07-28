@@ -56,6 +56,6 @@ export const fetchPaymentById = async (id: number) => {
 };
 
 export const fetchPaymentResultWithServiceName = async (id: number) => {
-  const response = await paymentServiceHttp.get<PaymentResultWithServiceName>(`/payments/${id}`);
+  const response = await paymentServiceHttp.get<PaymentResultWithServiceName>(`/payments/with-service-name/${id}`);
   return response.data;
 };

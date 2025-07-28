@@ -23,7 +23,6 @@ export function CalendarComponent({
   selectedDate,
   bookedSlots,
   tourGuideSchedule,
-  tourGuideId,
   currentServiceId,
   isLoading,
   onDateSelect,

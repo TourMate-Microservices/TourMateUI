@@ -6,12 +6,11 @@ import { Button } from "@/components/ui/button"
 
 interface ActionButtonsProps {
   isSuccess: boolean
-  type: string | null
   id: string | null
   onOpenFeedback?: () => void
 }
 
-export function ActionButtons({ isSuccess, type, id, onOpenFeedback }: ActionButtonsProps) {
+export function ActionButtons({ isSuccess, id, onOpenFeedback }: ActionButtonsProps) {
   return (
     <div className="w-full space-y-3">
       <Button
@@ -26,29 +25,7 @@ export function ActionButtons({ isSuccess, type, id, onOpenFeedback }: ActionBut
         </Link>
       </Button>
 
-      {/* Nếu là Membership */}
-      {type === "membership" ? (
-        <>
-          {isSuccess && onOpenFeedback && (
-            <Button
-              onClick={onOpenFeedback}
-              variant="outline"
-              className="w-full h-12 text-base font-semibold border-2 border-blue-200 hover:border-blue-300 hover:bg-blue-50"
-            >
-              <MessageSquare className="mr-2 h-5 w-5" />
-              Đánh giá dịch vụ
-            </Button>
-          )}
-          {!isSuccess && (
-            <Button variant="outline" asChild className="w-full h-12 text-base font-semibold border-2">
-              <Link href="/payment/membership">
-                <RefreshCw className="mr-2 h-5 w-5" />
-                Thử thanh toán lại
-              </Link>
-            </Button>
-          )}
-        </>
-      ) : (
+     
         <>
           {isSuccess && (
             <Button variant="outline" asChild className="w-full h-12 text-base">
@@ -62,7 +39,7 @@ export function ActionButtons({ isSuccess, type, id, onOpenFeedback }: ActionBut
               className="w-full h-12 text-base font-semibold border-2 border-blue-200 hover:border-blue-300 hover:bg-blue-50"
             >
               <MessageSquare className="mr-2 h-5 w-5" />
-              Đánh giá dịch vụ
+              Xem lịch trình và gửi phản hồi
             </Button>
           )}
           {!isSuccess && (
@@ -74,7 +51,6 @@ export function ActionButtons({ isSuccess, type, id, onOpenFeedback }: ActionBut
             </Button>
           )}
         </>
-      )}
     </div>
   )
 }

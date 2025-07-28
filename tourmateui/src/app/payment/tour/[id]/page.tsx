@@ -96,7 +96,7 @@ export default function TourPaymentPage() {
             setIsPaymentOpen(false)
             setCheckoutUrl(null)
             paymentOpenedRef.current = false
-            window.location.href = `/payment/pay-result?success=true&id=${invoiceId}&paymentId=${payment.paymentId}&type=invoice`
+            window.location.href = `/payment/pay-result?success=true&invoiceId=${invoiceId}&paymentId=${payment.paymentId}`
           }, 2000)
         }
       } catch (error) {
@@ -105,11 +105,11 @@ export default function TourPaymentPage() {
       }
     },
     onCancel: () => {
-      window.location.href = `/payment/pay-result?success=false&id=${invoiceId}`
+      window.location.href = `/payment/pay-result?success=false&invoiceId=${invoiceId}`
       handleClosePayment()
     },
     onExit: () => {
-      window.location.href = `/payment/pay-result?success=false&id=${invoiceId}`
+      window.location.href = `/payment/pay-result?success=false&invoiceId=${invoiceId}`
       handleClosePayment()
     }
   }), [checkoutUrl])

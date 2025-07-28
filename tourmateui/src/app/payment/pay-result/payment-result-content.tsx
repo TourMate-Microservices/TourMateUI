@@ -15,10 +15,10 @@ export function PaymentResultContent() {
   const searchParams = useSearchParams()
 
   const isSuccess = searchParams.get("success") === "true"
-  const id = searchParams.get("id")
   const paymentId = searchParams.get("paymentId")
-  const type = searchParams.get("type")
+  const invoiceId = searchParams.get("invoiceId")
 
+                 
   // Nếu thành công, fetch payment detail
   const { data: paymentData } = useQuery({
     queryKey: ["payment", paymentId],
@@ -49,8 +49,7 @@ export function PaymentResultContent() {
               <CardFooter className="p-8 pt-0">
                 <ActionButtons
                   isSuccess={isSuccess}
-                  type={type}
-                  id={id}
+                  id={invoiceId}
                 />
               </CardFooter>
             </Card>
