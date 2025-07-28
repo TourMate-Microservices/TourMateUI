@@ -44,7 +44,7 @@ const TourGuideSidebar: FC<TourGuideSidebarProps> = ({ onNavItemClick }) => {
 
     React.useEffect(() => {
         if (!accountId) return;
-        getCustomerWithAcc(accountId).then(setUser).catch(console.error);
+        getCustomerWithAcc(Number(accountId)).then(setUser).catch(console.error);
     }, [accountId]);
     
     const navigationItems = [

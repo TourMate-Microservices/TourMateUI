@@ -6,7 +6,7 @@ export const getCustomer = async (id: number) => {
   return response.data
 }
 
-export const getCustomerWithAcc = async (accountId: string) => {
+export const getCustomerWithAcc = async (accountId: number) => {
   const response = await userServiceHttp.get<Customer>('customers/get-by-account/' + accountId)
   return response.data
 }

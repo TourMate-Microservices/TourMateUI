@@ -1,20 +1,20 @@
-import { Payment, PaymentResponse } from "@/types/payment";
+import { CreatePaymentRequest, Payment, PaymentResponse, PaymentResultWithServiceName } from "@/types/payment";
 import { paymentServiceHttp } from "@/utils/http";
 
 // Gọi API tạo link thanh toán dùng embedded method (POST + query params)
 export const createEmbeddedPaymentLink = async (
   amount: number,
-  type: string,
+  invoiceId: number,
   signal?: AbortSignal
 ): Promise<string> => {
-  const queryParams = new URLSearchParams({
-    amount: amount.toString(),
-    type,
-  }).toString();
+  const requestBody = {
+    amount,
+    invoiceId,
+  };
 
   const response = await paymentServiceHttp.post<PaymentResponse>(
-    `payos/create-embedded-payment-link?${queryParams}`,
-    null, // POST nhưng không có body
+    `payments/create-embedded-payment-link`,
+    requestBody,
     {
       headers: {
         "Content-Type": "application/json",
@@ -22,31 +22,40 @@ export const createEmbeddedPaymentLink = async (
       signal,
     }
   );
-
-  return response.data.checkoutUrl;
+  return response.data.url;
 };
 
-// Các hàm hiện có bạn đã viết:
-export const getCreatePaymentUrl = async (
-  amount: number,
-  orderId: string,
-  orderType: string,
-  signal?: AbortSignal
-): Promise<string> => {
-  const res = await paymentServiceHttp.get<PaymentResponse>("payments/create", {
-    params: { amount, orderId, orderType },
-    signal,
-  });
-  return res.data.checkoutUrl;
-};
+// // Các hàm hiện có bạn đã viết:
+// export const getCreatePaymentUrl = async (
+//   amount: number,
+//   orderId: string,
+//   orderType: string,
+//   signal?: AbortSignal
+// ): Promise<string> => {
+//   const res = await paymentServiceHttp.get<PaymentResponse>("payments/create", {
+//     params: { amount, orderId, orderType },
+//     signal,
+//   });
+//   return res.data.url;
+// };
 
-export const addPayment = async (data: Payment) => {
-  const response = await paymentServiceHttp.post("payments", data);
+export const addPayment = async (data: CreatePaymentRequest) => {
+  const response = await paymentServiceHttp.post("payments/create", data);
   return response.data;
 };
 
 // API gọi backend sẽ trả về Payment[]
 export const getPaymentByAccountId = async (accountId: number) => {
-  const response = await paymentServiceHttp.get<Payment[]>(`/payment/byaccount/${accountId}`);
+  const response = await paymentServiceHttp.get<Payment[]>(`/payments/byaccount/${accountId}`);
+  return response.data;
+};
+
+export const fetchPaymentById = async (id: number) => {
+  const response = await paymentServiceHttp.get<Payment>(`/payments/${id}`);
+  return response.data;
+};
+
+export const fetchPaymentResultWithServiceName = async (id: number) => {
+  const response = await paymentServiceHttp.get<PaymentResultWithServiceName>(`/payments/${id}`);
   return response.data;
 };

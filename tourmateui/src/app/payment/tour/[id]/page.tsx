@@ -31,6 +31,8 @@ import { webURL } from "@/constants/constants"
 import { MyJwtPayload } from "@/types/jwt-payload"
 import { fetchScheduleByInvoiceId } from "@/api/invoice.api"
 import { InvoiceSchedule } from "@/types/invoice"
+import { getCustomerWithAcc } from "@/api/customer.api"
+import { Customer } from "@/types/customer"
 
 const formatDateTime = (dateStr: string) =>
   new Date(dateStr).toLocaleString("vi-VN", {
@@ -49,6 +51,13 @@ export default function TourPaymentPage() {
   const token = useToken("accessToken")
   const decoded: MyJwtPayload | null = token ? jwtDecode<MyJwtPayload>(token.toString()) : null
   const accountId = decoded?.AccountId
+      const [user, setUser] = useState<Customer>();
+  
+
+  useEffect(() => {
+          if (!accountId) return;
+          getCustomerWithAcc(accountId as number).then(setUser).catch(console.error);
+      }, [accountId]);
 
   const [schedule, setSchedule] = useState<InvoiceSchedule | null>(null)
   const [loading, setLoading] = useState(true)
@@ -65,23 +74,20 @@ export default function TourPaymentPage() {
 
   // Simplified PayOS config - không cần state phức tạp
   const payOSConfig = useMemo(() => ({
-    RETURN_URL: `${webURL}/payment/pay-result?success=true`,
+    RETURN_URL: `${webURL}/payments/pay-result?success=true`,
     ELEMENT_ID: "embedded-payment-container",
     CHECKOUT_URL: checkoutUrl || "", // Đảm bảo không null
     embedded: true,
     onSuccess: async () => {
       setIsProcessing(true) // Show processing state
-
+      console.log("Payment successful, processing...")
       try {
         const payment = await addPayment({
+          customerId: user?.customerId ?? 0,
           invoiceId: Number(invoiceId),
-          accountId: Number(accountId),
           price: schedule?.price || 0,
+          serviceId: schedule?.serviceId || 0,
           paymentMethod: "PayOS",
-          createdAt: new Date().toISOString(),
-          paymentType: "Đặt chuyến đi",
-          paymentId: 0,
-          status: "Thành công"
         })
 
         if (payment) {
@@ -163,11 +169,10 @@ export default function TourPaymentPage() {
 
     try {
       const amount = schedule?.price || 0
-      const type = "đặt chuyến đi"
 
       const checkoutUrl = await createEmbeddedPaymentLink(
         amount,
-        type,
+        Number(invoiceId),
       )
 
       if (checkoutUrl) {

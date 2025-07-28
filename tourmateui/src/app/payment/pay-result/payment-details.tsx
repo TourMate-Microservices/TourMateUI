@@ -1,6 +1,7 @@
 interface PaymentData {
   createdAt?: string
-  paymentType?: string
+  serviceName: string
+  price: number
 }
 
 interface PaymentDetailsProps {
@@ -41,7 +42,13 @@ export function PaymentDetails({ paymentId, paymentData }: PaymentDetailsProps) 
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">Dịch vụ:</span>
-            <span className="text-black font-semibold">{paymentData?.paymentType}</span>
+            <span className="text-black font-semibold">{paymentData?.serviceName}</span>
+          </div>
+          <div className="flex justify-between">
+            <span className="text-gray-600">Số tiền:</span>
+            <span className="text-black font-semibold">
+              {paymentData?.price ? paymentData.price.toLocaleString("vi-VN") + " ₫" : "N/A"}
+            </span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">Trạng thái:</span>

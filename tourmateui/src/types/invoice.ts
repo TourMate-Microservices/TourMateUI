@@ -97,6 +97,7 @@ export interface MonthlyInvoiceStatistics {
 
 export interface InvoiceSchedule {
   invoiceId: number;
+  serviceId: number;
   customerName: string;
   customerPhone: string;
   tourGuideName: string;

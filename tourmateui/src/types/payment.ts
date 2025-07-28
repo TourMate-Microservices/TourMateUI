@@ -1,7 +1,7 @@
 import { Invoice } from "./invoice";
 
 export interface PaymentResponse {
-  checkoutUrl: string;
+  url: string;
   // thêm các thuộc tính khác nếu cần
 }
 
@@ -10,10 +10,26 @@ export type Payment = {
     price: GLfloat;
     status: string;
     createdAt: string;
-    paymentType: string;
     paymentMethod: string;
     accountId: number;
-    membershipPackageId?: number;
-    invoiceId?: number;
+    customerId: number;
+    servoceId: number;
+    invoiceId: number;
     invoice?: Invoice;
+}
+
+export type PaymentResultWithServiceName = {
+    paymentId: number;
+    price: number;
+    serviceId: number;
+    serviceName: string;
+    createdAt: string;
+}
+
+export type CreatePaymentRequest = {
+    customerId: number;
+    invoiceId: number;
+    serviceId: number;
+    price: number;
+    paymentMethod: string;
 }
