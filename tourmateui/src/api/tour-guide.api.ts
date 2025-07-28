@@ -1,4 +1,4 @@
-import { TourGuide, TourGuideIdAndName, TourGuideWithTour } from "@/types/tour-guide";
+import { TourGuide, TourGuideIdAndName, TourGuideProfile, TourGuideWithTour } from "@/types/tour-guide";
 import { tourServiceHttp, userServiceHttp } from "../utils/http";
 import { PagedResult } from "@/types/response";
 import { TourGuideDetail } from "@/types/tour-guide-detail";
@@ -52,8 +52,8 @@ export const getList = async (name: string, areaId: string | number | undefined,
   return res.data;
 };
 
-export const getTourGuide = async (id: number) => tourServiceHttp.get<TourGuide>(`tour-guides/${id}`)
-
+export const getTourGuide = async (id: number) => userServiceHttp.get<TourGuide>(`tour-guides/${id}`)
+export const getTourGuideProfile = async (id: number) => userServiceHttp.get<TourGuideProfile>(`tour-guides/profile/${id}`)
 
 export const getOtherTourGuides = async (tourGuideId: number | string, pageSize: number, signal?: AbortSignal) => {
   const res = await userServiceHttp.get<TourGuide[]>('tour-guides/other', {
@@ -93,56 +93,6 @@ export const changePassword = async (id: number, newPassword: string) => {
 export const getTourGuideWithServices = async (id: number | string) => {
   try {
     const response = await userServiceHttp.get<TourGuideDetail>(`/tour-guides/by-id-with-tours-paged?id=${id}&page=1&perPage=5`);
-    response.data.feedbacks = {
-      data: [
-        {
-          feedbackId: 0,
-          image: "",
-          fullName: "",
-          customerId: 0,
-          date: "",
-          rating: 3,
-          invoiceId: 2,
-          content: "ABC"
-        },
-        {
-          feedbackId: 1,
-          image: "",
-          fullName: "",
-          customerId: 0,
-          date: "",
-          rating: 1,
-          invoiceId: 1,
-          content: "DEF"
-        },
-        {
-          feedbackId: 2,
-          image: "",
-          fullName: "",
-          customerId: 0,
-          date: "",
-          rating: 5,
-          invoiceId: 0,
-          content: "GHI"
-        },
-        {
-          feedbackId: 3,
-          image: "",
-          fullName: "",
-          customerId: 0,
-          date: "",
-          rating: 2,
-          invoiceId: 4,
-          content: "Oke"
-        }
-      ],
-      has_next: true,
-      has_previous: false,
-      page: 1,
-      per_page: 3,
-      total_count: 4,
-      total_pages: 2
-    }
     return response.data;
   }
   catch (err) {

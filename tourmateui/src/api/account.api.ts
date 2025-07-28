@@ -1,5 +1,5 @@
 import { LoginPayload, LoginResponse } from "@/types/authenticate";
-import { CustomerRegister } from "@/types/customer";
+import { Customer, CustomerRegister } from "@/types/customer";
 import { TourGuideRegister } from "@/types/tour-guide";
 import { userServiceHttp } from "@/utils/http";
 import axios from "axios";
@@ -92,3 +92,13 @@ export async function registerCustomer(payload: CustomerRegister): Promise<{ msg
     throw new Error(message);
   }
 }
+
+export const getUserByAccountAndRole = async (id: number, role: string) => {
+  const response = await userServiceHttp.get<Customer>(`account/getbyaccountandrole`, {
+    params: {
+      id: id,
+      role: role,
+    },
+  });
+  return response.data;
+};

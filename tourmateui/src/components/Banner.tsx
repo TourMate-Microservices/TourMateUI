@@ -14,7 +14,7 @@ interface BannerProps {
 const Banner: React.FC<BannerProps> = ({ imageUrl, title, subtitle, height }) => {
   return (
     <div style={{ position: 'relative', width: '100%', height: height ?? '400px' }}>
-      {typeof imageUrl === 'string' ? <SafeImage
+      {(!imageUrl || typeof imageUrl === 'string') ? <SafeImage
         src={imageUrl}
         alt={title}
         width={0}

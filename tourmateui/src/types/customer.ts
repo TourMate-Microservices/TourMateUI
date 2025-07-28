@@ -18,3 +18,17 @@ export type Customer = {
   phone: string;
   image: string;
 };
+
+export type CustomerProfile = {
+  customerId: number;
+  fullName: string;
+  accountId: number;
+  gender: string;
+  dateOfBirth: string;
+  phone: string;
+  image: string;
+  account?: {
+    email: string,
+    createdDate: string
+  }
+};
