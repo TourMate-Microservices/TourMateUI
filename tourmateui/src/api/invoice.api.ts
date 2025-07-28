@@ -13,6 +13,16 @@ export interface SearchByTourGuideStatusPagedParams {
   tourGuideId: number;
   page?: number;
   size?: number;
+  status?: string;
+  paymentStatus?: string;
+}
+
+export interface SearchByCustomerStatusPagedParams {
+  customerId: number;
+  page?: number;
+  size?: number;
+  status?: string;
+  paymentStatus?: string;
 }
 
 import type { PagedResult } from "@/types/response"
@@ -203,6 +213,16 @@ export const searchInvoicesByTourGuideStatusPaged = async (
 ): Promise<InvoiceSearchPaged> => {
   const res = await tourServiceHttp.get<InvoiceSearchPaged>(
     "/invoices/search-by-tourguide-status-paged",
+    { params }
+  );
+  return res.data;
+};
+
+export const searchInvoicesByCustomerStatusPaged = async (
+  params: SearchByCustomerStatusPagedParams
+): Promise<InvoiceSearchPaged> => {
+  const res = await tourServiceHttp.get<InvoiceSearchPaged>(
+    "/invoices/search-by-customer-status-paged",
     { params }
   );
   return res.data;

@@ -14,6 +14,7 @@ export interface SearchByTourGuideStatusPagedParams {
   tourGuideId: number;
   page?: number;
   size?: number;
+  status?: string;
 }
 import { TourService } from "./tour-service"
 import { Feedback } from "./feedbacks"
