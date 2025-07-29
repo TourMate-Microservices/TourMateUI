@@ -5,7 +5,15 @@ import withFlowbiteReact from 'flowbite-react/plugin/nextjs';
 const nextConfig: NextConfig = {
   output: 'standalone',
   images: {
-    unoptimized: true,
+    domains: [
+      'images.unsplash.com',
+      'i.pravatar.cc',
+      'img.freepik.com', // thêm domain freepik
+      'bestlocationhotels.com',
+      'thanhnien.mediacdn.vn',
+      'media-cdn-v2.laodong.vn',
+      'ik.imagekit.io'
+    ],
   },
 };
 

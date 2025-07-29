@@ -17,6 +17,7 @@ export default function Home() {
       <FeedbackSection />
       <ContactPagination />
       <HomeActiveAreas />
+      
       <Footer />
     </>
   );
