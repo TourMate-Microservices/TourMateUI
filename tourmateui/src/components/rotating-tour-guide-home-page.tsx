@@ -117,8 +117,6 @@ function TourGuideCard({ currentGuide, index }: { currentGuide: TourGuideWithTou
     // Tours are already included in currentGuide.tours, no need for separate API call
     const services = currentGuide.tours ?? []
 
-    console.log(currentGuide)
-
     return (
         <div
             className="bg-white rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:scale-105 group h-fit"

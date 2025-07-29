@@ -27,12 +27,16 @@ export interface GetInvoicesParams {
 }
 
 export interface CreateInvoiceRequest {
-  serviceId: number
-  tourGuideId: number
-  customerId: number
+  invoiceId: number
   startDate: string
   endDate: string
   peopleAmount: string
+  status: string
+  paymentStatus: string
+  price: number
   note: string
-  bookingType: "Đặt chuyến đi"
+  createdDate: string
+  customerId: number
+  tourGuideId: number
+  serviceId: number
 }

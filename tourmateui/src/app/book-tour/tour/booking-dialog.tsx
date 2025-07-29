@@ -20,6 +20,7 @@ interface BookingDialogProps {
   formData: BookingFormData
   onFormDataChange: (data: Partial<BookingFormData>) => void
   onConfirmBooking: () => void
+  isLoadingCustomer?: boolean
 }
 
 export function BookingDialog({
@@ -31,12 +32,12 @@ export function BookingDialog({
   formData,
   onFormDataChange,
   onConfirmBooking,
+  isLoadingCustomer = false,
 }: BookingDialogProps) {
   const calculateTotal = () => {
     const people = Number.parseInt(formData.selectedPeople)
     const basePrice = tourService.price * people
-    const serviceFee = basePrice * 0.05
-    return basePrice + serviceFee
+    return basePrice
   }
 
   return (
@@ -73,12 +74,11 @@ export function BookingDialog({
           <div className="space-y-3">
             <Label className="text-base font-semibold">Hình thức đặt tour</Label>
             <RadioGroup
-              value={formData.bookingType}
-              onValueChange={(value: string) => onFormDataChange({ bookingType: value })}
-              className="space-y-3"
+              value="pay-now"
+              className="space-y-3 opacity-60 pointer-events-none"
             >
-              <div className="flex items-center space-x-3 p-4 border rounded-lg hover:bg-green-50 transition-colors">
-                <RadioGroupItem value="pay-now" id="pay-now" />
+              <div className="flex items-center space-x-3 p-4 border rounded-lg bg-green-50 transition-colors">
+                <RadioGroupItem value="pay-now" id="pay-now" checked />
                 <div className="flex-1">
                   <Label htmlFor="pay-now" className="flex items-center cursor-pointer">
                     <CreditCard className="w-5 h-5 mr-2 text-green-600" />
@@ -114,10 +114,6 @@ export function BookingDialog({
                 <span>Giá tour ({formData.selectedPeople} người)</span>
                 <span>{formatCurrency(tourService.price * Number.parseInt(formData.selectedPeople))}</span>
               </div>
-              <div className="flex justify-between">
-                <span>Phí dịch vụ (5%)</span>
-                <span>{formatCurrency(tourService.price * Number.parseInt(formData.selectedPeople) * 0.05)}</span>
-              </div>
               <Separator />
               <div className="flex justify-between text-lg font-bold text-green-600">
                 <span>Tổng cộng</span>
@@ -132,10 +128,11 @@ export function BookingDialog({
           </Button>
           <Button
             onClick={onConfirmBooking}
-            className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"
+            disabled={isLoadingCustomer}
+            className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 disabled:opacity-50 disabled:cursor-not-allowed"
           >
                 <CreditCard className="w-4 h-4 mr-2" />
-                Thanh toán {formatCurrency(calculateTotal())}
+                {isLoadingCustomer ? "Đang tải..." : `Thanh toán ${formatCurrency(calculateTotal())}`}
           </Button>
         </div>
       </DialogContent>

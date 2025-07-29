@@ -1,3 +1,25 @@
+// Phân trang kết quả search invoice theo tour guide
+export interface InvoiceSearchPaged {
+  data: Invoice[];
+  total_count: number;
+  page: number;
+  per_page: number;
+  total_pages: number;
+  has_next: boolean;
+  has_previous: boolean;
+}
+
+// Tham số search-by-tourguide-status-paged
+export interface SearchByTourGuideStatusPagedParams {
+  tourGuideId: number;
+  page?: number;
+  size?: number;
+  status?: string;
+}
+import { TourService } from "./tour-service"
+import { Feedback } from "./feedbacks"
+import { PagedResult } from "./response"
+
 export interface Invoice {
   invoiceId: number
   startDate: string
@@ -11,7 +33,7 @@ export interface Invoice {
   customerId: number
   tourGuideId: number
   serviceId: number
-  serviceName?: string
+  service: TourService
 }
 
 export interface TourServiceBooking {
@@ -35,12 +57,12 @@ export interface TourServiceBooking {
   workingHours: {
     start: string // "07:00"
     end: string // "20:00"
-  }
+  },
+  feedbacks?: PagedResult<Feedback>
 }
 
 export interface BookingFormData {
   selectedPeople: string
-  bookingType: string
   note: string
 }
 
@@ -73,3 +95,27 @@ export interface MonthlyInvoiceStatistics {
   cancelledInvoices: number
   averageBookingValue: number
 }
+
+export interface InvoiceSchedule {
+  invoiceId: number;
+  serviceId: number;
+  customerName: string;
+  customerPhone: string;
+  tourGuideName: string;
+  tourGuidePhone: string;
+  email: string;
+  tourName: string;
+  tourDesc: string;
+  areaName: string;
+  startDate: string; // hoặc Date, tùy cách bạn parse ở client
+  endDate: string;   // tương tự
+  peopleAmount: string;
+  price: number;
+  paymentMethod: string;
+  status: string;
+  note: string;
+  createdDate: string; // hoặc Date
+  tourGuideId: number;
+  customerId: number;
+}
+

@@ -15,7 +15,7 @@ export default function HomeActiveAreas() {
   const pageSize = 3
   const { data } = useQuery({
     queryKey: ["active-areas", pageSize, page],
-    queryFn: () => getActiveAreas(page, pageSize), // exclude content for performance
+    queryFn: async () => await getActiveAreas(page, pageSize), // exclude content for performance
     staleTime: 24 * 3600 * 1000,
   })
   const maxPage = data?.total_pages ?? 0

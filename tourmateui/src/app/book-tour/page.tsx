@@ -28,13 +28,6 @@ export default function BookTourIndex() {
           >
             Xem danh sách tour
           </Button>
-          <Button 
-            onClick={() => router.push("/book-tour/1")} 
-            variant="outline" 
-            className="w-full"
-          >
-            Đặt tour mẫu (ID: 1)
-          </Button>
         </div>
       </div>
     </div>

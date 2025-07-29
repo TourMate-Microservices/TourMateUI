@@ -14,6 +14,7 @@ import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import { MyJwtPayload } from "@/types/jwt-payload";
 import { useToken } from "@/utils/get-token";
+import CustomerProfile from "./customerProfile";
 
 export default function ActionMenu() {
 
@@ -46,6 +47,7 @@ export default function ActionMenu() {
           </SheetDescription>
           {role === "Customer" ? (
             <>
+              <CustomerProfile />
               <Link
                 href={`/tour-schedule`}
                 className="w-full flex items-center gap-3 text-gray-800 hover:bg-gray-100 px-4 py-2 rounded-md"
@@ -57,7 +59,7 @@ export default function ActionMenu() {
           ) : role === "TourGuide" ? (
             <>
               <Link
-                href={`/tour-guide/profile`}
+                href={`/tour-guide/edit-profile`}
                 className="w-full flex items-center gap-3 text-gray-800 hover:bg-gray-100 px-4 py-2 rounded-md"
               >
                 <Settings size={18} />
@@ -77,20 +79,6 @@ export default function ActionMenu() {
               >
                 <CalendarCheck2 size={18} />
                 Quản lý lịch trình
-              </Link>
-              <Link
-                href={`/payment/membership`}
-                className="w-full flex items-center gap-3 text-gray-800 hover:bg-gray-100 px-4 py-2 rounded-md"
-              >
-                <PackageOpen size={18} />
-                Gói thành viên
-              </Link>
-              <Link
-                href={`/tour-guide/revenue`}
-                className="w-full flex items-center gap-3 text-gray-800 hover:bg-gray-100 px-4 py-2 rounded-md"
-              >
-                <Wallet size={18} />
-                Doanh thu
               </Link>
             </>
           ) : (

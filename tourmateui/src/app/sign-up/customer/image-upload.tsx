@@ -10,7 +10,7 @@ interface ImageUploadProps {
   imageUrl: string | null
   onImageUpload: (event: React.ChangeEvent<HTMLInputElement>) => void
   className?: string
-  isProfile?: boolean
+  isProfile?: boolean,
 }
 
 export function ImageUpload({ label, imageUrl, onImageUpload, className = "", isProfile = false }: ImageUploadProps) {

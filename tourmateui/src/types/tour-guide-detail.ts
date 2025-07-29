@@ -1,4 +1,5 @@
-import { ActiveArea } from "./active-area";
+import { Feedback } from "./feedbacks";
+import { PagedResult } from "./response";
 
 export interface TourService {
   serviceId: number;
@@ -15,20 +16,22 @@ export interface TourService {
 }
 
 export interface TourGuideDetail {
-  tourGuideId: number;
-  fullName: string;
-  gender: string;
-  dateOfBirth: string;
-  accountId: number;
-  address: string;
-  image: string;
-  phone: string;
-  isVerified: boolean;
-  bannerImage: string;
-  yearOfExperience: number;
-  description: string;
-  company: string;
-  areaId: number;
-  area: ActiveArea;
-  tourServices: TourService[];
+  tourGuide: {
+    tourGuideId: number;
+    fullName: string;
+    gender: string;
+    dateOfBirth: string;
+    accountId: number;
+    address: string;
+    image: string;
+    phone: string;
+    isVerified: boolean;
+    bannerImage: string;
+    yearOfExperience: number;
+    description: string;
+    company: string;
+    areaId: number;
+  }
+  tours: PagedResult<TourService>;
+  feedbacks: PagedResult<Feedback>
 }

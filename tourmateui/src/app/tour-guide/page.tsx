@@ -1,6 +1,5 @@
 "use client"
-import Banner from "@/components/Banner"
-import SafeImage from "@/components/safe-image"
+import SafeImage from "../../components/safe-image"
 import { useQuery } from "@tanstack/react-query"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -12,9 +11,10 @@ import { Search, MapPin, ChevronLeft, ChevronRight, Filter, User, Calendar } fro
 import { useQueryString } from "@/utils/utils"
 import { fetchAreaIdAndName } from "@/api/active-area.api"
 import bannerImg from '@/public/tour-guide-list-banner.png'
-import { getTourGuides } from "@/api/tour-guide-mock.api"
 import MegaMenu from "@/components/mega-menu"
-import { Footer } from "react-day-picker"
+import Footer from "@/components/footer"
+import { getList } from "@/api/tour-guide.api"
+import Banner from "@/components/banner"
 
 const LIMIT = 12
 
@@ -47,7 +47,7 @@ function TourGuideMain() {
             setTimeout(() => {
                 controller.abort()
             }, 5000)
-            return getTourGuides(1, 1,)
+            return getList(searchTerm.name, searchTerm.areaId, page, LIMIT, controller.signal)
         },
         retry: 0,
         refetchOnWindowFocus: false,

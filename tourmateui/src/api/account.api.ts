@@ -1,20 +1,21 @@
 import { LoginPayload, LoginResponse } from "@/types/authenticate";
-import { CustomerRegister } from "@/types/customer";
+import { Customer, CustomerRegister } from "@/types/customer";
 import { TourGuideRegister } from "@/types/tour-guide";
-import {http} from "@/utils/http";
+import { userServiceHttp } from "@/utils/http";
 import axios from "axios";
 
 export async function login(payload: LoginPayload): Promise<LoginResponse> {
   try {
-    const response = await http.post<LoginResponse>("user-service/api/v1/accounts/login", payload, {
+    const response = await userServiceHttp.post<LoginResponse>("accounts/login", payload, {
       headers: { "Content-Type": "application/json" },
     });
 
     const data = response.data;
 
-    if (data && data.accessToken && data.refreshToken) {
+    console.log("Login successful:", data);
+    
+    if (data && data.accessToken) {
       sessionStorage.setItem("accessToken", data.accessToken);
-      sessionStorage.setItem("refreshToken", data.refreshToken);
     }
 
     return data;
@@ -44,7 +45,7 @@ export async function login(payload: LoginPayload): Promise<LoginResponse> {
  */
 export async function registerTourGuide(payload: TourGuideRegister): Promise<{ msg: string }> {
   try {
-    const response = await http.post<{ msg: string }>("user-service/api/v1/accounts/register-tourguide", payload, {
+    const response = await userServiceHttp.post<{ msg: string }>("accounts/register-tourguide", payload, {
       headers: { "Content-Type": "application/json" },
     });
     return response.data;
@@ -69,7 +70,7 @@ export async function registerTourGuide(payload: TourGuideRegister): Promise<{ m
 
 export async function registerCustomer(payload: CustomerRegister): Promise<{ msg: string }> {
   try {
-    const response = await http.post<{ msg: string }>("user-service/api/v1/accounts/register-customer", payload, {
+    const response = await userServiceHttp.post<{ msg: string }>("accounts/register-customer", payload, {
       headers: { "Content-Type": "application/json" },
     });
     return response.data;
@@ -91,3 +92,13 @@ export async function registerCustomer(payload: CustomerRegister): Promise<{ msg
     throw new Error(message);
   }
 }
+
+export const getUserByAccountAndRole = async (id: number, role: string) => {
+  const response = await userServiceHttp.get<Customer>(`account/getbyaccountandrole`, {
+    params: {
+      id: id,
+      role: role,
+    },
+  });
+  return response.data;
+};
