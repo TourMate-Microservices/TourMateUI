@@ -11,9 +11,9 @@ import Footer from "@/components/footer"
 import { searchInvoicesByTourGuideStatusPaged } from "@/api/invoice.api"
 import { getTourGuideByAccountId } from "@/api/tour-guide.api"
 import type { InvoiceSearchPaged } from "@/types/invoice"
-import { MyJwtPayload } from "@/types/JwtPayload"
 import { useToken } from "@/components/getToken"
 import { jwtDecode } from "jwt-decode"
+import { MyJwtPayload } from "@/types/jwt-payload"
 
 
 const pageSize = 5

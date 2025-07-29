@@ -1,7 +1,7 @@
 'use client'
 import { useQuery } from '@tanstack/react-query';
 import React, { use, useEffect, useState } from 'react';
-import { FaMapMarkerAlt, FaPhoneAlt, FaRegClock, FaRegUser, FaSuitcaseRolling, FaCheck } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaPhoneAlt, FaRegClock, FaRegUser, FaSuitcaseRolling, FaCheck, FaFacebookMessenger } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
 import dayjs from 'dayjs';
 import SafeImage from '@/components/safe-image';
@@ -72,7 +72,9 @@ export default function TourGuideDetailPage({
     });
   }, []);
 
+  const token = sessionStorage.getItem("accessToken");
   console.log('Tour Guide Data:', tourGuide);
+
   return (
     <>
       <MegaMenu />
@@ -110,7 +112,19 @@ export default function TourGuideDetailPage({
             </div>
 
             <div className="flex justify-end md:col-span-3">
-              {/* Chat button here if needed */}
+              <Button
+                className="bg-blue-700 hover:bg-blue-800 text-white font-medium rounded-lg text-sm px-5 py-2.5"
+                onClick={() => {
+                  if (!token) {
+                    alert('Vui lòng đăng nhập để sử dụng dịch vụ này');
+                    return;
+                  }
+                  router.push(`/chat?userId=${tourGuide?.tourGuide.accountId}`);
+                }}
+              >
+                <FaFacebookMessenger size={20} className="mr-2" />
+                Nhắn tin
+              </Button>
             </div>
           </div>
 
@@ -145,7 +159,7 @@ export default function TourGuideDetailPage({
           {id && <TourServices data={tourGuide?.tours} />}
         </div>
         <div className="w-[85%] mx-auto shadow-xl rounded-xl p-6 mb-10 bg-white">
-          {id && <Feedbacks tourGuideId={id}/>}
+          {id && <Feedbacks tourGuideId={id} />}
         </div>
       </div>
       <Footer />

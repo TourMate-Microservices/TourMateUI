@@ -6,5 +6,6 @@ export type MyJwtPayload = {
   /**
    * CustomerId or TourGuideId
    */
-  SuppliedId: number
+  SuppliedId: number;
+  RoleId: number;
 };
