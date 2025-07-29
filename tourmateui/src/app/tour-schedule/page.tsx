@@ -10,11 +10,11 @@ import MegaMenu from "@/components/mega-menu"
 import Footer from "@/components/footer"
 import { searchInvoicesByCustomerStatusPaged, searchInvoicesByTourGuideStatusPaged } from "@/api/invoice.api"
 import type { InvoiceSearchPaged } from "@/types/invoice"
-import { MyJwtPayload } from "@/types/JwtPayload"
 import { useToken } from "@/components/getToken"
 import { jwtDecode } from "jwt-decode"
 import { getCustomerWithAcc } from "@/api/customer.api"
 import React from "react"
+import { MyJwtPayload } from "@/types/jwt-payload"
 
 
 const pageSize = 5

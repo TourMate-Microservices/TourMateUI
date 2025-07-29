@@ -201,7 +201,7 @@ export default function PaymentHistory() {
                           className="cursor-pointer hover:bg-gray-100 transition"
                         >
                           <TableCell className="font-medium">#{payment.paymentId.toString().padStart(6, "0")}</TableCell>
-                          <TableCell>{getPaymentTypeIcon(payment.paymentType)}</TableCell>
+                          <TableCell>{getPaymentTypeIcon(payment.paymentMethod)}</TableCell>
                           <TableCell>
                             <div className="space-y-1">
                               <div className="font-medium">

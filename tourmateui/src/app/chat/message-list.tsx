@@ -38,7 +38,6 @@ export default function MessageList({
   hubConnection,
 }: Props) {
   const [messages, setMessages] = useState<Message[]>([])
-  const [signalRMessages, setSignalRMessages] = useState<Message[]>([])
   const { file, setFile } = useContext(FileUploadContext) as FileUploadContextProps
   const token = useToken("accessToken")
   const decoded: MyJwtPayload | null = token ? jwtDecode<MyJwtPayload>(token.toString()) : null

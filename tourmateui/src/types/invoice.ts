@@ -119,6 +119,3 @@ export interface InvoiceSchedule {
   customerId: number;
 }
 
-export interface InvoiceSearchPaged {
-
-}

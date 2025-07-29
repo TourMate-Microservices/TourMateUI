@@ -172,6 +172,23 @@ export default function CallModal({
           else if (state === "failed") setError("Kết nối thất bại");
         };
 
+        // Kiểm tra xem browser có hỗ trợ getUserMedia không
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          throw new Error("Browser không hỗ trợ WebRTC. Vui lòng sử dụng Chrome, Firefox, Safari hoặc Edge phiên bản mới.");
+        }
+
+        // Kiểm tra secure context cho production
+        const isSecureContext = window.isSecureContext || window.location.protocol === 'https:' || 
+                               window.location.hostname === 'localhost' || 
+                               window.location.hostname === '127.0.0.1' ||
+                               window.location.hostname.startsWith('192.168.') ||
+                               window.location.hostname.startsWith('10.') ||
+                               window.location.hostname.startsWith('172.');
+        
+        if (!isSecureContext) {
+          throw new Error("Cuộc gọi video/audio yêu cầu HTTPS. Vui lòng truy cập qua HTTPS hoặc localhost.");
+        }
+
         const stream = await navigator.mediaDevices.getUserMedia({
           video: type === "video" ? { width: 640, height: 480 } : false,
           audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
@@ -211,7 +228,22 @@ export default function CallModal({
         }
 
       } catch (err) {
-        console.log(err)
+        console.error("WebRTC setup error:", err);
+        if (err instanceof Error) {
+          if (err.name === 'NotAllowedError') {
+            setError("Bạn cần cấp quyền truy cập camera/microphone để thực hiện cuộc gọi.");
+          } else if (err.name === 'NotFoundError') {
+            setError("Không tìm thấy camera hoặc microphone. Vui lòng kiểm tra thiết bị.");
+          } else if (err.name === 'NotSupportedError') {
+            setError("Browser không hỗ trợ tính năng này.");
+          } else if (err.message.includes('HTTPS')) {
+            setError("Cuộc gọi video/audio yêu cầu HTTPS. Vui lòng truy cập qua HTTPS, localhost hoặc IP cục bộ.");
+          } else {
+            setError(`Lỗi khởi tạo cuộc gọi: ${err.message}`);
+          }
+        } else {
+          setError("Có lỗi xảy ra khi khởi tạo cuộc gọi. Vui lòng thử lại.");
+        }
       }
     };
 

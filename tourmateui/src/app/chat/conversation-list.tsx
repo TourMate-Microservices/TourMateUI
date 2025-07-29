@@ -75,7 +75,7 @@ export default function ConversationList({ onSelect, selectedId, onConversations
         }
       })
     }
-  }, [hubConnection, localConversations])
+  }, [hubConnection, localConversations, joinedConversations])
 
   useEffect(() => {
     if (hubConnection?.state === signalR.HubConnectionState.Disconnected) {
@@ -125,7 +125,7 @@ export default function ConversationList({ onSelect, selectedId, onConversations
   }, [hubConnection])
 
   const debounceSearch = useCallback(
-    debounce((term: string) => setDebouncedTerm(term.trim().toLowerCase())),
+    debounce((term: string) => setDebouncedTerm(term.trim().toLowerCase()), 300),
     [],
   )
 

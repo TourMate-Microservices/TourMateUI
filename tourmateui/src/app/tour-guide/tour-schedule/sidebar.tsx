@@ -15,7 +15,7 @@ import {
 import { jwtDecode } from 'jwt-decode';
 import { MyJwtPayload } from '@/types/jwt-payload';
 import { TourGuide } from '@/types/tour-guide';
-import { getTourGuideByAccountId } from '@/api/tour-guide.api';
+import { getByAccountId } from '@/api/tour-guide.api';
 
 type TourGuideSidebarProps = {
   onNavItemClick?: (label: string) => void;
@@ -42,7 +42,7 @@ const TourGuideSidebar: FC<TourGuideSidebarProps> = ({ onNavItemClick }) => {
 
   useEffect(() => {
     if (!accountId) return;
-    getTourGuideByAccountId(Number(accountId))
+    getByAccountId(Number(accountId))
       .then(setTourGuide)
       .catch(console.error);
   }, [accountId]);
