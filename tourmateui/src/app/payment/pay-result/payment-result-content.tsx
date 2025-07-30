@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "next/navigation"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -9,6 +10,7 @@ import { PaymentDetails } from "./payment-details"
 import { PaymentError } from "./payment-error"
 import { ActionButtons } from "./action-buttons"
 import { BackgroundDecoration } from "./background-decoration"
+import { updatePaymentStatus } from "@/api/invoice.api"
 
 // Thêm state cho modal trong PaymentResultContent component
 export function PaymentResultContent() {
@@ -18,13 +20,19 @@ export function PaymentResultContent() {
   const paymentId = searchParams.get("paymentId")
   const invoiceId = searchParams.get("invoiceId")
 
-                 
   // Nếu thành công, fetch payment detail
   const { data: paymentData } = useQuery({
     queryKey: ["payment", paymentId],
     queryFn: () => (paymentId && typeof paymentId === "string" ? fetchPaymentResultWithServiceName(Number(paymentId)) : null),
     enabled: isSuccess && !!paymentId && typeof paymentId === "string",
   })
+
+  useEffect(() => {
+    if (isSuccess && invoiceId && typeof invoiceId === "string") {
+      updatePaymentStatus(invoiceId, "paid").then(() => {
+      })
+    }
+  }, [isSuccess, invoiceId])
 
   return (
     <>
