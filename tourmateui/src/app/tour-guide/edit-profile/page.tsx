@@ -61,8 +61,6 @@ export default function TourGuideProfileEditPage() {
     useEffect(() => {
         if (!token) return;
         const tokenData = jwtDecode<MyJwtPayload>(token)
-        console.log(tokenData.SuppliedId);
-
         setId(tokenData.SuppliedId)
     }, [token])
     const { data, refetch } = useQuery({
