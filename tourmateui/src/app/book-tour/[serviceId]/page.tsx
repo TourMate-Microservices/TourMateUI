@@ -167,15 +167,16 @@ export default function TourBookingCalendar() {
     }
 
     try {
-      // Tính startDate và endDate chuẩn
+      // Tính startDate và endDate chuẩn (giờ Việt Nam)
       const [startHour, startMinute] = selectedTimeSlot.split(":").map(Number);
       const durationParts = tourService.duration.split(":").map(Number);
       const durHour = durationParts[1] || 0;
       const durMinute = durationParts[2] || 0;
       const durSecond = durationParts[3] || 0;
 
+      // Tạo startDateObj theo giờ Việt Nam
       const startDateObj = new Date(selectedDate);
-      startDateObj.setHours(startHour, startMinute, 0, 0);
+      startDateObj.setHours(startHour + 7, startMinute, 0, 0); // +7 giờ VN
 
       const endDateObj = new Date(startDateObj);
       endDateObj.setHours(endDateObj.getHours() + durHour);
