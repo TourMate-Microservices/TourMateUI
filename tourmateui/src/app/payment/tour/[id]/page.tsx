@@ -29,7 +29,7 @@ import { useToken } from "@/components/getToken"
 import { addPayment, createEmbeddedPaymentLink } from "@/api/payment.api"
 import { webURL } from "@/constants/constants"
 import { MyJwtPayload } from "@/types/jwt-payload"
-import { fetchScheduleByInvoiceId } from "@/api/invoice.api"
+import { fetchScheduleByInvoiceId, updatePaymentStatus } from "@/api/invoice.api"
 import { InvoiceSchedule } from "@/types/invoice"
 import { getCustomerWithAcc } from "@/api/customer.api"
 import { Customer } from "@/types/customer"
@@ -93,6 +93,7 @@ export default function TourPaymentPage() {
         })
 
         if (payment) {
+          await updatePaymentStatus(invoiceId, "paid")
           // Add delay to show processing state
           setTimeout(() => {
             setIsPaymentOpen(false)
