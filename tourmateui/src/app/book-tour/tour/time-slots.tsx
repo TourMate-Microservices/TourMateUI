@@ -55,26 +55,37 @@ export function TimeSlots({
   }
 
   const isPastTime = (timeSlot: string) => {
-    if (!isToday(selectedDate)) return false
-    const currentHour = new Date().getHours()
-    const slotHour = Number.parseInt(timeSlot.split(":")[0])
-    let isPast = slotHour <= currentHour
+  if (!isToday(selectedDate)) return false
 
-    // Disable cả slot bắt đầu và slot kết thúc của booking
-    const conflictingBookings = getConflictingBookings(tourService.tourGuideId, selectedDate, timeSlot, tourService.duration, tourGuideSchedule)
-    if (conflictingBookings.some(b => {
-      const bookingStart = new Date(b.startDate)
-      const bookingEnd = new Date(b.endDate)
-      return slotHour >= bookingStart.getHours() && slotHour <= bookingEnd.getHours();
-    }) || conflictingBookings.some(b => {
-      const bookingStart = new Date(b.startDate)
-      const bookingEnd = new Date(b.endDate)
-      return slotHour === bookingStart.getHours() || slotHour === bookingEnd.getHours();
-    })) {
-      isPast = true
-    }
-    return isPast
+  const currentHour = new Date().getHours()
+  const slotHour = Number.parseInt(timeSlot.split(":")[0])
+
+  // Nếu giờ slot đã qua thời điểm hiện tại
+  let isPast = slotHour <= currentHour
+
+  // Disable cả slot nằm trong khoảng (start → end + buffer)
+  const bufferHour = 1 // giờ chuẩn bị
+  const conflictingBookings = getConflictingBookings(
+    tourService.tourGuideId,
+    selectedDate,
+    timeSlot,
+    tourService.duration,
+    tourGuideSchedule
+  )
+
+  if (
+    conflictingBookings.some((b) => {
+      const start = new Date(b.startDate).getHours()
+      const end = new Date(b.endDate).getHours()
+      return slotHour >= start && slotHour <= end + bufferHour
+    })
+  ) {
+    isPast = true
   }
+
+  return isPast
+}
+
 
   return (
     <Card className="py-5 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
