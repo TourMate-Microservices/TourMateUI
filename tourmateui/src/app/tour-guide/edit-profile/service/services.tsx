@@ -10,9 +10,9 @@ import { TourService } from '@/types/tour-service'
 import { toast } from 'react-toastify'
 import Link from 'next/link'
 import PaginateList from '@/components/paginate-list'
-import { deleteTourService, getTourServicesOf, updateTourService } from '@/api/tour-service.api'
+import { createTourService, deleteTourService, getTourServicesOf, updateTourService } from '@/api/tour-service.api'
 
-export default function TourServices({ tourGuideId }: { tourGuideId: number | string }) {
+export default function TourServices({ tourGuideId, areaId }: { tourGuideId: number | string, areaId?: number }) {
     const [page, setPage] = useState(1)
     const pageSize = 6
 
@@ -34,7 +34,9 @@ export default function TourServices({ tourGuideId }: { tourGuideId: number | st
         },
     });
     const deleteServicesMutation = useMutation({
-        mutationFn: async (id: number) => deleteTourService(id),
+        mutationFn: async (id: number) => {
+            return deleteTourService(id)
+        },
         onSuccess: () => {
             toast.success("Xóa thành công");
             refetch()
@@ -45,7 +47,7 @@ export default function TourServices({ tourGuideId }: { tourGuideId: number | st
         },
     });
     const addServicesMutation = useMutation({
-        mutationFn: async (service: TourService) => addService(service),
+        mutationFn: async (service: TourService) => createTourService(service, areaId ?? -1),
         onSuccess: () => {
             toast.success("Tạo thành công");
             refetch()
@@ -70,19 +72,22 @@ export default function TourServices({ tourGuideId }: { tourGuideId: number | st
         refetch()
         setSignal({ edit: false, delete: false, create: false })
     }
+
+    const id = Number(tourGuideId)
     const services = data?.data ?? []
     const maxPage = data?.total_pages ?? 0
     const { setTarget, setModalOpen, modalOpen, signal, setSignal, target } = useContext(ServiceEditContext) as ServiceEditContextProp
-    const id = 1
     useEffect(() => {
         if (signal.edit) {
-            updateService(target)
+            const t = { ...target }
+            t.tourGuideId = id
+            updateService(t)
         }
         if (signal.delete) {
             deleteService(target.serviceId)
         }
         if (signal.create) {
-            const t = target
+            const t = { ...target }
             t.tourGuideId = id
             addService(t)
         }

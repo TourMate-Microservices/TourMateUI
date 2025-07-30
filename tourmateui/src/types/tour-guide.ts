@@ -73,3 +73,19 @@ export type TourGuideProfile = {
   "areaId": number,
   tours: TourOfTourGuide[];
 }
+
+export interface TourGuideProfileEdit {
+  "tourGuideId": number,
+  "fullName": string,
+  "gender": string,
+  "dateOfBirth": string,
+  "address": string,
+  "image": string,
+  "phone": string,
+  "bannerImage": string,
+  "bankName": string,
+  "yearOfExperience"?: number,
+  "description": string,
+  "company": string,
+  "areaId": number,
+}

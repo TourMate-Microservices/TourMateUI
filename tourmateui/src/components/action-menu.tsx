@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "./ui/button";
-import { Settings, LogOut, MapPin, CalendarCheck2, History } from "lucide-react";
+import { Settings, LogOut, MapPin, CalendarCheck2, History, Wallet } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import { MyJwtPayload } from "@/types/jwt-payload";
@@ -79,6 +79,13 @@ export default function ActionMenu() {
               >
                 <CalendarCheck2 size={18} />
                 Quản lý lịch trình
+              </Link>
+              <Link
+                href={`/tour-guide/revenue`}
+                className="w-full flex items-center gap-3 text-gray-800 hover:bg-gray-100 px-4 py-2 rounded-md"
+              >
+                <Wallet size={18} />
+                Doanh thu
               </Link>
             </>
           ) : (
