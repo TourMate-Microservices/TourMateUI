@@ -1,4 +1,4 @@
-import { Feedback } from "@/types/feedbacks";
+import { CreateTourFeedback, Feedback, UpdateFeedback } from "@/types/feedbacks";
 import { PagedResult } from "@/types/response";
 import { paymentServiceHttp } from "@/utils/http";
 
@@ -11,3 +11,23 @@ export const fetchFeedbacksOfTourGuide = async (id: number, page: number, pageSi
   });
   return res.data;
 };
+
+export const getTourFeedbackByInvoice = async (invoiceId: number) => {
+  const response = await paymentServiceHttp.get(`/feedbacks/${invoiceId}`)
+  return response.data
+};
+
+export const addTourFeedback = async (data: CreateTourFeedback) => {
+  const response = await paymentServiceHttp.post("/feedback", data)
+  return response.data
+}
+
+export const updateTourFeedback = async (data: UpdateFeedback) => {
+  const response = await paymentServiceHttp.put(`/feedback/${data.request.feedbackId}`, data)
+  return response.data
+}
+
+export const deleteTourFeedback = async (feedbackId: number) => {
+  const response = await paymentServiceHttp.delete(`/feedback/${feedbackId}`)
+  return response.data
+}
