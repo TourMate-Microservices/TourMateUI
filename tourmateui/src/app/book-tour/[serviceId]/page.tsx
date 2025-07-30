@@ -168,7 +168,6 @@ export default function TourBookingCalendar() {
 
     try {
       // Tính startDate và endDate chuẩn
-      const startDateStr = selectedDate.toISOString().split("T")[0];
       const [startHour, startMinute] = selectedTimeSlot.split(":").map(Number);
       const [durHour, durMinute, durSecond] = tourService.duration.split(":").map(Number);
 
