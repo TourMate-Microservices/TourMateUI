@@ -181,11 +181,12 @@ export default function TourBookingCalendar() {
         customerId: customerId,
         serviceId: tourService.serviceId
     }
-
-      const newInvoice = await TourScheduleService.createInvoice(bookingData)
       
-      // Redirect đến trang payment với invoice ID
-      router.push(`/payment/tour/${newInvoice.invoiceId}`)
+      console.log("Booking data:", bookingData)
+      // const newInvoice = await TourScheduleService.createInvoice(bookingData)
+      
+      // // Redirect đến trang payment với invoice ID
+      // router.push(`/payment/tour/${newInvoice.invoiceId}`)
       
     } catch (error) {
       console.error("Failed to create invoice:", error)
