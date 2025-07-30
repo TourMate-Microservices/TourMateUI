@@ -9,7 +9,8 @@ class Http {
       baseURL: apiUrl,
       timeout: 20000,
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'ngrok-skip-browser-warning': 'true'
       }
     })
 
