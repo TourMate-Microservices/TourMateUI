@@ -58,7 +58,18 @@ export function TimeSlots({
     if (!isToday(selectedDate)) return false
     const currentHour = new Date().getHours()
     const slotHour = Number.parseInt(timeSlot.split(":")[0])
-    return slotHour <= currentHour
+    // Disable cả slot hiện tại và các slot trước đó
+    let isPast = slotHour <= currentHour
+
+    // Nếu slot đã bị đặt (conflict) và thời gian bắt đầu của booking trùng với slot thì cũng disable
+    const conflictingBookings = getConflictingBookings(tourService.tourGuideId, selectedDate, timeSlot, tourService.duration, tourGuideSchedule)
+    if (conflictingBookings.some(b => {
+      const bookingStart = new Date(b.startDate)
+      return bookingStart.getHours() === slotHour
+    })) {
+      isPast = true
+    }
+    return isPast
   }
 
   return (
