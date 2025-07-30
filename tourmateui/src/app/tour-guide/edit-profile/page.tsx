@@ -29,16 +29,16 @@ export default function TourGuideProfileEditPage() {
     }
     const baseService: TourService = {
         serviceId: 0,
-        serviceName: 'name',
-        price: 1,
-        duration: '01:00',
-        content: 'ABC',
-        image: '123456.png',
+        serviceName: '',
+        price: 0,
+        duration: '',
+        content: '',
+        image: '',
         tourGuideId: 0,
         createdDate: '',
         isDeleted: false,
-        title: 'Title',
-        tourDesc: 'desc'
+        title: '',
+        tourDesc: ''
     }
     const token = useToken()
     const [id, setId] = useState(-1)
