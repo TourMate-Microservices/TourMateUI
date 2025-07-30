@@ -44,9 +44,12 @@ export const getConflictingBookings = (
   allSchedules: TourGuideSchedule[],
   bufferHour: number = 1 // default = 1h buffer
 ): TourGuideSchedule[] => {
-  const [startHour] = timeSlot.split(":").map(Number)
+  const [startHour, startMinute] = timeSlot.split(":").map(Number)
   const [durationHours] = duration.split(":").map(Number)
-  const endHour = startHour + durationHours
+  const slotStart = new Date(date)
+  slotStart.setHours(startHour, startMinute, 0, 0)
+  const slotEnd = new Date(slotStart)
+  slotEnd.setHours(slotEnd.getHours() + durationHours)
 
   return allSchedules.filter((schedule) => {
     const scheduleDate = new Date(schedule.startDate)
@@ -58,11 +61,12 @@ export const getConflictingBookings = (
       return false
     }
 
-    const scheduleStartHour = new Date(schedule.startDate).getHours()
-    const scheduleEndHour = new Date(schedule.endDate).getHours() + bufferHour // ⚠️ buffer added here
+    const scheduleStart = new Date(schedule.startDate)
+    const scheduleEnd = new Date(schedule.endDate)
+    scheduleEnd.setHours(scheduleEnd.getHours() + bufferHour)
 
-    // Check nếu khoảng thời gian slot bị giao với lịch
-    return startHour < scheduleEndHour && scheduleStartHour < endHour
+    // Disable slot nếu slotStart nằm trong khoảng [scheduleStart, scheduleEnd)
+    return slotStart >= scheduleStart && slotStart < scheduleEnd
   })
 }
 

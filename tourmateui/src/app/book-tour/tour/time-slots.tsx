@@ -57,13 +57,15 @@ export function TimeSlots({
   const isPastTime = (timeSlot: string) => {
   if (!isToday(selectedDate)) return false
 
-  const currentHour = new Date().getHours()
-  const slotHour = Number.parseInt(timeSlot.split(":")[0])
+  const now = new Date()
+  const [slotHour, slotMinute] = timeSlot.split(":").map(Number)
+  const slotStart = new Date(selectedDate)
+  slotStart.setHours(slotHour, slotMinute, 0, 0)
 
-  // Nếu giờ slot đã qua thời điểm hiện tại
-  let isPast = slotHour <= currentHour
+  // Nếu slot đã qua thời điểm hiện tại
+  let isPast = slotStart <= now
 
-  // Disable cả slot nằm trong khoảng (start → end + buffer)
+  // Disable cả slot nằm trong khoảng [bookingStart, bookingEnd + bufferHour)
   const bufferHour = 1 // giờ chuẩn bị
   const conflictingBookings = getConflictingBookings(
     tourService.tourGuideId,
@@ -75,9 +77,21 @@ export function TimeSlots({
 
   if (
     conflictingBookings.some((b) => {
-      const start = new Date(b.startDate).getHours()
-      const end = new Date(b.endDate).getHours()
-      return slotHour >= start && slotHour <= end + bufferHour
+      const bookingStart = new Date(b.startDate)
+      const bookingEnd = new Date(b.endDate)
+      bookingEnd.setHours(bookingEnd.getHours() + bufferHour)
+      // Disable slot nếu slotStart >= bookingStart && slotStart < bookingEnd + bufferHour
+      return slotStart >= bookingStart && slotStart < bookingEnd
+    })
+  ) {
+    isPast = true
+  }
+
+  // Nếu slotStart trùng đúng bookingStart thì cũng disable
+  if (
+    conflictingBookings.some((b) => {
+      const bookingStart = new Date(b.startDate)
+      return slotStart.getTime() === bookingStart.getTime()
     })
   ) {
     isPast = true
@@ -109,23 +123,63 @@ export function TimeSlots({
             const conflictingBookings = getConflictInfo(selectedDate, timeSlot)
             const isPast = isPastTime(timeSlot)
 
+            // Phân biệt trạng thái
+
+            const [slotHour, slotMinute] = timeSlot.split(":").map(Number)
+            const slotStart = new Date(selectedDate)
+            slotStart.setHours(slotHour, slotMinute, 0, 0)
+            // Parse duration format dd:hh:ss
+            const durationParts = tourService.duration.split(":").map(Number)
+            let durationHours = 0
+            if (durationParts.length === 3) {
+              // dd:hh:ss
+              durationHours = durationParts[0] * 24 + durationParts[1]
+            } else if (durationParts.length === 2) {
+              // hh:mm
+              durationHours = durationParts[0]
+            } else {
+              durationHours = Number(tourService.duration)
+            }
+            const slotEnd = new Date(slotStart)
+            slotEnd.setHours(slotEnd.getHours() + durationHours)
+
+            // Kiểm tra có bị kẹt lịch sau đó không (không đủ thời gian để book)
+            const hasNextConflict = tourGuideSchedule.some((schedule) => {
+              const scheduleStart = new Date(schedule.startDate)
+              return (
+                schedule.tourGuideId === tourService.tourGuideId &&
+                scheduleStart.toDateString() === selectedDate.toDateString() &&
+                ["confirmed", "pending"].includes(schedule.status) &&
+                scheduleStart > slotStart && scheduleStart < slotEnd
+              )
+            })
+
+            const isBusy = conflictingBookings.length > 0 || hasNextConflict
+            const isDisabled = isBusy || isPast
+
+            let buttonColor = ""
+            if (isBusy) {
+              buttonColor = "bg-gradient-to-r from-red-50 to-pink-50 text-red-600 border-red-200 cursor-not-allowed"
+            } else if (isPast) {
+              buttonColor = "opacity-40 cursor-not-allowed bg-gray-100"
+            }
+
             return (
               <div key={timeSlot} className="relative group">
                 <Button
-                  variant={isAvailable && !isPast ? "outline" : "secondary"}
-                  disabled={!isAvailable || isPast}
+                  variant={isAvailable && !isDisabled ? "outline" : "secondary"}
+                  disabled={!isAvailable || isDisabled}
                   className={`
                     w-full h-20 text-base font-medium transition-all duration-200 flex flex-col items-center justify-center
                     ${
-                      isAvailable && !isPast
+                      isAvailable && !isDisabled
                         ? "hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 hover:border-green-300 hover:text-green-700 hover:scale-105 hover:shadow-md"
                         : ""
                     }
-                    ${!isAvailable && !isPast ? "bg-gradient-to-r from-red-50 to-pink-50 text-red-600 border-red-200 cursor-not-allowed" : ""}
-                    ${isPast ? "opacity-40 cursor-not-allowed bg-gray-100" : ""}
+                    ${buttonColor}
                   `}
                   onClick={() => {
-                    if (isAvailable && !isPast) {
+                    if (isAvailable && !isDisabled) {
                       onTimeSlotSelect(timeSlot)
                     }
                   }}
