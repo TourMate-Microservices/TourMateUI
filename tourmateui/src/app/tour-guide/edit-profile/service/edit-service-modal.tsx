@@ -38,7 +38,7 @@ function DurationRender({ d, onChange }: { d: string, onChange: (txt: string) =>
         }
         setTime(newV);
         // Remove padding 0 for both day and hour
-        const newStr = `${newV.day}:${newV.hour}:00`
+        const newStr = `${newV.day.toString().padStart(2, '0')}:${newV.hour.toString().padStart(2, '0')}:00`
         onChange(newStr)
     };
 
