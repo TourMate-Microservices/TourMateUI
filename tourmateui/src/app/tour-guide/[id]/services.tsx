@@ -13,9 +13,7 @@ import { PagedResult } from '@/types/response'
 
 export default function TourServices({ data }: { data?: PagedResult<TourService> }) {
   const [page, setPage] = useState(1)
-  const services = data?.data ?? []
-  console.log(data);
-  
+  const services = data?.data ?? []  
   const maxPage = data?.total_pages ?? 0
 
   useEffect(() => {

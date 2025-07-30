@@ -17,8 +17,8 @@ export default function TourServices({ tourGuideId, areaId }: { tourGuideId: num
     const pageSize = 6
 
     const { data, refetch } = useQuery({
-        queryKey: ['tour-services-of', tourGuideId, pageSize, page - 1],
-        queryFn: () => getTourServicesOf(Number(tourGuideId), page - 1, pageSize, undefined),
+        queryKey: ['tour-services-of', tourGuideId, pageSize, page],
+        queryFn: () => getTourServicesOf(Number(tourGuideId), page, pageSize, undefined),
         staleTime: 24 * 3600 * 1000,
     })
     //Mutation here
