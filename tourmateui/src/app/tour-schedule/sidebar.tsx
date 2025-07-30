@@ -4,12 +4,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     Calendar,
     MapPin,
-    Star,
     User,
     StretchHorizontalIcon,
     MessageCircleMore,
     CalendarCheck,
-    CalendarX,
     ChevronsUpDown,
 } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
@@ -60,11 +58,11 @@ const TourGuideSidebar: FC<TourGuideSidebarProps> = ({ onNavItemClick }) => {
     ];
 
     // Map label sang status code API (dùng đúng mapping với page.tsx)
-    const labelToStatus: Record<string, string> = {
-        'Chờ xác nhận': 'pending',
-        'Lịch hẹn sắp tới': 'confirmed',
-        'Tour đã hướng dẫn': 'passed',
-    };
+    // const labelToStatus: Record<string, string> = {
+    //     'Chờ xác nhận': 'pending',
+    //     'Lịch hẹn sắp tới': 'confirmed',
+    //     'Tour đã hướng dẫn': 'passed',
+    // };
 
 
     return (

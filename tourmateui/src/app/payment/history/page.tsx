@@ -82,7 +82,7 @@ export default function PaymentHistory() {
     }
   }
 
-  const getPaymentTypeIcon = (type: string) => (
+  const getPaymentTypeIcon = () => (
     <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
       <CalendarDays className="h-3 w-3 mr-1" />
       Đặt chuyến đi
@@ -201,7 +201,7 @@ export default function PaymentHistory() {
                           className="cursor-pointer hover:bg-gray-100 transition"
                         >
                           <TableCell className="font-medium">#{payment.paymentId.toString().padStart(6, "0")}</TableCell>
-                          <TableCell>{getPaymentTypeIcon(payment.paymentMethod)}</TableCell>
+                          <TableCell>{getPaymentTypeIcon()}</TableCell>
                           <TableCell>
                             <div className="space-y-1">
                               <div className="font-medium">

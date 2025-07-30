@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "./ui/button";
-import { Settings, LogOut, MapPin, CalendarCheck2, PackageOpen, History, Wallet } from "lucide-react";
+import { Settings, LogOut, MapPin, CalendarCheck2, History } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
 import Link from "next/link";
 import { MyJwtPayload } from "@/types/jwt-payload";

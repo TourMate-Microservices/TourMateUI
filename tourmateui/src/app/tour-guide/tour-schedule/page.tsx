@@ -20,14 +20,12 @@ const pageSize = 5
 
 export default function TourSchedulePage() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [selectedFilter, setSelectedFilter] = useState("Chờ xác nhận")
   const [currentPage, setCurrentPage] = useState(1)
   const [tourGuideId, setTourGuideId] = useState<number | null>(null)
 
   const token = useToken("accessToken")
   const payLoad: MyJwtPayload | undefined = token ? jwtDecode<MyJwtPayload>(token) : undefined
   const accountId = Number(payLoad?.AccountId)
-  const role = payLoad?.["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
 
   // Lấy tourGuideId từ accountId
   useEffect(() => {
@@ -61,8 +59,7 @@ export default function TourSchedulePage() {
   const schedules = data?.data ?? []
   const totalPages = data?.total_pages ?? 1
 
-  const handleFilterChange = (label: string) => {
-    setSelectedFilter(label)
+  const handleFilterChange = () => {
     setSearchTerm("")
     setCurrentPage(1)
   }

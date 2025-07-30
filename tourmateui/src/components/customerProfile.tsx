@@ -26,8 +26,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "react-toastify";
 import { Customer } from "@/types/customer";
-import { getUserByAccountAndRole } from "@/api/account.api";
-import { getCustomer, getCustomerProfile, getCustomerWithAcc, update } from "@/api/customer.api";
+import { getCustomerProfile, update } from "@/api/customer.api";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { storage } from "../../firebaseConfig";
 

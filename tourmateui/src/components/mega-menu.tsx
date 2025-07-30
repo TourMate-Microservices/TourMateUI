@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation"
 import Image from "next/image"
 import Logo from "@/public/logo.png"
 import Link from "next/link"
-import { getUserRole } from "@/utils/get-token"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import ActionMenu from "./action-menu"
@@ -17,21 +16,13 @@ const MegaMenu = () => {
   const [isMounted, setIsMounted] = useState(false)
   const [token, setToken] = useState<string | null>(null)
   const currentRoute = usePathname()
-  const [isOpen, setIsOpen] = useState(false)
-  const [role, setRole] = useState<string | null>("")
-
-  const toggleDropdown = () => setIsOpen(!isOpen)
 
   useEffect(() => {
     setIsMounted(true)
 
     const storedToken = sessionStorage.getItem("accessToken")
     setToken(storedToken)
-    if (storedToken) {
-      const userRole = getUserRole(storedToken)
-      setRole(userRole)
-    }
-  }, [])
+  }, [token])
 
   const handleUnauthorizedAccess = (e: React.MouseEvent, service: string) => {
     e.preventDefault()

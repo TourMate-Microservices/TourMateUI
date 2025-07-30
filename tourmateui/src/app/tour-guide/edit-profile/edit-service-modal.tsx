@@ -69,7 +69,6 @@ function DurationRender({ d, onChange }: { d: string, onChange: (txt: string) =>
 }
 function ServiceEditModal({ isOpen, onClose }: Props) {
     const { target, setTarget, setSignal, modalOpen, setModalOpen, signal } = useContext(ServiceEditContext) as ServiceEditContextProp
-    const [allowCreate, setAllowCreate] = useState(modalOpen.edit)
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
@@ -209,7 +208,7 @@ function ServiceEditModal({ isOpen, onClose }: Props) {
                         <ImageUpload
                             label={'Tải ảnh lên'}
                             imageUrl={target.image}
-                            onImageUpload={function (event: React.ChangeEvent<HTMLInputElement>): void {
+                            onImageUpload={function (): void {
                                 //throw new Error('Function not implemented.');
                                 alert('N/A')
                             }}
@@ -255,7 +254,7 @@ function ServiceEditModal({ isOpen, onClose }: Props) {
                         onClick={() => {
                             setSignal({ edit: true, delete: false, create: false })
                         }}
-                        disabled={!enabled || !allowCreate}
+                        disabled={!enabled}
                         type="submit"
                         className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:bg-gray-700 disabled:hover:bg-gray-600"
                     >
@@ -268,7 +267,7 @@ function ServiceEditModal({ isOpen, onClose }: Props) {
                             onClick={() => {
                                 setSignal({ edit: false, delete: false, create: true })
                             }}
-                            disabled={!enabled || !allowCreate}
+                            disabled={!enabled}
                             type="submit"
                             className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:bg-gray-700 disabled:hover:bg-gray-600"
                         >

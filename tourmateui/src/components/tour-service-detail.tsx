@@ -48,20 +48,6 @@ export function TourServiceDetail({ id }: { id: string }) {
     alert("Bạn cần đăng nhập để đặt lịch.");
   }
 
-  // const {
-  //   data: tourGuideData,
-  //   error: tourGuideError,
-  //   isLoading: isTourGuideLoading,
-  // } = useQuery({
-  //   queryKey: ["tour-guide-info", tourGuidId],
-  //   queryFn: () => getTourGuide(tourGuidId as number),
-  //   enabled: !!tourGuidId,
-  //   retry: 0,
-  //   refetchOnWindowFocus: false,
-  //   staleTime: 24 * 3600 * 1000,
-  // });
-
-
   if (isLoading) {
     return <div>Loading tour service...</div>;
   }
@@ -69,16 +55,6 @@ export function TourServiceDetail({ id }: { id: string }) {
   if (error) {
     return <div>Error loading tour service!</div>;
   }
-
-  // if (isTourGuideLoading) {
-  //   return <div>Loading tour guide...</div>;
-  // }
-
-  // if (tourGuideError) {
-  //   // return <div>Error loading tour guide!</div>;
-  // }
-
-
   return (
     <div className="flex flex-wrap">
       {/* Left content section */}
@@ -191,4 +167,4 @@ export function TourServiceDetail({ id }: { id: string }) {
       </div>
     </div>
   );
-};
+}

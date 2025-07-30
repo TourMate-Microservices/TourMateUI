@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { TourGuide, TourGuideProfile } from "@/types/tour-guide";
+import { TourGuideProfile } from "@/types/tour-guide";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import { FormEvent, useState } from "react";
@@ -12,7 +12,7 @@ import "react-quill-new/dist/quill.snow.css";
 const ReactQuill = dynamic(() => import("react-quill-new"), {
     ssr: false,  // Disable SSR for this component
 });
-export default function TourGuideEditModal({ tourGuide, updateFn, isOpen, onClose }: { tourGuide: TourGuideProfile, updateFn: (tourGuide: TourGuide) => void, isOpen: boolean, onClose: () => void }) {
+export default function TourGuideEditModal({ tourGuide, isOpen, onClose }: { tourGuide: TourGuideProfile, isOpen: boolean, onClose: () => void }) {
     const [formData, setFormData] = useState(tourGuide)
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
