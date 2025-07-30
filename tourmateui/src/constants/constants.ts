@@ -5,7 +5,7 @@ const getBaseUrl = () => {
     return process.env.NEXT_PUBLIC_API_BASE_URL;
   }
   // Server side - fallback
-  return "https://a6b71b859d10.ngrok-free.app";
+  return "https://localhost";
 };
 
 const baseUrl = getBaseUrl();

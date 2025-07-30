@@ -31,7 +31,7 @@ export default function RotatingTourGuideHomePage() {
         refetchOnReconnect: false,
     })
 
-    const tourGuides = data ?? []
+    const tourGuides = Array.isArray(data) ? data : []
 
     if (isLoading || !tourGuides) {
         return (
@@ -88,12 +88,9 @@ export default function RotatingTourGuideHomePage() {
 
                 {/* Tour Guides Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8" data-aos="fade-up" data-aos-delay="200">
-                    {tourGuides.map((currentGuide: TourGuideWithTour, index: number) => {
-                        const key = (currentGuide.tourGuideId + new Date().getTime()).toString()
-                        return (
-                            <TourGuideCard key={key} currentGuide={currentGuide} index={index} />
-                        )
-                    })}
+                    {tourGuides.map((currentGuide: TourGuideWithTour, index: number) => (
+                        <TourGuideCard key={currentGuide.tourGuideId + index} currentGuide={currentGuide} index={index} />
+                    ))}
                 </div>
 
                 {/* View All Button */}
