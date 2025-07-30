@@ -167,10 +167,23 @@ export default function TourBookingCalendar() {
     }
 
     try {
+      // Tính startDate và endDate chuẩn
+      const startDateStr = selectedDate.toISOString().split("T")[0];
+      const [startHour, startMinute] = selectedTimeSlot.split(":").map(Number);
+      const [durHour, durMinute, durSecond] = tourService.duration.split(":").map(Number);
+
+      const startDateObj = new Date(selectedDate);
+      startDateObj.setHours(startHour, startMinute, 0, 0);
+
+      const endDateObj = new Date(startDateObj);
+      endDateObj.setHours(endDateObj.getHours() + durHour);
+      endDateObj.setMinutes(endDateObj.getMinutes() + durMinute);
+      endDateObj.setSeconds(endDateObj.getSeconds() + durSecond);
+
       const bookingData = {
         invoiceId: 0, // Chưa có ID khi tạo mới
-        startDate: `${selectedDate.toISOString().split("T")[0]}T${selectedTimeSlot}:00`,
-        endDate: `${selectedDate.toISOString().split("T")[0]}T${(Number.parseInt(selectedTimeSlot.split(":")[0]) + Number.parseInt(tourService.duration.split(":")[0])).toString().padStart(2, "0")}:00:00`,
+        startDate: startDateObj.toISOString(),
+        endDate: endDateObj.toISOString(),
         peopleAmount: formData.selectedPeople,
         status: "pending",
         paymentStatus: "unpaid",
@@ -180,7 +193,7 @@ export default function TourBookingCalendar() {
         tourGuideId: tourService.tourGuideId,
         customerId: customerId,
         serviceId: tourService.serviceId
-    }
+      }
       
       console.log("Booking data:", bookingData)
       // const newInvoice = await TourScheduleService.createInvoice(bookingData)
