@@ -165,11 +165,12 @@ export const updateInvoiceStatus = async (invoiceId: number | string, status: st
  * Cập nhật trạng thái thanh toán
  * PATCH /invoices/{invoiceId}/payment-status
  */
-export const updatePaymentStatus = async (invoiceId: number | string, paymentStatus: string, signal?: AbortSignal) => {
+export const updatePaymentStatus = async (invoiceId: number | string, status: string, signal?: AbortSignal) => {
   const res = await tourServiceHttp.patch<Invoice>(
     `invoices/${invoiceId}/payment-status`,
-    { paymentStatus },
+    undefined,
     {
+      params: { status },
       signal,
     },
   )
