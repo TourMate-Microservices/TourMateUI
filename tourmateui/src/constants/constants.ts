@@ -17,4 +17,4 @@ export const messageServiceUrl = `${baseUrl}/message-service/api/v1`;
 
 export const messageHub = `${baseUrl}/message-service`;
 
-export const webURL = baseUrl;
+export const webURL = "https://tour-mate-ui.vercel.app";
