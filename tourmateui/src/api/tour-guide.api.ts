@@ -32,7 +32,7 @@ export const getTourGuideByAccountId = async (accountId: number): Promise<TourGu
 };
 
 export const getByAccountId = async (accountId: number): Promise<TourGuide> => {
-  const response = await userServiceHttp.get<TourGuide>(`/tour-guides/get-by-accountid/${accountId}`);
+  const response = await userServiceHttp.get<TourGuide>(`/tour-guides/from-account/${accountId}`);
   return response.data;
 };
 

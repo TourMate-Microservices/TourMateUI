@@ -5,7 +5,7 @@ const getBaseUrl = () => {
     return process.env.NEXT_PUBLIC_API_BASE_URL;
   }
   // Server side - fallback
-  return "https://localhost";
+  return "http://localhost";
 };
 
 const baseUrl = getBaseUrl();

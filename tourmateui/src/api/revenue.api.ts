@@ -25,7 +25,7 @@ export const getRevenueStats = async (
 
   try {
     const response = await paymentServiceHttp.get<RevenueStatsDto>(
-      `revenue/stats/${tourGuideId}`,
+      `revenues/stats/${tourGuideId}`,
       {
         params: {
           month,
@@ -154,7 +154,7 @@ export const exportRevenueExcel = async (tourGuideId: number, month: number, yea
   const loadingToast = toast.loading("Đang tạo file Excel...")
 
   try {
-    const response = await paymentServiceHttp.get(`revenue/export/${tourGuideId}`, {
+    const response = await paymentServiceHttp.get(`revenues/export/${tourGuideId}`, {
       params: {
         month,
         year,
@@ -208,7 +208,7 @@ export const revenueApi = {
 }
 
 export const getDashboardStats = async (signal?: AbortSignal) => {
-  const response = await paymentServiceHttp.get<DashboardStatsAdmin>(`revenue/dashboard-stats`, {
+  const response = await paymentServiceHttp.get<DashboardStatsAdmin>(`revenues/dashboard-stats`, {
     signal,
   })
   return response.data
@@ -218,7 +218,7 @@ export const getAdminRevenueById = async (
   revenueId: number,
   signal?: AbortSignal
 ) => {
-  const response = await paymentServiceHttp.get<RevenueAdmin>(`revenue/details/${revenueId}`, {
+  const response = await paymentServiceHttp.get<RevenueAdmin>(`revenues/details/${revenueId}`, {
     signal,
   })
   return response.data
@@ -239,7 +239,7 @@ export const getUnpaidRevenues = async (
     params.append("searchTerm", searchTerm)
   }
 
-  const response = await paymentServiceHttp.get<PagedResult<RevenueAdmin>>(`revenue/unpaid?${params}`, {
+  const response = await paymentServiceHttp.get<PagedResult<RevenueAdmin>>(`revenues/unpaid?${params}`, {
     signal,
   })
   return response.data
@@ -249,7 +249,7 @@ export const processPayment = async (
   request: ProcessPaymentRequest,
   signal?: AbortSignal
 ) => {
-  const response = await paymentServiceHttp.post<PaymentResultAdmin>("revenue/process-payment", request, {
+  const response = await paymentServiceHttp.post<PaymentResultAdmin>("revenues/process-payment", request, {
     signal,
   })
   return response.data
@@ -265,7 +265,7 @@ export const getPaymentHistory = async (
     pageSize: pageSize.toString(),
   })
 
-  const response = await paymentServiceHttp.get<PagedResult<PaymentHistoryAdmin>>(`revenue/payment-history?${params}`, {
+  const response = await paymentServiceHttp.get<PagedResult<PaymentHistoryAdmin>>(`revenues/payment-history?${params}`, {
     signal,
   })
   return response.data
