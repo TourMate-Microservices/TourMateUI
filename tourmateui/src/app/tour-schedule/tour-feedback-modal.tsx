@@ -18,6 +18,7 @@ interface TourFeedbackModalProps {
   invoiceId: string | number
   customerId: number
   tourGuideId: number
+  serviceId: number
   tourName?: string
   tourGuideName?: string
   existingFeedback?: Feedback | null
@@ -31,6 +32,7 @@ export function TourFeedbackModal({
   invoiceId,
   customerId,
   tourGuideId,
+  serviceId,
   tourName,
   tourGuideName,
   existingFeedback,
@@ -67,8 +69,9 @@ export function TourFeedbackModal({
       content: string
       rating: number
       invoiceId: number
+      serviceId: number
     }) => {
-      return addTourFeedback({ ...data, serviceId: 0 }) // Replace 0 with the appropriate serviceId value
+      return addTourFeedback({ ...data })
     },
     onSuccess: () => {
       toast.success("Đánh giá tour đã được gửi thành công!")
@@ -134,6 +137,7 @@ export function TourFeedbackModal({
       const createData = {
         customerId,
         tourGuideId,
+        serviceId,
         content: feedback,
         rating,
         invoiceId: Number(invoiceId),
@@ -146,6 +150,7 @@ export function TourFeedbackModal({
         rating,
         customerId,
         tourGuideId,
+        serviceId,
       }
       updateMutation.mutate(updateData)
     }

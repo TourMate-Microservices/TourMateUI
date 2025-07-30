@@ -55,6 +55,7 @@ interface ScheduleCardProps {
   customerAccountId: number;
   customerId: number;
   tourGuideId: number;
+  serviceId: number;
 }
 
 const ScheduleCard: FC<ScheduleCardProps> = ({
@@ -78,6 +79,7 @@ const ScheduleCard: FC<ScheduleCardProps> = ({
   customerAccountId,
   customerId,
   tourGuideId,
+  serviceId,
 }) => {
 
   const queryClient = useQueryClient();
@@ -278,6 +280,7 @@ const ScheduleCard: FC<ScheduleCardProps> = ({
         invoiceId={invoiceId}
         customerId={customerId}
         tourGuideId={tourGuideId}
+        serviceId={serviceId}
         tourName={tourName}
         tourGuideName={tourGuideName}
         existingFeedback={hasFeedback ? existingFeedback : null}

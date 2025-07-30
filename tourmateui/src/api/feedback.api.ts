@@ -18,16 +18,16 @@ export const getTourFeedbackByInvoice = async (invoiceId: number) => {
 };
 
 export const addTourFeedback = async (data: CreateTourFeedback) => {
-  const response = await paymentServiceHttp.post("/feedback", data)
+  const response = await paymentServiceHttp.post("/feedbacks", data)
   return response.data
 }
 
 export const updateTourFeedback = async (data: UpdateFeedback) => {
-  const response = await paymentServiceHttp.put(`/feedback/${data.request.feedbackId}`, data)
+  const response = await paymentServiceHttp.put(`/feedbacks/${data.request.feedbackId}`, data)
   return response.data
 }
 
 export const deleteTourFeedback = async (feedbackId: number) => {
-  const response = await paymentServiceHttp.delete(`/feedback/${feedbackId}`)
+  const response = await paymentServiceHttp.delete(`/feedbacks/${feedbackId}`)
   return response.data
 }
