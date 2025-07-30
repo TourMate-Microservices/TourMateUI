@@ -1,4 +1,4 @@
-import { TourGuide, TourGuideIdAndName, TourGuideProfile, TourGuideWithTour } from "@/types/tour-guide";
+import { TourGuide, TourGuideIdAndName, TourGuideProfile, TourGuideProfileEdit, TourGuideWithTour } from "@/types/tour-guide";
 import { userServiceHttp } from "../utils/http";
 import { PagedResult } from "@/types/response";
 import { TourGuideDetail } from "@/types/tour-guide-detail";
@@ -93,6 +93,16 @@ export const changePassword = async (id: number, newPassword: string) => {
 export const getTourGuideWithServices = async (id: number | string) => {
   try {
     const response = await userServiceHttp.get<TourGuideDetail>(`/tour-guides/by-id-with-tours-paged?id=${id}&page=1&perPage=5`);
+    return response.data;
+  }
+  catch (err) {
+    throw err
+  }
+}
+
+export const updateTourGuide = async (data: TourGuideProfileEdit) => {
+  try {
+    const response = await userServiceHttp.put(`/tour-guides/${data.tourGuideId}`, data);
     return response.data;
   }
   catch (err) {

@@ -3,7 +3,9 @@ import React, { useContext, useState } from 'react'
 import { ServiceEditContext, ServiceEditContextProp } from './service-edit-context'
 import dynamic from 'next/dynamic';
 import DeleteModal from '@/components/delete-modal';
-import { ImageUpload } from './image-upload';
+import { ImageUpload } from '../image-upload';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { storage } from '../../../../../firebaseConfig';
 const ReactQuill = dynamic(() => import("react-quill-new"), {
     ssr: false,  // Disable SSR for this component
 });
@@ -69,6 +71,21 @@ function DurationRender({ d, onChange }: { d: string, onChange: (txt: string) =>
 }
 function ServiceEditModal({ isOpen, onClose }: Props) {
     const { target, setTarget, setSignal, modalOpen, setModalOpen, signal } = useContext(ServiceEditContext) as ServiceEditContextProp
+    const [, setAllowCreate] = useState(modalOpen.edit)
+    const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0]
+        if (!file) return
+        setAllowCreate(false)
+        try {
+            const storageRef = ref(storage, `customers/profile-images/${Date.now()}-${file.name}`)
+            const snapshot = await uploadBytes(storageRef, file)
+            const downloadURL = await getDownloadURL(snapshot.ref)
+            return downloadURL
+        } catch (error) {
+            console.error("Error uploading image:", error)
+            alert("Tải ảnh lên thất bại. Vui lòng thử lại.")
+        }
+    }
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
     ) => {
@@ -208,9 +225,11 @@ function ServiceEditModal({ isOpen, onClose }: Props) {
                         <ImageUpload
                             label={'Tải ảnh lên'}
                             imageUrl={target.image}
-                            onImageUpload={function (): void {
-                                //throw new Error('Function not implemented.');
-                                alert('N/A')
+                            onImageUpload={async function (event: React.ChangeEvent<HTMLInputElement>) {
+                                const url = await handleImageUpload(event)
+                                if (!url) return;
+                                setAllowCreate(true)
+                                setTarget({ ...target, image: url })
                             }}
                         />
                     </div>
@@ -256,7 +275,7 @@ function ServiceEditModal({ isOpen, onClose }: Props) {
                         }}
                         disabled={!enabled}
                         type="submit"
-                        className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:bg-gray-700 disabled:hover:bg-gray-600"
+                        className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-primary-800 disabled:bg-gray-700 disabled:hover:bg-gray-600"
                     >
                         Cập nhật
                     </button>
@@ -269,7 +288,7 @@ function ServiceEditModal({ isOpen, onClose }: Props) {
                             }}
                             disabled={!enabled}
                             type="submit"
-                            className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 disabled:bg-gray-700 disabled:hover:bg-gray-600"
+                            className="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-primary-800 disabled:bg-gray-700 disabled:hover:bg-gray-600"
                         >
                             Tạo
                         </button>
@@ -281,6 +300,7 @@ function ServiceEditModal({ isOpen, onClose }: Props) {
                     message='Xóa dịch vụ này?'
                     onClose={() => setModalOpen({ ...modalOpen, delete: false })}
                     onConfirm={() => {
+                        console.log('Confirm');                        
                         setModalOpen({ create: false, edit: false, delete: false })
                         setSignal({ ...signal, delete: true })
                     }}

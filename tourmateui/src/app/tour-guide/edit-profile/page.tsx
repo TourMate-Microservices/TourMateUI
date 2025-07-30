@@ -1,23 +1,26 @@
 'use client'
-import { getTourGuideProfile } from '@/api/tour-guide.api'
+import { getTourGuideProfile, updateTourGuide } from '@/api/tour-guide.api'
 import Footer from '@/components/footer'
 import MegaMenu from '@/components/mega-menu'
 import { MyJwtPayload } from '@/types/jwt-payload'
 import { useToken } from '@/utils/get-token'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { jwtDecode } from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
-import { ServiceEditContext } from './service-edit-context'
+import { ServiceEditContext } from './service/service-edit-context'
 import { TourService } from '@/types/tour-service'
 import EditPic from './edit-pic'
-import ServiceEditModal from './edit-service-modal'
+import ServiceEditModal from './service/edit-service-modal'
 import Banner from '@/components/banner'
 import { FaCamera } from 'react-icons/fa'
 import SafeImage from '@/components/safe-image'
 import { Button } from '@/components/ui/button'
 import TourGuideEditModal from './tour-guide-edit-modal'
 import Detail from './detail'
-import TourServices from './services'
+import TourServices from './service/services'
+import PictureView from './picture-view'
+import { toast } from 'react-toastify'
+import { TourGuideProfileEdit } from '@/types/tour-guide'
 
 export default function TourGuideProfileEditPage() {
     const targetType = {
@@ -26,16 +29,16 @@ export default function TourGuideProfileEditPage() {
     }
     const baseService: TourService = {
         serviceId: 0,
-        serviceName: '',
-        price: 0,
-        duration: '',
-        content: '',
-        image: '',
+        serviceName: 'name',
+        price: 1,
+        duration: '01:00',
+        content: 'ABC',
+        image: '123456.png',
         tourGuideId: 0,
         createdDate: '',
         isDeleted: false,
-        title: '',
-        tourDesc: ''
+        title: 'Title',
+        tourDesc: 'desc'
     }
     const token = useToken()
     const [id, setId] = useState(-1)
@@ -62,31 +65,59 @@ export default function TourGuideProfileEditPage() {
 
         setId(tokenData.SuppliedId)
     }, [token])
-    const { data } = useQuery({
+    const { data, refetch } = useQuery({
         queryKey: ['tour-guide-profile', id],
         queryFn: () => getTourGuideProfile(id),
         staleTime: 24 * 3600 * 1000,
         enabled: id !== -1
     })
+    const updateTourGuideMutation = useMutation({
+        mutationFn: async ({ data }: { data: TourGuideProfileEdit }) => {
+            return await updateTourGuide(data)
+        },
+        onSuccess: () => {
+            toast.success("Cập thành công");
+            setEditFormOpen(false)
+            refetch()
+        },
+        onError: (error) => {
+            toast.error("Cập nhật thất bại");
+            console.error(error);
+        },
+    });
+
+    const update = (newData: TourGuideProfileEdit) => {
+        updateTourGuideMutation.mutate({ data: newData })
+        setToggleMode({ ...toggleMode, edit: false })
+    }
     const tourGuide = data?.data
     return (
         <div>
             <MegaMenu />
+            <PictureView isOpen={toggleMode.view} onClose={() => { setToggleMode({ ...toggleMode, view: false }) }} img={toggleMode.value} />
             <ServiceEditContext.Provider value={{ modalOpen, setModalOpen, target, setTarget, signal, setSignal }}>
                 {toggleMode.edit &&
                     <EditPic
                         isOpen
                         onClose={() => { setToggleMode({ ...toggleMode, edit: false }) }}
                         type={toggleMode.targetType}
-                        onConfirm={() => {
-                            alert('N/A')
+                        onConfirm={(url) => {
+                            if (!tourGuide) return;
+                            const newData = { ...tourGuide }
+                            if (targetType.banner == toggleMode.targetType) {
+                                newData.bannerImage = url
+                            }
+                            else {
+                                newData.image = url
+                            }
+                            update(newData)
                         }}
                     />
                 }
                 {(modalOpen.edit || modalOpen.create) &&
                     <ServiceEditModal
                         isOpen
-                        onClose={() => { setModalOpen(p => ({ ...p, edit: false, create: false })) }}
+                        onClose={() => { setModalOpen(p => ({ ...p, edit: false, create: false })) }}                        
                     />
                 }
 
@@ -143,7 +174,11 @@ export default function TourGuideProfileEditPage() {
                             </Button>
                         </div>
                         <div className={`${toggleSection.info ? 'block' : 'hidden'} mb-1`}>
-                            {tourGuide && <TourGuideEditModal tourGuide={tourGuide} isOpen={editFormOpen} onClose={() => setEditFormOpen(false)} />}
+                            {tourGuide && <TourGuideEditModal tourGuide={tourGuide} updateFn={(v) => {
+                                if (tourGuide) {
+                                    update(v)
+                                }
+                            }} isOpen={editFormOpen} onClose={() => setEditFormOpen(false)} />}
                             {tourGuide && <Detail s={tourGuide} />}
                             <Button
                                 onClick={() => setEditFormOpen(true)}
@@ -173,7 +208,7 @@ export default function TourGuideProfileEditPage() {
                                 Tạo dịch vụ
                             </Button>
                             <div className='mx-[5%] mt-4'>
-                                <TourServices tourGuideId={id} />
+                                <TourServices tourGuideId={id} areaId={tourGuide?.areaId}/>
                             </div>
                         </div>
                     </div>

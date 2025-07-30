@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { TourGuideProfile } from "@/types/tour-guide";
+import {  TourGuideProfile, TourGuideProfileEdit } from "@/types/tour-guide";
 import { useQuery } from "@tanstack/react-query";
 import dynamic from "next/dynamic";
 import { FormEvent, useState } from "react";
@@ -12,7 +12,7 @@ import "react-quill-new/dist/quill.snow.css";
 const ReactQuill = dynamic(() => import("react-quill-new"), {
     ssr: false,  // Disable SSR for this component
 });
-export default function TourGuideEditModal({ tourGuide, isOpen, onClose }: { tourGuide: TourGuideProfile, isOpen: boolean, onClose: () => void }) {
+export default function TourGuideEditModal({ tourGuide, updateFn, isOpen, onClose }: { tourGuide: TourGuideProfile, updateFn: (tourGuide: TourGuideProfileEdit) => void, isOpen: boolean, onClose: () => void }) {
     const [formData, setFormData] = useState(tourGuide)
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -27,11 +27,10 @@ export default function TourGuideEditModal({ tourGuide, isOpen, onClose }: { tou
     })
     function submit(e: FormEvent) {
         e.preventDefault()
-        //updateFn(formData)
+        updateFn(formData)
     }
     function handleEditorChange(value: string) {
-        const added = ({ ...tourGuide, description: value })
-        setFormData((prev) => ({ ...prev, tourGuideDescs: [added] }))
+        setFormData((prev) => ({ ...prev, description: value }))
     }
     const simplifiedAreas = simplifiedAreaQuery.data ?? []
     return (

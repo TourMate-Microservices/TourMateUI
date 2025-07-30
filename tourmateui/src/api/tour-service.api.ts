@@ -45,13 +45,15 @@ export const getTourServices = async (signal?: AbortSignal) => {
   })
   return res.data
 }
-
 /**
  * Tạo tour service mới
  * POST /tour-services
  */
-export const createTourService = async (data: Partial<TourService>, signal?: AbortSignal) => {
-  const res = await tourServiceHttp.post<TourService>("tour-services", data, {
+export const createTourService = async (data: Partial<TourService>, areaId: number, signal?: AbortSignal) => {
+  const newData = ({...data, areaId})
+  console.log(newData);
+  
+  const res = await tourServiceHttp.post<TourService>("tour-services", newData, {
     signal,
   })
   return res.data
