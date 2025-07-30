@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useParams } from "next/navigation"
 import { useMonthlySchedule } from "./../../hooks/use-monthly-schedule"
 import { TourScheduleService } from "@/services/tour-service"
 import { Button } from "@/components/ui/button"
@@ -21,7 +21,7 @@ import { getCustomer } from "@/api/customer.api"
 
 export default function TourBookingCalendar() {
   const params = useParams()
-  const router = useRouter()
+  // const router = useRouter()
   const serviceId = Number(params.serviceId)
   
   const [selectedDate, setSelectedDate] = useState<Date>(new Date())

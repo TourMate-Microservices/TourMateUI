@@ -121,7 +121,7 @@ export function BookedToursList({ bookedSlots }: BookedToursListProps) {
         </div>
 
         {/* Summary */}
-        {bookedSlots.length > 0 && (
+        {/* {bookedSlots.length > 0 && (
           <div className="mt-4 pt-4 border-t border-gray-200">
             <div className="flex justify-between items-center text-sm">
               <span className="text-gray-600">Tổng doanh thu:</span>
@@ -130,7 +130,7 @@ export function BookedToursList({ bookedSlots }: BookedToursListProps) {
               </span>
             </div>
           </div>
-        )}
+        )} */}
       </CardContent>
     </Card>
   )
