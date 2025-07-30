@@ -86,6 +86,7 @@ export default function TourPaymentPage() {
       try {
         const payment = await addPayment({
           customerId: user?.customerId ?? 0,
+          tourGuideId: schedule?.tourGuideId ?? 0,
           invoiceId: Number(invoiceId),
           price: schedule?.price || 0,
           serviceId: schedule?.serviceId || 0,

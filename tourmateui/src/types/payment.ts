@@ -28,6 +28,7 @@ export type PaymentResultWithServiceName = {
 
 export type CreatePaymentRequest = {
     customerId: number;
+    tourGuideId: number;
     invoiceId: number;
     serviceId: number;
     price: number;
