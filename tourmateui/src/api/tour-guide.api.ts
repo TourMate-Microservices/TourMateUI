@@ -53,7 +53,9 @@ export const getList = async (name: string, areaId: string | number | undefined,
 };
 
 export const getTourGuide = async (id: number) => userServiceHttp.get<TourGuide>(`tour-guides/${id}`)
-export const getTourGuideProfile = async (id: number) => userServiceHttp.get<TourGuideProfile>(`tour-guides/profile/${id}`)
+export const getTourGuideProfile = async (id: number) => {
+  return await userServiceHttp.get<TourGuideProfile>(`tour-guides/profile/${id}`)
+}
 
 export const getOtherTourGuides = async (tourGuideId: number | string, pageSize: number, signal?: AbortSignal) => {
   const res = await userServiceHttp.get<TourGuide[]>('tour-guides/other', {

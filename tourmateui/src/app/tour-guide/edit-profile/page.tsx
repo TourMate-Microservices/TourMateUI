@@ -8,7 +8,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { jwtDecode } from 'jwt-decode'
 import React, { useEffect, useState } from 'react'
 import { ServiceEditContext } from './service/service-edit-context'
-import { TourService } from '@/types/tour-service'
+import { TourOfTourGuide } from '@/types/tour-service'
 import EditPic from './edit-pic'
 import ServiceEditModal from './service/edit-service-modal'
 import Banner from '@/components/banner'
@@ -27,18 +27,18 @@ export default function TourGuideProfileEditPage() {
         profilePic: 'Image',
         banner: 'BannerImage'
     }
-    const baseService: TourService = {
+    const baseService: TourOfTourGuide = {
         serviceId: 0,
         serviceName: '',
         price: 0,
         duration: '',
         content: '',
         image: '',
-        tourGuideId: 0,
         createdDate: '',
         isDeleted: false,
         title: '',
-        tourDesc: ''
+        tourDesc: '',
+        tourGuideId: 0
     }
     const token = useToken()
     const [id, setId] = useState(-1)
@@ -208,7 +208,7 @@ export default function TourGuideProfileEditPage() {
                                 Tạo dịch vụ
                             </Button>
                             <div className='mx-[5%] mt-4'>
-                                <TourServices tourGuideId={id} areaId={tourGuide?.areaId}/>
+                                <TourServices data={tourGuide?.tours} areaId={tourGuide?.areaId} refetch={refetch} tourGuideId={tourGuide?.tourGuideId}/>
                             </div>
                         </div>
                     </div>

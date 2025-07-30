@@ -1,3 +1,4 @@
+import { PagedResult } from "./response";
 import { TourOfTourGuide } from "./tour-service";
 
 export type TourGuide = {
@@ -71,7 +72,7 @@ export type TourGuideProfile = {
   "description": string,
   "company": string,
   "areaId": number,
-  tours: TourOfTourGuide[];
+  tours: PagedResult<TourOfTourGuide>;
 }
 
 export interface TourGuideProfileEdit {
