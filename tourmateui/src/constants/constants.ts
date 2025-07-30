@@ -1,11 +1,11 @@
 // Sử dụng environment variable từ Docker Compose cho base URL
 const getBaseUrl = () => {
   // Ưu tiên env variable từ Docker, fallback về logic cũ
-  if (process.env.NEXT_PUBLIC_API_BASE_URL) {
-    return process.env.NEXT_PUBLIC_API_BASE_URL;
-  }
+  // if (process.env.NEXT_PUBLIC_API_BASE_URL) {
+  //   return process.env.NEXT_PUBLIC_API_BASE_URL;
+  // }
   // Server side - fallback
-  return "http://localhost";
+  return "https://a6b71b859d10.ngrok-free.app";
 };
 
 const baseUrl = getBaseUrl();
