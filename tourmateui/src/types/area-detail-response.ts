@@ -25,32 +25,3 @@ export type AreaDetailResponse = {
     tourGuide: TourGuideResponse[],
     other: AreaData[]
 }
-
-const s = {
-    areaId: "",
-    areaName: "",
-    areaTitle: "",
-    areaSubtitle: "",
-    areaContent: "",
-    bannerImg: "",
-    tourGuide: [
-        {
-            tourGuideId: 0,
-            fullName: "",
-            image: "",
-            yearOfExperience: 0,
-            description: "",
-            company: "",
-        }
-    ],
-    other: [
-        {
-            areaId: "",
-            areaName: "",
-            areaTitle: "",
-            areaSubtitle: "",
-            areaContent: "",
-            bannerImg: "",
-        }
-    ]
-}

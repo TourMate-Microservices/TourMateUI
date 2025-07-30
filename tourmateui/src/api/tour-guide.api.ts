@@ -1,5 +1,5 @@
 import { TourGuide, TourGuideIdAndName, TourGuideProfile, TourGuideWithTour } from "@/types/tour-guide";
-import { tourServiceHttp, userServiceHttp } from "../utils/http";
+import { userServiceHttp } from "../utils/http";
 import { PagedResult } from "@/types/response";
 import { TourGuideDetail } from "@/types/tour-guide-detail";
 

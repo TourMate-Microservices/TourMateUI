@@ -1,4 +1,3 @@
-'use client'
 import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
@@ -14,7 +13,7 @@ interface OtherTourGuidesProps {
 
 const TourGuidesCard: React.FC<{ item: TourGuide }> = ({ item }) => {
     return (
-        <Link href={`/services/tour-guide/${item.tourGuideId}`} passHref>
+        <Link href={`/tour-guide/${item.tourGuideId}`} passHref>
             <motion.div
                 key={item.tourGuideId}
                 whileHover={{ scale: 1.02 }}

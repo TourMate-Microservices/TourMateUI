@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation"
 import Image from "next/image"
 import Logo from "@/public/logo.png"
 import Link from "next/link"
-import { getUserRole } from "@/utils/get-token"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import ActionMenu from "./action-menu"
@@ -17,21 +16,13 @@ const MegaMenu = () => {
   const [isMounted, setIsMounted] = useState(false)
   const [token, setToken] = useState<string | null>(null)
   const currentRoute = usePathname()
-  const [isOpen, setIsOpen] = useState(false)
-  const [role, setRole] = useState<string | null>("")
-
-  const toggleDropdown = () => setIsOpen(!isOpen)
 
   useEffect(() => {
     setIsMounted(true)
 
     const storedToken = sessionStorage.getItem("accessToken")
     setToken(storedToken)
-    if (storedToken) {
-      const userRole = getUserRole(storedToken)
-      setRole(userRole)
-    }
-  }, [])
+  }, [token])
 
   const handleUnauthorizedAccess = (e: React.MouseEvent, service: string) => {
     e.preventDefault()
@@ -87,6 +78,26 @@ const MegaMenu = () => {
               >
                 Hướng dẫn viên
               </Link>
+
+              {token ? (
+                <Link
+                  href="/chat"
+                  className={`px-5 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    currentRoute === "/chat"
+                      ? "text-blue-600 bg-blue-50 shadow-sm"
+                      : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+                  }`}
+                >
+                  Tin nhắn
+                </Link>
+              ) : (
+                <button
+                  onClick={(e) => handleUnauthorizedAccess(e, "tin nhắn")}
+                  className="px-5 py-2 rounded-xl text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-200"
+                >
+                  Tin nhắn
+                </button>
+              )}
 
               {/* Services Dropdown - can be removed or kept for future services */}
               {/* Uncomment below if you want to keep a services dropdown for other items

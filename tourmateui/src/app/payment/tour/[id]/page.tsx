@@ -72,6 +72,8 @@ export default function TourPaymentPage() {
   const [isProcessing, setIsProcessing] = useState(false)
 
 
+  console.log("checkoutUrl:", checkoutUrl); // PHẢI là link từ PayOS trả về
+
   // Simplified PayOS config - không cần state phức tạp
   const payOSConfig = useMemo(() => ({
     RETURN_URL: `${webURL}/payments/pay-result?success=true`,

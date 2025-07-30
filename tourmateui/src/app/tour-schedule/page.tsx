@@ -8,7 +8,7 @@ import { useQuery } from "@tanstack/react-query"
 // import { TourSchedule } from "@/types/tour-schedule"
 import MegaMenu from "@/components/mega-menu"
 import Footer from "@/components/footer"
-import { searchInvoicesByCustomerStatusPaged, searchInvoicesByTourGuideStatusPaged } from "@/api/invoice.api"
+import { searchInvoicesByCustomerStatusPaged } from "@/api/invoice.api"
 import type { InvoiceSearchPaged } from "@/types/invoice"
 import { useToken } from "@/components/getToken"
 import { jwtDecode } from "jwt-decode"
@@ -28,7 +28,6 @@ export default function TourSchedulePage() {
   const token = useToken("accessToken")
   const payLoad: MyJwtPayload | undefined = token ? jwtDecode<MyJwtPayload>(token) : undefined
   const accountId = Number(payLoad?.AccountId)
-  const role = payLoad?.["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
 
   // Map label sang status code API
   const labelToStatus: Record<string, string> = {
@@ -46,7 +45,7 @@ export default function TourSchedulePage() {
         .then((customer) => {
           if (customer && customer.customerId) setCustomerId(customer.customerId);
         })
-        .catch((err) => {
+        .catch(() => {
           setCustomerId(null);
         });
     }

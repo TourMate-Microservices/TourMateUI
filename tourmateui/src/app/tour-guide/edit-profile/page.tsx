@@ -1,5 +1,5 @@
 'use client'
-import { getTourGuide, getTourGuideProfile } from '@/api/tour-guide.api'
+import { getTourGuideProfile } from '@/api/tour-guide.api'
 import Footer from '@/components/footer'
 import MegaMenu from '@/components/mega-menu'
 import { MyJwtPayload } from '@/types/jwt-payload'
@@ -62,7 +62,7 @@ export default function TourGuideProfileEditPage() {
 
         setId(tokenData.SuppliedId)
     }, [token])
-    const { data, refetch } = useQuery({
+    const { data } = useQuery({
         queryKey: ['tour-guide-profile', id],
         queryFn: () => getTourGuideProfile(id),
         staleTime: 24 * 3600 * 1000,
@@ -78,7 +78,7 @@ export default function TourGuideProfileEditPage() {
                         isOpen
                         onClose={() => { setToggleMode({ ...toggleMode, edit: false }) }}
                         type={toggleMode.targetType}
-                        onConfirm={(url) => {
+                        onConfirm={() => {
                             alert('N/A')
                         }}
                     />
@@ -143,9 +143,7 @@ export default function TourGuideProfileEditPage() {
                             </Button>
                         </div>
                         <div className={`${toggleSection.info ? 'block' : 'hidden'} mb-1`}>
-                            {tourGuide && <TourGuideEditModal tourGuide={tourGuide} updateFn={(v) =>
-                                alert('N/A')
-                            } isOpen={editFormOpen} onClose={() => setEditFormOpen(false)} />}
+                            {tourGuide && <TourGuideEditModal tourGuide={tourGuide} isOpen={editFormOpen} onClose={() => setEditFormOpen(false)} />}
                             {tourGuide && <Detail s={tourGuide} />}
                             <Button
                                 onClick={() => setEditFormOpen(true)}

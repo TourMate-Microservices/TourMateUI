@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
 import dayjs from 'dayjs'
 import Link from 'next/link'
@@ -64,7 +63,7 @@ export default function TourServices({ data }: { data?: PagedResult<TourService>
                   </h3>
                 </div>
                 <Link
-                  href={`/tour-service/?id=${item.serviceId}`}
+                  href={`/tour-service/${item.serviceId}`}
                   className="text-nowrap text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
                 >
                   Xem ngay

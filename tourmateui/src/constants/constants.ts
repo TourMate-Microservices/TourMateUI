@@ -4,14 +4,8 @@ const getBaseUrl = () => {
   if (process.env.NEXT_PUBLIC_API_BASE_URL) {
     return process.env.NEXT_PUBLIC_API_BASE_URL;
   }
-  
-  if (typeof window !== 'undefined') {
-    // Client side - sử dụng hostname hiện tại với protocol phù hợp
-    const protocol = window.location.protocol;
-    return `${protocol}//${window.location.hostname}`;
-  }
   // Server side - fallback
-  return "http://localhost";
+  return "https://localhost";
 };
 
 const baseUrl = getBaseUrl();
@@ -23,4 +17,4 @@ export const messageServiceUrl = `${baseUrl}/message-service/api/v1`;
 
 export const messageHub = `${baseUrl}/message-service`;
 
-export const webURL = baseUrl;
+export const webURL = "https://tour-mate-ui.vercel.app";
