@@ -60,12 +60,16 @@ export function TimeSlots({
     const slotHour = Number.parseInt(timeSlot.split(":")[0])
     let isPast = slotHour <= currentHour
 
-    // Disable tất cả slot nằm trong khoảng thời gian đã được booking và thêm 1 giờ tiếp theo để chuẩn bị
+    // Disable cả slot bắt đầu và slot kết thúc của booking
     const conflictingBookings = getConflictingBookings(tourService.tourGuideId, selectedDate, timeSlot, tourService.duration, tourGuideSchedule)
     if (conflictingBookings.some(b => {
       const bookingStart = new Date(b.startDate)
       const bookingEnd = new Date(b.endDate)
-      return slotHour >= bookingStart.getHours() && slotHour <= bookingEnd.getHours()
+      return slotHour >= bookingStart.getHours() && slotHour <= bookingEnd.getHours();
+    }) || conflictingBookings.some(b => {
+      const bookingStart = new Date(b.startDate)
+      const bookingEnd = new Date(b.endDate)
+      return slotHour === bookingStart.getHours() || slotHour === bookingEnd.getHours();
     })) {
       isPast = true
     }
