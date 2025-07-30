@@ -42,6 +42,7 @@ export const getConflictingBookings = (
   timeSlot: string,
   duration: string,
   allSchedules: TourGuideSchedule[],
+  bufferHour: number = 1 // default = 1h buffer
 ): TourGuideSchedule[] => {
   const [startHour] = timeSlot.split(":").map(Number)
   const [durationHours] = duration.split(":").map(Number)
@@ -58,11 +59,13 @@ export const getConflictingBookings = (
     }
 
     const scheduleStartHour = new Date(schedule.startDate).getHours()
-    const scheduleEndHour = new Date(schedule.endDate).getHours()
+    const scheduleEndHour = new Date(schedule.endDate).getHours() + bufferHour // ⚠️ buffer added here
 
+    // Check nếu khoảng thời gian slot bị giao với lịch
     return startHour < scheduleEndHour && scheduleStartHour < endHour
   })
 }
+
 
 // Lấy tất cả ngày có booking của tour guide
 export const getTourGuideBusyDates = (tourGuideId: number, allSchedules: TourGuideSchedule[]): Date[] => {
