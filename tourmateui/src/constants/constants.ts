@@ -4,14 +4,8 @@ const getBaseUrl = () => {
   if (process.env.NEXT_PUBLIC_API_BASE_URL) {
     return process.env.NEXT_PUBLIC_API_BASE_URL;
   }
-  
-  if (typeof window !== 'undefined') {
-    // Client side - sử dụng hostname hiện tại với protocol phù hợp
-    const protocol = window.location.protocol;
-    return `${protocol}//${window.location.hostname}`;
-  }
   // Server side - fallback
-  return "http://localhost";
+  return "http://192.168.1.140";
 };
 
 const baseUrl = getBaseUrl();

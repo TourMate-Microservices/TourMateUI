@@ -1,27 +1,30 @@
 "use client";
 
-import { useQueryString } from "@/utils/utils";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import DOMPurify from "dompurify";
 import { getTourService } from "@/api/tour-service.api";
-import { getTourGuide } from "@/api/tour-guide.api";
-import OtherServices from "./otherService";
-import OtherAreas from "./otherArea";
-import HotAreas from "./hotArea";
-import OtherTourGuides from "./otherTourGuide";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useToken } from "@/components/getToken";
 import Banner from "@/components/banner";
+import OtherServices from "./otherService";
+import OtherAreas from "./otherArea";
+import OtherTourGuides from "./otherTourGuide";
+import HotAreas from "./hotArea";
 
 
 
-export function TourServiceDetail() {
-  const queryString: { id?: string } = useQueryString();
-  const tourServiceId = Number(queryString.id) || 1;
+export function TourServiceDetail({ id }: { id: string }) {
+  const tourServiceId = Number(id) || 1;
   const router = useRouter();
-  const token = useToken("accessToken");
+  // Only access token on client side to avoid ReferenceError
+  const [token, setToken] = useState<string | null>(null);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setToken(sessionStorage.getItem("accessToken"));
+    }
+  }, []);
   const { data, error, isLoading } = useQuery({
     queryKey: ["tour-service-detail", tourServiceId],
     queryFn: () => {
@@ -42,7 +45,7 @@ export function TourServiceDetail() {
       router.push(`/book-tour/${tourServiceId}`);
       return;
     }
-    alert("Bạn cần đăng nhập để đặt lịch hoặc trò chuyện với hướng dẫn viên du lịch.");
+    alert("Bạn cần đăng nhập để đặt lịch.");
   }
 
   // const {
@@ -159,7 +162,7 @@ export function TourServiceDetail() {
                 }}
               />
               <Link
-                href={`/services/tour-guide/${data?.tourGuideId}`}
+                href={`/tour-guide/${data?.tourGuideId}`}
                 className="block px-4 py-2 mx-auto w-fit bg-[#DBE4F7] text-black rounded text-center hover:bg-gray-300 transition-colors duration-300 text-sm"
               >
                 CHI TIẾT

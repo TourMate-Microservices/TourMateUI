@@ -49,6 +49,10 @@ RUN adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
 
+# Ensure source code and package.json are available for standalone routing
+COPY --from=builder /app/src ./src
+COPY --from=builder /app/package.json ./package.json
+
 # Set the correct permission for prerender cache
 RUN mkdir .next
 RUN chown nextjs:nodejs .next

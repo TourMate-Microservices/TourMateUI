@@ -88,6 +88,26 @@ const MegaMenu = () => {
                 Hướng dẫn viên
               </Link>
 
+              {token ? (
+                <Link
+                  href="/chat"
+                  className={`px-5 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                    currentRoute === "/chat"
+                      ? "text-blue-600 bg-blue-50 shadow-sm"
+                      : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+                  }`}
+                >
+                  Tin nhắn
+                </Link>
+              ) : (
+                <button
+                  onClick={(e) => handleUnauthorizedAccess(e, "tin nhắn")}
+                  className="px-5 py-2 rounded-xl text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-all duration-200"
+                >
+                  Tin nhắn
+                </button>
+              )}
+
               {/* Services Dropdown - can be removed or kept for future services */}
               {/* Uncomment below if you want to keep a services dropdown for other items
               <div className="relative">

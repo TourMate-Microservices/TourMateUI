@@ -1,3 +1,5 @@
+"use client";
+
 import { MyJwtPayload } from "@/types/jwt-payload";
 import { jwtDecode } from "jwt-decode";
 import { useState, useEffect } from "react";
