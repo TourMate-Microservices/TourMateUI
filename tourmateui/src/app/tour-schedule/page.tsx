@@ -159,7 +159,9 @@ export default function TourSchedulePage() {
     </>
   )
 }
-function getFeedbacksByAccountId(accountId: number): any {
-  throw new Error("Function not implemented.")
+import { Feedback } from '@/types/feedbacks';
+
+function getFeedbacksByAccountId(accountId: number): Promise<Feedback[]> {
+  throw new Error("Function not implemented.");
 }
 
