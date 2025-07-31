@@ -70,13 +70,6 @@ export default function TourSchedulePage() {
     enabled: !showFeedbacks,
   })
 
-  const feedbackQuery = useQuery({
-    queryKey: ["tour-guide-feedbacks", accountId],
-    queryFn: () => getFeedbacksByAccountId(accountId),
-    enabled: showFeedbacks && !!accountId,
-  })
-
-
   const schedules = data?.data ?? []
   const totalPages = data?.total_pages ?? 1
 
@@ -158,10 +151,5 @@ export default function TourSchedulePage() {
       <Footer />
     </>
   )
-}
-import { Feedback } from '@/types/feedbacks';
-
-function getFeedbacksByAccountId(accountId: number): Promise<Feedback[]> {
-  throw new Error("Function not implemented.");
 }
 
