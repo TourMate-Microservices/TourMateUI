@@ -4,6 +4,8 @@ import { TourGuideProfile } from '@/types/tour-guide'
 import { Label } from "@/components/ui/label"
 import React from 'react'
 import DOMPurify from "dompurify";
+import { useQuery } from '@tanstack/react-query'
+import { fetchAreaIdAndName } from '@/api/active-area.api'
 
 function Detail({ s }: { s: TourGuideProfile }) {
     const sanitizeContent = (html: string) => {
@@ -24,6 +26,11 @@ function Detail({ s }: { s: TourGuideProfile }) {
         }
         return html; // Fallback for server-side rendering
     };
+    const simplifiedAreaQuery = useQuery({
+        queryKey: ['simplified-area'],
+        queryFn: () => fetchAreaIdAndName(),
+        staleTime: 24 * 3600 * 1000
+    })
     return (
         <div className={cn("flex flex-col gap-6")}>
             <div className="lg:grid grid-cols-2 gap-4 *:mb-4">
@@ -123,7 +130,7 @@ function Detail({ s }: { s: TourGuideProfile }) {
                     <Label htmlFor="areaId" className='lg:-mt-2 lg:mb-2'>Khu vực hoạt động</Label>
                     <Input id="yearOfExperience" type="text"
                         name="yearOfExperience"
-                        value={s.areaId}
+                        value={(simplifiedAreaQuery.data ?? []).find(v => v.areaId == s.areaId)?.areaName}
                          readOnly
                     />
                 </div>

@@ -16,5 +16,12 @@ export type TourOfTourGuide = {
     serviceId: number,
     serviceName: string,
     title: string,
-    image: string
+    image: string,
+    createdDate: string,
+    price: number,
+    duration: string,
+    content: string,
+    isDeleted: boolean,
+    tourDesc: string,
+    tourGuideId: number
 }

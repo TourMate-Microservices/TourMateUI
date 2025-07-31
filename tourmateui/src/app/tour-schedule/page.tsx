@@ -10,11 +10,11 @@ import MegaMenu from "@/components/mega-menu"
 import Footer from "@/components/footer"
 import { searchInvoicesByCustomerStatusPaged } from "@/api/invoice.api"
 import type { InvoiceSearchPaged } from "@/types/invoice"
+import { MyJwtPayload } from "@/types/jwt-payload"
 import { useToken } from "@/components/getToken"
 import { jwtDecode } from "jwt-decode"
 import { getCustomerWithAcc } from "@/api/customer.api"
 import React from "react"
-import { MyJwtPayload } from "@/types/jwt-payload"
 
 
 const pageSize = 5
@@ -23,6 +23,7 @@ export default function TourSchedulePage() {
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedFilter, setSelectedFilter] = useState("Chờ xác nhận")
   const [currentPage, setCurrentPage] = useState(1)
+  const [showFeedbacks, setShowFeedbacks] = useState(false)
 
 
   const token = useToken("accessToken")
@@ -65,14 +66,25 @@ export default function TourSchedulePage() {
       }),
     retry: 1,
     refetchOnWindowFocus: false,
+    enabled: !showFeedbacks,
   })
 
+  const feedbackQuery = useQuery({
+    queryKey: ["tour-guide-feedbacks", accountId],
+    queryFn: () => getFeedbacksByAccountId(accountId),
+    enabled: showFeedbacks && !!accountId,
+  })
 
 
   const schedules = data?.data ?? []
   const totalPages = data?.total_pages ?? 1
 
   const handleFilterChange = (label: string) => {
+  if (label === "Đánh giá nhận được") {
+        setShowFeedbacks(true)
+        return
+      }
+
     setSelectedFilter(label)
     setSearchTerm("")
     setCurrentPage(1)
@@ -112,7 +124,7 @@ export default function TourSchedulePage() {
           {isLoading && <p>Đang tải dữ liệu...</p>}
           {isError && <p className="text-red-500">Lỗi khi tải dữ liệu.</p>}
           {schedules.map((schedule) => (
-            <ScheduleCard customerName={""} customerPhone={""} tourGuideName={""} tourGuidePhone={""} email={""} tourName={""} tourDesc={""} areaName={""} paymentMethod={""} tourGuideAccountId={0} customerAccountId={0} key={schedule.invoiceId} {...schedule} />
+            <ScheduleCard customerName={""} customerPhone={""} tourGuideName={""} tourGuidePhone={""} email={""} tourName={""} tourDesc={""} areaName={""} paymentMethod={""} customerAccountId={0} key={schedule.invoiceId} {...schedule} />
           ))}
           {!isLoading && schedules.length === 0 && (
             <p className="text-gray-500">Không tìm thấy lịch hẹn nào phù hợp.</p>
@@ -146,3 +158,7 @@ export default function TourSchedulePage() {
     </>
   )
 }
+function getFeedbacksByAccountId(accountId: number): any {
+  throw new Error("Function not implemented.")
+}
+

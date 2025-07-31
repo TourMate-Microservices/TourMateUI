@@ -1,26 +1,20 @@
 'use client'
 
 import SafeImage from '@/components/safe-image'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { AnimatePresence, motion } from 'framer-motion'
 import React, { useContext, useEffect, useState } from 'react'
 import { ServiceEditContext, ServiceEditContextProp } from './service-edit-context'
-import { TourService } from '@/types/tour-service'
+import {  TourOfTourGuide, TourService } from '@/types/tour-service'
 import { toast } from 'react-toastify'
 import Link from 'next/link'
 import PaginateList from '@/components/paginate-list'
-import { createTourService, deleteTourService, getTourServicesOf, updateTourService } from '@/api/tour-service.api'
+import { createTourService, deleteTourService, updateTourService } from '@/api/tour-service.api'
+import { PagedResult } from '@/types/response'
 
-export default function TourServices({ tourGuideId, areaId }: { tourGuideId: number | string, areaId?: number }) {
+export default function TourServices({ data, areaId, refetch, tourGuideId }: { data?: PagedResult<TourOfTourGuide>, areaId?: number, refetch: () => void, tourGuideId?: number }) {
     const [page, setPage] = useState(1)
-    const pageSize = 6
-
-    const { data, refetch } = useQuery({
-        queryKey: ['tour-services-of', tourGuideId, pageSize, page],
-        queryFn: () => getTourServicesOf(Number(tourGuideId), page, pageSize, undefined),
-        staleTime: 24 * 3600 * 1000,
-    })
     //Mutation here
     const updateServicesMutation = useMutation({
         mutationFn: async (data: TourService) => updateTourService(data.serviceId, data),

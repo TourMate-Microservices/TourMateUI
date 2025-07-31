@@ -20,6 +20,7 @@ const pageSize = 5
 
 export default function TourSchedulePage() {
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedStatus, setSelectedStatus] = useState("pending")
   const [currentPage, setCurrentPage] = useState(1)
   const [tourGuideId, setTourGuideId] = useState<number | null>(null)
 
@@ -41,10 +42,11 @@ export default function TourSchedulePage() {
   }, [accountId])
 
   const { data, isLoading, isError } = useQuery<InvoiceSearchPaged>({
-    queryKey: ["tour-schedules", tourGuideId, currentPage, searchTerm],
+    queryKey: ["tour-schedules", tourGuideId, selectedStatus, currentPage, searchTerm],
     queryFn: () =>
       searchInvoicesByTourGuideStatusPaged({
         tourGuideId: tourGuideId!,
+        status: selectedStatus,
         page: currentPage,
         size: pageSize,
         // Có thể bổ sung filter/searchTerm nếu backend hỗ trợ
@@ -59,7 +61,8 @@ export default function TourSchedulePage() {
   const schedules = data?.data ?? []
   const totalPages = data?.total_pages ?? 1
 
-  const handleFilterChange = () => {
+  const handleFilterChange = (statusCode: string) => {
+    setSelectedStatus(statusCode)
     setSearchTerm("")
     setCurrentPage(1)
   }

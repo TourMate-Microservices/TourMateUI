@@ -11,3 +11,23 @@ export type Feedback = {
     serviceId: number,
     serviceName: string
 }
+
+export interface CreateTourFeedback {
+  content: string;
+  customerId: number;
+  invoiceId: number;
+  rating: number;
+  serviceId: number;
+  tourGuideId: number;
+}
+
+export interface UpdateFeedbackRequest {
+  actorId: number;
+  feedbackId: number;
+}
+
+export interface UpdateFeedback {
+  content: string;
+  rating: number;
+  request: UpdateFeedbackRequest;
+}
