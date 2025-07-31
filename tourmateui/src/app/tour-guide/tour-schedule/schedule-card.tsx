@@ -19,9 +19,9 @@ function mapStatus(status: string): string {
   switch (status) {
     case 'pending':
       return 'Chờ xác nhận';
-    case 'confirmed':
+    case 'passed':
       return 'Đã hướng dẫn';
-    case 'upcoming':
+    case 'confirmed':
       return 'Sắp diễn ra';
     case 'rejected':
       return 'Từ chối';
@@ -55,7 +55,31 @@ const ScheduleCard: FC<TourSchedule> = ({
   const queryClient = useQueryClient();
 
 
-  // Handle confirm status change
+  // const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  // const [itemToDelete, setItemToDelete] = useState<number | null>(null); // Store item to delete
+
+  // const openDeleteModal = () => setDeleteModalOpen(true);
+  // const closeDeleteModal = () => setDeleteModalOpen(false);
+
+  // Handle delete confirmation (directly inside this component)
+  // const handleConfirmDelete = async () => {
+  //   if (itemToDelete) {
+  //     deleteMutation.mutate(itemToDelete);
+  //   }
+  //   closeDeleteModal();
+  // };
+
+  // const deleteMutation = useMutation({
+  //   mutationFn: (id: number | string) => deleteInvoice(id),
+  //   onSuccess: () => {
+  //     toast.success(`Xóa lịch hẹn thành công`);
+  //     queryClient.invalidateQueries({
+  //       queryKey: ["tour-schedules"],
+  //       exact: false,
+  //     });
+  //   },
+  // });
+
   const handleConfirmStatus = async () => {
     if (invoiceId) {
       confirmMutation.mutate(invoiceId);
@@ -64,7 +88,7 @@ const ScheduleCard: FC<TourSchedule> = ({
 
 
   const confirmMutation = useMutation({
-    mutationFn: (id: number | string) => updateInvoiceStatus(id, 'confirmed'),
+    mutationFn: (id: number | string) => updateInvoiceStatus(id, 'passed'),
     onSuccess: () => {
       toast.success(`Xác nhận lịch hẹn thành công`);
       queryClient.invalidateQueries({
@@ -149,25 +173,24 @@ const ScheduleCard: FC<TourSchedule> = ({
       <div className="flex pt-2">
         <div className="ml-auto flex gap-2">
           {mapStatus(status) === 'Sắp diễn ra' && (
-            <button onClick={() => {
-              router.push(`/chat?userId=${customerAccountId}`);
-            }} className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition flex items-center">
-              <Send className="inline-block w-4 h-4 mr-1" />
-              Liên hệ
-            </button>
-          )}
-          {mapStatus(status) === 'Chờ xác nhận' && (
-            <button
-              onClick={handleConfirmStatus}
-              className="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition flex items-center"
-            >
-              <Send className="inline-block w-4 h-4 mr-1" />
-              Xác nhận
-            </button>
+            <>
+              <button onClick={() => {
+                router.push(`/chat?userId=${customerAccountId}`);
+              }} className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition flex items-center">
+                <Send className="inline-block w-4 h-4 mr-1" />
+                Liên hệ
+              </button>
+              <button
+                onClick={handleConfirmStatus}
+                className="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition flex items-center"
+              >
+                <Send className="inline-block w-4 h-4 mr-1" />
+                Xác nhận
+              </button>
+            </>
           )}
         </div>
       </div>
-      {/* Modal xóa đã bị loại bỏ, chỉ còn nút xác nhận */}
     </div>
   );
 };

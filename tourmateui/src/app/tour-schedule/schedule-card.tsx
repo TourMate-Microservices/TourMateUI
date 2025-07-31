@@ -18,9 +18,9 @@ function mapStatus(status: string): string {
   switch (status) {
     case 'pending':
       return 'Chờ xác nhận';
-    case 'confirmed':
+    case 'passed':
       return 'Đã hướng dẫn';
-    case 'upcoming':
+    case 'confirmed':
       return 'Sắp diễn ra';
     case 'rejected':
       return 'Từ chối';
@@ -28,7 +28,6 @@ function mapStatus(status: string): string {
       return status;
   }
 }
-
 
 interface ScheduleCardProps {
   invoiceId: number;
@@ -196,7 +195,7 @@ const ScheduleCard: FC<ScheduleCardProps> = ({
               </button>
             )}
 
-            {status === "confirmed" && (
+            {status === "passed" && (
                 <button
                   onClick={() => setIsFeedbackModalOpen(true)}
                   disabled={isFeedbackLoading}
