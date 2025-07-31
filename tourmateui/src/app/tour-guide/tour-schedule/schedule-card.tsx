@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { Download, Send } from "lucide-react";
 import { TourSchedule } from '@/types/tour-schedule';
 import { format } from 'date-fns'
@@ -53,10 +53,6 @@ const ScheduleCard: FC<TourSchedule> = ({
 }) => {
 
   const queryClient = useQueryClient();
-
-
-  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState<number | null>(null); // Store item to delete
 
 
   // Handle confirm status change
