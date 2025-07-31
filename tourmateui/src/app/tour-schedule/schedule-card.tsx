@@ -1,12 +1,8 @@
 import { FC, useState } from 'react';
 import { TourFeedbackModal } from './tour-feedback-modal';
-import { Download, Edit, Send, Star, XCircle } from "lucide-react";
-import { TourSchedule } from '@/types/tour-schedule';
+import { Download, Edit, Send, Star } from "lucide-react";
 import { format } from 'date-fns'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteInvoice } from '@/api/invoice.api';
-import { toast } from 'react-toastify';
-import DeleteModal from '@/components/delete-modal';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { getTourFeedbackByInvoice } from '@/api/feedback.api';
 
@@ -82,11 +78,7 @@ const ScheduleCard: FC<ScheduleCardProps> = ({
   serviceId,
 }) => {
 
-  const queryClient = useQueryClient();
 
-
-  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState<number | null>(null); // Store item to delete
   const [isFeedbackModalOpen, setIsFeedbackModalOpen] = useState(false)
 
 
@@ -96,28 +88,6 @@ const ScheduleCard: FC<ScheduleCardProps> = ({
     enabled: status === "Đã hướng dẫn",
     retry: false, // Don't retry if no feedback found
   })
-
-  const openDeleteModal = () => setDeleteModalOpen(true);
-  const closeDeleteModal = () => setDeleteModalOpen(false);
-
-  // Handle delete confirmation (directly inside this component)
-  const handleConfirmDelete = async () => {
-    if (itemToDelete) {
-      deleteMutation.mutate(itemToDelete);
-    }
-    closeDeleteModal();
-  };
-
-  const deleteMutation = useMutation({
-    mutationFn: (id: number | string) => deleteInvoice(id),
-    onSuccess: () => {
-      toast.success(`Xóa lịch hẹn thành công`);
-      queryClient.invalidateQueries({
-        queryKey: ["tour-schedules"],
-        exact: false,
-      });
-    },
-  });
 
     const router = useRouter();
 
@@ -267,12 +237,6 @@ const ScheduleCard: FC<ScheduleCardProps> = ({
             )} */}
           </div>
         </div>
-        <DeleteModal
-          isOpen={isDeleteModalOpen}
-          onClose={closeDeleteModal}
-          onConfirm={handleConfirmDelete}
-          message="Bạn có chắc muốn xóa lịch hẹn này?"
-        />
       </div>
       <TourFeedbackModal
         isOpen={isFeedbackModalOpen}
