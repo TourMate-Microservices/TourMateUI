@@ -62,7 +62,7 @@ const TourGuideSidebar: FC<TourGuideSidebarProps> = ({ onNavItemClick }) => {
   const labelToStatus: Record<string, string> = {
     'Chờ xác nhận': 'pending',
     'Lịch hẹn sắp tới': 'confirmed',
-    'Tour đã hướng dẫn': 'confirmed',
+    'Tour đã hướng dẫn': 'passed',
   };
 
   return (
