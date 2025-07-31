@@ -43,7 +43,21 @@ const TourGuideSidebar: FC<TourGuideSidebarProps> = ({ onNavItemClick }) => {
   useEffect(() => {
     if (!accountId) return;
     getTourGuideByAccountId(Number(accountId))
-      .then(setTourGuide)
+      .then((data) => {
+        const transformedData: TourGuide = {
+          ...data,
+          phone: '',
+          bannerImage: '',
+          isVerified: false,
+          bankAccountNumber: '',
+          bankName: '',
+          yearOfExperience: 0,
+          description: '',
+          company: '',
+          areaId: 0,
+        };
+        setTourGuide(transformedData);
+      })
       .catch(console.error);
   }, [accountId]);
 
