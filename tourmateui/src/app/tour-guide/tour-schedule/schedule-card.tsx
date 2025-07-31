@@ -88,7 +88,7 @@ const ScheduleCard: FC<TourSchedule> = ({
 
 
   const confirmMutation = useMutation({
-    mutationFn: (id: number | string) => updateInvoiceStatus(id, 'passed'),
+    mutationFn: (id: number | string) => updateInvoiceStatus(id, 'confirmed'),
     onSuccess: () => {
       toast.success(`Xác nhận lịch hẹn thành công`);
       queryClient.invalidateQueries({
@@ -98,6 +98,20 @@ const ScheduleCard: FC<TourSchedule> = ({
     },
     onError: () => {
       toast.error('Xác nhận lịch hẹn thất bại');
+    }
+  });
+
+  const confirmMutationPassed = useMutation({
+    mutationFn: (id: number | string) => updateInvoiceStatus(id, 'passed'),
+    onSuccess: () => {
+      toast.success(`Đã chuyển sang trạng thái Đã hướng dẫn!`);
+      queryClient.invalidateQueries({
+        queryKey: ["tour-schedules"],
+        exact: false,
+      });
+    },
+    onError: () => {
+      toast.error('Chuyển trạng thái thất bại');
     }
   });
 
@@ -173,21 +187,30 @@ const ScheduleCard: FC<TourSchedule> = ({
       <div className="flex pt-2">
         <div className="ml-auto flex gap-2">
           {mapStatus(status) === 'Sắp diễn ra' && (
-            <>
-              <button onClick={() => {
-                router.push(`/chat?userId=${customerAccountId}`);
-              }} className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition flex items-center">
-                <Send className="inline-block w-4 h-4 mr-1" />
-                Liên hệ
-              </button>
-              <button
-                onClick={handleConfirmStatus}
-                className="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition flex items-center"
-              >
-                <Send className="inline-block w-4 h-4 mr-1" />
-                Xác nhận
-              </button>
-            </>
+            <button onClick={() => {
+              router.push(`/chat?userId=${customerAccountId}`);
+            }} className="bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition flex items-center">
+              <Send className="inline-block w-4 h-4 mr-1" />
+              Liên hệ
+            </button>
+          )}
+          {mapStatus(status) === 'Chờ xác nhận' && (
+            <button
+              onClick={handleConfirmStatus}
+              className="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition flex items-center"
+            >
+              <Send className="inline-block w-4 h-4 mr-1" />
+              Xác nhận
+            </button>
+          )}
+          {status === 'confirmed' && (
+            <button
+              onClick={() => confirmMutationPassed.mutate(invoiceId)}
+              className="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition flex items-center"
+            >
+              <Send className="inline-block w-4 h-4 mr-1" />
+              Đã hướng dẫn
+            </button>
           )}
         </div>
       </div>
