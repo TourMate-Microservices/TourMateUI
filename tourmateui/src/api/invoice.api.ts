@@ -152,8 +152,8 @@ export const updateInvoice = async (
  */
 export const updateInvoiceStatus = async (invoiceId: number | string, status: string, signal?: AbortSignal) => {
   const res = await tourServiceHttp.patch<Invoice>(
-    `invoices/${invoiceId}/status`,
-    { status },
+    `invoices/${invoiceId}/status?status=${status}`,
+    undefined,
     {
       signal,
     },
