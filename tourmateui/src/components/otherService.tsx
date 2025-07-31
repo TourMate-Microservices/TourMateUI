@@ -50,8 +50,8 @@ const OtherServices: React.FC<OtherServicesProps> = ({
 }) => {
     const pageSize = 4
     const { data } = useQuery({
-        queryKey: ['other-tour-services-of', tourGuideId, 0, pageSize],
-        queryFn: () => getTourServicesOf(tourGuideId, 0, pageSize),
+        queryKey: ['other-tour-services-of', tourGuideId, 1, pageSize],
+        queryFn: () => getTourServicesOf(tourGuideId, 1, pageSize),
         staleTime: 24 * 3600 * 1000, // 1 day
     })
 
