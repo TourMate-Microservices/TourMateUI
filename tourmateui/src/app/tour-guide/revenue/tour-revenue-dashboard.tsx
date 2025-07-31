@@ -424,7 +424,7 @@ export default function Component() {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {revenueStats.revenueList.length > 0 ? (
+                      {revenueStats?.revenueList && revenueStats.revenueList.length > 0 ? (
                         revenueStats.revenueList.map((revenue) => (
                           <TableRow key={revenue.revenueId} className="hover:bg-gray-50 transition-colors">
                             <TableCell className="font-medium text-blue-600">#{revenue.revenueId}</TableCell>
