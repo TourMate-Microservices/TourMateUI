@@ -3,7 +3,7 @@ import { Download, Send, XCircle } from "lucide-react";
 import { TourSchedule } from '@/types/tour-schedule';
 import { format } from 'date-fns'
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteInvoice, updateInvoiceStatus } from '@/api/invoice.api';
+import { deleteInvoice } from '@/api/invoice.api';
 import { toast } from 'react-toastify';
 import DeleteModal from '@/components/delete-modal';
 import { useRouter } from 'next/navigation';
@@ -59,27 +59,26 @@ const ScheduleCard: FC<TourSchedule> = ({
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<number | null>(null); // Store item to delete
 
+  const openDeleteModal = () => setDeleteModalOpen(true);
+  const closeDeleteModal = () => setDeleteModalOpen(false);
 
-  // Handle confirm status change
-  const handleConfirmStatus = async () => {
-    if (invoiceId) {
-      confirmMutation.mutate(invoiceId);
+  // Handle delete confirmation (directly inside this component)
+  const handleConfirmDelete = async () => {
+    if (itemToDelete) {
+      deleteMutation.mutate(itemToDelete);
     }
+    closeDeleteModal();
   };
 
-
-  const confirmMutation = useMutation({
-    mutationFn: (id: number | string) => updateInvoiceStatus(id, 'confirmed'),
+  const deleteMutation = useMutation({
+    mutationFn: (id: number | string) => deleteInvoice(id),
     onSuccess: () => {
-      toast.success(`Xác nhận lịch hẹn thành công`);
+      toast.success(`Xóa lịch hẹn thành công`);
       queryClient.invalidateQueries({
         queryKey: ["tour-schedules"],
         exact: false,
       });
     },
-    onError: () => {
-      toast.error('Xác nhận lịch hẹn thất bại');
-    }
   });
 
     const router = useRouter();
@@ -163,16 +162,24 @@ const ScheduleCard: FC<TourSchedule> = ({
           )}
           {mapStatus(status) === 'Chờ xác nhận' && (
             <button
-              onClick={handleConfirmStatus}
-              className="bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition flex items-center"
+              onClick={() => {
+                setItemToDelete(invoiceId);
+                openDeleteModal();
+              }}
+              className="bg-red-500 hover:bg-red-600 text-white text-sm font-medium px-4 py-2 rounded-lg shadow-sm transition flex items-center"
             >
-              <Send className="inline-block w-4 h-4 mr-1" />
-              Xác nhận
+              <XCircle className="inline-block w-4 h-4 mr-1" />
+              Huỷ bỏ
             </button>
           )}
         </div>
       </div>
-      {/* Modal xóa đã bị loại bỏ, chỉ còn nút xác nhận */}
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        onConfirm={handleConfirmDelete}
+        message="Bạn có chắc muốn xóa lịch hẹn này?"
+      />
     </div>
   );
 };
